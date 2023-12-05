@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const lecturerSchema = new Schema({
+const facultySchema = new Schema({
   firstName: {
     type: String,
     required: true
@@ -19,7 +19,11 @@ const lecturerSchema = new Schema({
     type: Boolean,
     required: true,
     default: false,
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false
   }
 })
 
-module.exports = mongoose.model('Lecturer', lecturerSchema)
+module.exports = mongoose.model('Lecturer', facultySchema)

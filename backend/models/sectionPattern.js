@@ -57,20 +57,25 @@ const sectionPattern = (days) => {
     })
 }
 
-// console.log(sectionPattern(
-//     [
-//         {
-//             day: "TTH",
-//             startTime: { "hour": "7", "minutes": "00", "type": "AM" },
-//             endTime: { "hour": "8", "minutes": "00", "type": "PM" }
-//         }, {
-//             day: "WF",
-//             startTime: { "hour": "10", "minutes": "00", "type": "AM" },
-//             endTime: { "hour": "8", "minutes": "00", "type": "PM" }
-//         }, {
-//             day: "M",
-//             startTime: { "hour": "10", "minutes": "00", "type": "AM" },
-//             endTime: { "hour": "8", "minutes": "00", "type": "PM" }
-//         }
-//     ]
-// ))
+
+module.exports = {
+    sectionPattern
+}
+
+console.log(sectionPattern(
+    [
+        {
+            day: "TTH",
+            startTime: { "hour": "7", "minutes": "00", "type": "AM" },
+            endTime: { "hour": "8", "minutes": "00", "type": "PM" }
+        }, {
+            day: "WF",
+            startTime: { "hour": "10", "minutes": "00", "type": "AM" },
+            endTime: { "hour": "8", "minutes": "00", "type": "PM" }
+        }, {
+            day: "M",
+            startTime: { "hour": "10", "minutes": "00", "type": "AM" },
+            endTime: { "hour": "8", "minutes": "00", "type": "PM" }
+        }
+    ]
+))

@@ -25,7 +25,7 @@ const scheduleSchema = new Schema({
     required: false,
     default: "None"
   },
-  lecturer: {
+  faculty: {
     type: String,
     required: false,
     default: "None"
@@ -33,6 +33,10 @@ const scheduleSchema = new Schema({
   students: {
     type: Array,
     required: true
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false
   }
 })
 

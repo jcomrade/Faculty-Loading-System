@@ -1,19 +1,15 @@
 const express = require('express')
 const {
-  getAllBlocs,
   getBloc,
   createBloc
 } = require('../controllers/blocController')
 
 const router = express.Router()
 
-// GET all Blocs
-router.get('/', getAllBlocs)
-
-// GET a single Blocs
+// GET a single Bloc
 router.get('/:id', getBloc)
 
-// POST a new workout
+// POST a Bloc
 router.post('/', createBloc)
 
 

@@ -10,6 +10,10 @@ const roomSchema = new Schema({
   building: {
     type: String,
     required: true
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false
   }
 })
 
