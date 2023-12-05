@@ -14,6 +14,14 @@ const courseSchema = new Schema({
   type: {
     type: String,
     required: true
+  },
+  units: {
+    type: Number,
+    required: true,
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false
   }
 })
 

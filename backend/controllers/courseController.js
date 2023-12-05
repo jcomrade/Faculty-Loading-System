@@ -22,6 +22,7 @@ const createCourse = async (req, res) => {
         name, 
         code,
         type,
+        units,
     } = req.body
   
     let emptyFields = []
@@ -35,13 +36,16 @@ const createCourse = async (req, res) => {
     if (!type) {
       emptyFields.push('type')
     }
+    if (!units){
+      emptyFields.push('units')
+    }
     if (emptyFields.length > 0) {
       return res.status(400).json({ error: 'Please fill in the neccessary fields for Course Creation', emptyFields })
     }
   
     // add to the database
     try {
-      const createdCourse = await COURSE.create({name, code, type})
+      const createdCourse = await COURSE.create({name, code, type, units})
       res.status(200).json(createdCourse)
     } catch (error) {
       res.status(400).json({ error: error.message })

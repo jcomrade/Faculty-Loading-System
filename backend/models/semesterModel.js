@@ -10,6 +10,14 @@ const semesterSchema = new Schema({
     AY: {
       type: String,
       required: true
+    },
+    isLocked:{
+      type: Boolean,
+      default: false
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false
     }
   })
   
