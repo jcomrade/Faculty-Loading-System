@@ -1,6 +1,5 @@
 const express = require('express')
 const {
-    getAllFaculty,
     getFacultySchedule,
     createFaculty
 } = require('../controllers/facultyController')
