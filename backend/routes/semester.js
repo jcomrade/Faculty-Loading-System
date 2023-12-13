@@ -5,7 +5,7 @@ const {
   copySemester,
   getSemesterSchedules
 } = require('../controllers/semesterController')
-
+const { requireAuth,requireAdminAuth,requireSuperUserAuth } = require('../middleware/auth')
 const router = express.Router()
 
 // GET all Blocs

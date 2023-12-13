@@ -2,20 +2,33 @@ require('dotenv').config()
 
 const express = require('express')
 const mongoose = require('mongoose')
+const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
+const cors = require('cors')
+
+const {requireAuth} = require('./middleware/auth') 
 const courseRoutes = require('./routes/course')
 const facultyRoutes = require('./routes/faculty')
 const roomRoutes = require('./routes/room')
-// const scheduleRoutes = require('./routes/schedule')
+const blocRoutes = require('./routes/bloc')
 const semesterRoutes = require('./routes/semester')
 const scheduleRoutes = require('./routes/schedule')
 const authRoutes = require('./routes/auth')
 const summaryRoutes = require('./routes/summary')
+const loginRoutes = require('./routes/auth')
+const signupRoutes = require('./routes/auth')
 
 // express app
 const app = express()
 
 // middleware
 app.use(express.json())
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ["GET", "POST"],
+  credentials: true,
+
+}))
 
 app.use((req, res, next) => {
   console.log(req.path, req.method)
@@ -23,12 +36,15 @@ app.use((req, res, next) => {
 })
 
 // routes
-app.use('/api/course', courseRoutes)
-app.use('/api/semester', semesterRoutes)
-app.use('/api/faculty', facultyRoutes)
-app.use('/api/room', roomRoutes)
+app.use('/api/auth',loginRoutes)
+app.use('/api/signup',loginRoutes)
+app.use('/api/course', requireAuth, courseRoutes)
+app.use('/api/semester', requireAuth, semesterRoutes)
+app.use('/api/faculty', requireAuth,facultyRoutes)
+app.use('/api/room', requireAuth, roomRoutes)
 app.use('/api/schedule', scheduleRoutes)
 app.use('/api/signup', authRoutes)
+app.use('/api/bloc', blocRoutes)
 app.use('/api/summary', summaryRoutes)
 
 
