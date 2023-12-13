@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import VerticalSeparator from '../components/VerticalSeparator';
 import { PiUserCircleFill } from 'react-icons/pi';
 import { MdLock, MdVisibility, MdVisibilityOff } from 'react-icons/md';
-
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [userData, setUserData] = useState({});
+  const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
 
   const handleUsernameChange = (e) => {
@@ -16,9 +17,38 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform login logic here
+    try{
+      const res = await fetch('http://localhost:4000/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({userName: username, password: password}),
+        headers: {'Content-Type': 'application/json'},
+        credentials: "include",
+      })
+      const data = await res.json()
+      if(data.errors){
+        setErrors(data.errors)
+      }else{
+        setUserData(data)
+      }
+
+
+      // .then(async(response)=> await response.json())
+      // .then(async(res)=>{
+      //   const data = await res;
+      //   if(data.errors){
+      //     setErrors(data.errors)
+      //     console.log(errors)
+      //   }else{
+      //     setUserData(data)
+      //     console.log(userData)
+      //   }
+      // })
+      // .catch((err)=>console.log(err))
+    }catch(err){
+      console.log(err)
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -76,6 +106,11 @@ const Login = () => {
             Sign In
           </button>
         </form>
+        <div>
+            {
+              errors ? (<div>{errors.message}</div>) : (<></>)
+            }
+          </div>
       </div>
     </div>
   );
