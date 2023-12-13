@@ -57,7 +57,7 @@ const requireAdminAuth = (req, res, next) => {
 }
 
 module.exports = {
-    requireUserAuth,
+    requireAuth,
     requireSuperUserAuth,
     requireAdminAuth,
 }
