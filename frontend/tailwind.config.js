@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'aqua-wave': 'linear-gradient(to right, #07BEB8, #38CBC7, #68D8D6, #96ECE8, #C4FFF9)',
+        'aqua-wave': 'linear-gradient(to bottom right, #07BEB8, #38CBC7, #68D8D6, #96ECE8, #C4FFF9)',
       },
       colors: {
         'blizzard': {

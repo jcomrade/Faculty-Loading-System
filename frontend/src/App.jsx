@@ -1,7 +1,14 @@
-import LoginPage from './pages/Login.jsx';
-
+import React from "react";
+import {
+	BrowserRouter as Router,
+} from "react-router-dom";
+import RouterConfig from "./routes/Router.jsx";
 function App() {
-  return <LoginPage />;
+	return (
+		<Router>
+			<RouterConfig />		
+		</Router>
+	);
 }
 
 export default App;
