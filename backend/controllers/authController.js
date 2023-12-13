@@ -3,19 +3,15 @@ const jwt = require('jsonwebtoken')
 // handle errors
 const handleErrors = (err) => {
   console.log(err.message, err.code);
-  let errors = { userName: '', password: '' };
+  let errors = { message: '' };
 
-  if(err.message === "Incorrect user name"){
-    errors.userName = 'that user name is not registered';
-  }
-
-  if(err.message === "Incorrect password"){
-    errors.password ='that password is incorrect';
+  if(err.message === "Incorrect user name" || "Incorrect password"){
+    errors.message = 'Incorrect Username or Password';
   }
 
   // duplicate email error
   if (err.code === 11000) {
-    errors.userName = 'that user name is already registered';
+    errors.message = 'that user name is already registered';
     return errors;
   }
 
@@ -34,17 +30,18 @@ const handleErrors = (err) => {
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id, userType) => {
   return jwt.sign({id, userType}, process.env.SECRET_KEY, {
-    expiresIn: maxAge
+    expiresIn: maxAge,
   });
 }
 
 module.exports.signup_post = async (req, res) => {
-  const { userName, password } = req.body;
+  const { userName, userType ,password } = req.body;
 
   try {
-    const user = await USER.create({ userName, password });
+    const user = await USER.create({ userName, password, userType});
     const token = createToken(user._id, user.userType);
-    res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.cookie('jwt', token, {maxAge: maxAge * 1000})
     res.status(201).json({user: user._id, userType:user.userType});
   }
   catch(err) {
@@ -55,14 +52,15 @@ module.exports.signup_post = async (req, res) => {
 
 module.exports.login_post = async (req, res) => {
   const { userName, password } = req.body;
-
+  console.log(req.body)
   try{
     const user = await USER.login(userName, password);
     const token = createToken(user._id, user.userType);
-    res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000});
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.cookie('jwt', token, {maxAge: maxAge * 1000});
     res.status(201).json({user: user._id, userType:user.userType});
   }catch(err){
     const errors = handleErrors(err)
-    res.status(400).json({errors});
+    res.status(401).json({errors});
   }
 }

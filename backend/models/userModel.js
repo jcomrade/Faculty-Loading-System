@@ -13,8 +13,8 @@ const userSchema = new mongoose.Schema({
   },
   userType: {
     type: String,
-    required: [true, 'Please enter a username'],
-    unique: true,
+    required: true,
+    default: "User",
   }
 });
 

@@ -1,29 +1,29 @@
-const startPattern = (startTime, dayDigits, day) => {
+const startPattern = (startTime, endTime,dayDigits, day) => {
     let output;
     switch (JSON.stringify(startTime)) {
         case '{"hour":"7","minutes":"00","type":"AM"}':
-            output = { startTime, section: dayDigits[0], day }
+            output = { startTime, endTime, section: dayDigits[0], day }
             break;
         case '{"hour":"8","minutes":"30","type":"AM"}':
-            output = { startTime, section: dayDigits[1], day }
+            output = { startTime, endTime, section: dayDigits[1], day }
             break;
         case '{"hour":"10","minutes":"00","type":"AM"}':
-            output = { startTime, section: dayDigits[2], day }
+            output = { startTime, endTime, section: dayDigits[2], day }
             break;
         case '{"hour":"11","minutes":"30","type":"AM"}':
-            output = { startTime, section: dayDigits[3], day }
+            output = { startTime, endTime, section: dayDigits[3], day }
             break;
         case '{"hour":"1","minutes":"00","type":"AM"}':
-            output = { startTime, section: dayDigits[4], day }
+            output = { startTime, endTime, section: dayDigits[4], day }
             break;
         case '{"hour":"2","minutes":"30","type":"AM"}':
-            output = { startTime, section: dayDigits[5], day }
+            output = { startTime, endTime, section: dayDigits[5], day }
             break;
         case '{"hour":"4","minutes":"00","type":"AM"}':
-            output = { startTime, section: dayDigits[6], day }
+            output = { startTime, endTime, section: dayDigits[6], day }
             break;
         case '{"hour":"5","minutes":"30","type":"AM"}':
-            output = { startTime, section: dayDigits[7], day }
+            output = { startTime, endTime, section: dayDigits[7], day }
             break;
         default:
             output = "error"
@@ -32,17 +32,17 @@ const startPattern = (startTime, dayDigits, day) => {
     return output
 }
 
-const dayPattern = (day, startTime) => {
+const dayPattern = (day, startTime, endTime) => {
     switch (day) {
         case "TTH":
             console.log("2")
-            return startPattern(startTime, "ABCDEFGH", ["Teusday", "Thursday"])
+            return startPattern(startTime,endTime, "ABCDEFGH", ["Teusday", "Thursday"])
             break;
         case "WF":
-            return startPattern(startTime, "IJKLMNOP", ["Wednesday", "Friday"])
+            return startPattern(startTime,endTime, "IJKLMNOP", ["Wednesday", "Friday"])
             break;
         case "M":
-            return startPattern(startTime, "QRSTUVWX", ["Monday"])
+            return startPattern(startTime,endTime, "QRSTUVWX", ["Monday"])
             break;
         default:
             return "error"
@@ -51,18 +51,24 @@ const dayPattern = (day, startTime) => {
 }
 
 
-const sectionPattern = (days) => {
-    return days.map(element => {
-        return dayPattern(element.day,element.startTime)
+
+const sectionPattern_time = (days) => {
+    return days.map(({day, startTime, endTime}) => {
+        return dayPattern(day,startTime,endTime)
     })
 }
 
-
-module.exports = {
-    sectionPattern
+const sectionPattern_sectionLetter = () => {
+    
 }
 
-console.log(sectionPattern(
+
+// module.exports = {
+//     sectionPattern_day,
+//     sectionPattern_section
+// }
+
+console.log(sectionPattern_time(
     [
         {
             day: "TTH",
