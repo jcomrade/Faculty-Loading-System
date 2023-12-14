@@ -39,11 +39,6 @@ const Home = () => {
   return (
     <div className='flex flex-col h-screen w-screen'> 
       <NavBar />
-<<<<<<< HEAD
-        <div className='flex flex-row justify-center space-x-4 py-7'>
-          <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40'><HiPlus />New File</button>
-          <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40'><HiOutlinePencilSquare />Edit</button>
-=======
         <div className='flex flex-row justify-center space-x-4 pt-7'>
         {
           userData.userType === "Super User" 
@@ -55,7 +50,6 @@ const Home = () => {
             : <></>
         }
           
->>>>>>> d43798513c37f57f55abe8214f5bf994dcc259fd
         </div>
         <div className='flex flex-row border-b space-x-12 border-black max-w-5xl'>
             <div className='flex items-center text-black'>
