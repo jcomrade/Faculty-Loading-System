@@ -5,8 +5,8 @@ import Home from '../pages/Home.jsx';
 const RouterComponent = () => {
     return (
         <Routes>
-            <Route exact path="/" element={<Login/>} />
-            <Route path="/home" element={<Home/>} />
+            <Route exact path="/" element={<Login />} />
+            <Route path="/home" element={<Home />} />
         </Routes>
     );
 };
