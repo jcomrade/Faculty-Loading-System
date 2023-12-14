@@ -8,9 +8,9 @@ const {schedRawData} = require('../utils/getSchedRawData')
 const mongoose = require('mongoose')
 
 const createSemester = async (req, res) => {
-    const { semesterType, AY } = req.body
+    const { semesterType, AY, userId } = req.body
     try {
-        const createdSemester = await SEMESTER.create({ semesterType, AY, courses: [], lecturers: [] })
+        const createdSemester = await SEMESTER.create({ semesterType, AY, modifiedBy: userId })
         res.status(200).json(createdSemester)
     } catch (error) {
         res.status(400).json({ error: error.message })
@@ -41,8 +41,9 @@ const copySemester = async (req, res) => {
 const getAllSemester = async (req, res) => {
 
     try {
-        const allSemester = await SCHEDULE.find({})
-        res.status(200).json(allSemester)
+        const allSemester = await SEMESTER.find({},{_id:1,semesterType:1,AY:1})
+        console.log(allSemester)
+        res.status(200).send(allSemester)
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
