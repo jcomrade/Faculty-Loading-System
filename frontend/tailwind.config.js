@@ -22,6 +22,10 @@ export default {
           DEFAULT: '#858585',
           'text': '#858585',
         },
+        'placebo-turquoise': {
+          DEFAULT: '#E8FFF8',
+          'text': '#E8FFF8',
+        },
       },
       borderRadius: {
         '10px': '10px',
