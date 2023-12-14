@@ -11,6 +11,14 @@ const semesterSchema = new Schema({
       type: String,
       required: true
     },
+    dateModified: {
+      type: String,
+      default: `${(new Date()).getMonth()}${(new Date()).getDate()}${(new Date()).getFullYear()}`,
+    },
+    modifiedBy:{
+      type: String,
+      required: true,
+    },
     isLocked:{
       type: Boolean,
       default: false

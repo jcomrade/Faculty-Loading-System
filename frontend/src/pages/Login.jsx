@@ -34,6 +34,7 @@ const Login = () => {
         setErrors(data.errors)
       }else{
         setUserData(data)
+        navigate("/home")
       }
 
 
@@ -105,7 +106,7 @@ const Login = () => {
             </div>
           </div>
           <br/>
-          <button className='bg-blizzard border border-enamelled-jewel text-enamelled-jewel' type='submit' onClick={()=>navigate('/home')}>
+          <button className='bg-blizzard border border-enamelled-jewel text-enamelled-jewel' type='submit' onClick={()=>handleSubmit()}>
             Sign In
           </button>
         </form>
