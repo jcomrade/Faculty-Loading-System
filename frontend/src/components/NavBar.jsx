@@ -1,19 +1,50 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { IoMdHome } from 'react-icons/io';
+import { TiExport } from 'react-icons/ti';
+import { IoHelpCircleSharp } from 'react-icons/io5';
+import { IoIosLogOut } from 'react-icons/io';
 
-const NavBar = () => {
-    const navigate = useNavigate();
-
-    return (
-        <nav>
-            <div className='flex'>
-                <button className="bg-white text-enamelled-jewel" onClick={()=>navigate('/home')}>Home</button>
-                <button className="bg-white text-enamelled-jewel" onClick={()=>navigate('/export')}>Export</button>
-                <button className="bg-white text-enamelled-jewel" onClick={()=>navigate('/help')}>Help</button>
-                <button className="bg-white text-enamelled-jewel" onClick={()=>navigate('/')}>Sign Out</button>
-            </div>
-        </nav>
-    );
+const Navbar = () => {
+  return (
+    <nav className='bg-placebo-turquoise p-8 border-b-2 border-enamelled-jewel'>
+      <div className='flex items-center space-x-24 justify-center gap-x-20 gap-2 px-2'>
+        <LinkButton to="/home">
+          <IoMdHome /> Home
+        </LinkButton>
+        <LinkButton to="/export">
+          <TiExport /> Export
+        </LinkButton>
+        <LinkButton to="/help">
+          <IoHelpCircleSharp /> Help
+        </LinkButton>
+        <LinkButton to="/">
+          <IoIosLogOut /> Sign Out
+        </LinkButton>
+      </div>
+    </nav>
+  );
 };
 
-export default NavBar;
+const LinkButton = ({ to, children }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isActive = to === location.pathname;
+
+  const handleClick = () => {
+    if (!isActive) {
+      navigate(to);
+    }
+  };
+
+  return (
+    <a
+      className={`flex items-center text-3xl bg-transparent text-enamelled-jewel ${isActive ? 'border-b-2 border-enamelled-jewel rounded-sm' : ''}`}
+      onClick={handleClick}
+    >
+      {children}
+    </a>
+  );
+};
+
+export default Navbar;
