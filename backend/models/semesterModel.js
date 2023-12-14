@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const {monthName} = require('../utils/getDate')
 const Schema = mongoose.Schema
 
 const semesterSchema = new Schema({
@@ -13,7 +13,7 @@ const semesterSchema = new Schema({
     },
     dateModified: {
       type: String,
-      default: `${(new Date()).getMonth()}${(new Date()).getDate()}${(new Date()).getFullYear()}`,
+      default: `${monthName(new Date().getMonth())},${(new Date()).getDate()},${(new Date()).getFullYear()} (${(new Date()).getHours()}:${(new Date()).getMinutes()})`,
     },
     modifiedBy:{
       type: String,
