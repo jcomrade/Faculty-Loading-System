@@ -1,38 +1,33 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import SemNavBar from "../components/SemNavBar.jsx";
+import Summary from "./Summary";
+import Faculty from "./Faculty.jsx";
+import Bloc from "./Bloc.jsx";
+import AlphaList from "./AlphaList.jsx";
 
-
-const Semester = () => {
-    const [semScheds, setSemScheds] = useState([])
+const Semester= () => {
     const params = useParams()
-    useEffect(()=>{
-        (async function(){
-            const res = await fetch(`http://localhost:4000/api/semester/${params.id}`,{
-                method: 'GET',
-                credentials: 'include',
-            })
-            const data = await res.json()
-            console.log(data)
-            setSemScheds(data)
-        }())
-    }, [params.id])
-
     return (
-        <div>
-            {
-                semScheds.length > 0 ? (
-                    semScheds.map((sched)=>{
-                        <div>
-                            {sched}
-                        </div>
-                    })
-                ):(
-                    <div>
-                        THIS IS EMPTY
-                    </div>
-                )
-            }
-        </div>
+        <>
+        <SemNavBar semId={params.id}/>
+        {
+            function(path){
+                switch(path){
+                    case "summary":
+                        return <Summary/>
+                    case "faculty":
+                        return <Faculty/>
+                    case "bloc":
+                        return <Bloc/>
+                    case "alphalist":
+                        return <AlphaList/>
+                    default:
+                        return <Summary/>
+                }
+            }(params.path)
+        }
+        </>
     )
 }
 

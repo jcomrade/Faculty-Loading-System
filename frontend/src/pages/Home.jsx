@@ -112,7 +112,7 @@ const Home = () => {
                   className={`border-b cursor-pointer ${index === selectedRow ? 'bg-placebo-turquoise' : ''}`}
                   key={sem._id}
                   onMouseEnter={() => handleRowClick(index)}
-                  onMouseDown={()=> navigate(`/semester/${sem._id}`)}
+                  onMouseDown={()=> navigate(`/semester/${sem._id}/summary`)}
                 >
                   <td className="flex flex-row items-center text-black p-2">
                     <FaRegFileAlt />

@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { IoMdHome } from 'react-icons/io';
@@ -7,21 +9,24 @@ import { IoIosLogOut } from 'react-icons/io';
 
 
 
-const Navbar = () => {
+const SemNavbar = ({semId}) => {
   return (
     <nav className='bg-placebo-turquoise p-8 border-b-2 border-enamelled-jewel'>
       <div className='flex items-center space-x-24 justify-center gap-x-20 gap-2 px-2'>
-        <LinkButton to="/home">
-          <IoMdHome /> Home
+        <LinkButton to={`/semester/${semId}/summary`}>
+          <IoMdHome /> Summary
         </LinkButton>
-        <LinkButton to="/export">
-          <TiExport /> Export
+        <LinkButton to={`/semester/${semId}/faculty`}>
+          <TiExport /> Faculty
         </LinkButton>
-        <LinkButton to="/help">
-          <IoHelpCircleSharp /> Help
+        <LinkButton to={`/semester/${semId}/bloc`}>
+          <IoHelpCircleSharp /> Bloc
+        </LinkButton>
+        <LinkButton to={`/semester/${semId}/alphalist`}>
+          <IoIosLogOut /> Alpha List
         </LinkButton>
         <LinkButton to="/">
-          <IoIosLogOut /> Sign Out
+          <IoIosLogOut /> Signout
         </LinkButton>
       </div>
     </nav>
@@ -60,4 +65,4 @@ const LinkButton = ({ to, children }) => {
   );
 };
 
-export default Navbar;
+export default SemNavbar;

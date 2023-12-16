@@ -65,6 +65,9 @@ module.exports.login_post = async (req, res) => {
   }
 }
 
+module.exports.signout = async (req,res) => {
+  res.clearCookie('jwt').status(200).send('Cookie Cleared')
+}
 module.exports.user = async (req, res) => {
   const token = req.cookies.jwt;
   if(token){
