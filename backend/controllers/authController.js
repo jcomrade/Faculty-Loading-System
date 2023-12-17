@@ -28,8 +28,8 @@ const handleErrors = (err) => {
   return errors;
 }
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = (id, userType) => {
-  return jwt.sign({id, userType}, process.env.SECRET_KEY, {
+const createToken = (id, userType, userName) => {
+  return jwt.sign({id, userType, userName}, process.env.SECRET_KEY, {
     expiresIn: maxAge,
   });
 }
@@ -55,12 +55,30 @@ module.exports.login_post = async (req, res) => {
   console.log(req.body)
   try{
     const user = await USER.login(userName, password);
-    const token = createToken(user._id, user.userType);
+    const token = createToken(user._id, user.userType, user.userName);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.cookie('jwt', token, {maxAge: maxAge * 1000});
     res.status(201).json({user: user._id, userType:user.userType});
   }catch(err){
     const errors = handleErrors(err)
     res.status(401).json({errors});
+  }
+}
+
+module.exports.signout = async (req,res) => {
+  res.clearCookie('jwt').status(200).send('Cookie Cleared')
+}
+module.exports.user = async (req, res) => {
+  const token = req.cookies.jwt;
+  if(token){
+      jwt.verify(token, process.env.SECRET_KEY, (err, decodedToken)=>{
+          if(err){
+              res.status(401).json(err);
+          }else{
+              res.status(200).json({userId:decodedToken.id, userType: decodedToken.userType, userName: decodedToken.userName});
+          }
+      })
+  }else{
+      res.status(401).json({error: "Authentication Failure"});
   }
 }

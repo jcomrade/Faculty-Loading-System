@@ -3,11 +3,14 @@ import {
 	BrowserRouter as Router,
 } from "react-router-dom";
 import RouterConfig from "./routes/Router.jsx";
+import { ChakraProvider } from '@chakra-ui/react'
 function App() {
 	return (
-		<Router>
-			<RouterConfig />		
-		</Router>
+		<ChakraProvider>
+			<Router>
+				<RouterConfig />
+			</Router>
+		</ChakraProvider>
 	);
 }
 

@@ -6,7 +6,6 @@ import { MdLock, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [userData, setUserData] = useState({});
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   // Temporary Only
@@ -33,7 +32,6 @@ const Login = () => {
       if(data.errors){
         setErrors(data.errors)
       }else{
-        setUserData(data)
         navigate("/home")
       }
 
