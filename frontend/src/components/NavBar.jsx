@@ -52,7 +52,7 @@ const LinkButton = ({ to, children }) => {
 
   return (
     <a
-      className={`flex items-center cursor-pointer text-3xl bg-transparent text-enamelled-jewel ${isActive ? 'border-b-2 border-enamelled-jewel rounded-sm' : ''}`}
+      className={`flex items-center cursor-pointer text-3xl bg-transparent text-enamelled-jewel hover:text-enamelled-jewel ${isActive ? 'border-b-2 border-enamelled-jewel rounded-sm' : ''}`}
       onClick={handleClick}
     >
       {children}
