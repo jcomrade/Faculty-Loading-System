@@ -6,7 +6,7 @@ const {
 const { requireAuth,requireAdminAuth,requireSuperUserAuth } = require('../middleware/auth')
 const router = express.Router()
 
-router.get("/:id", getFacultySchedule)
+router.get("/:semId", getFacultySchedule)
 
 router.post("/", createFaculty)
 

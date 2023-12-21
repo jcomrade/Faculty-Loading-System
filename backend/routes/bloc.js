@@ -7,10 +7,10 @@ const { requireAuth,requireAdminAuth,requireSuperUserAuth } = require('../middle
 const router = express.Router()
 
 // // GET a single Bloc
-router.get('/:id', getBloc)
+router.get('/:sem', getBloc)
 
 // POST a Bloc
-router.post('/', createBloc)
+router.post('/:sem', createBloc)
 
 
 module.exports = router
