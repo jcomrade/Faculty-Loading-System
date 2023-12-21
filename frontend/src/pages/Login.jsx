@@ -60,12 +60,15 @@ const Login = () => {
   return (
     <div className='bg-aqua-wave h-screen w-screen flex justify-center items-center'>
       <div>
-        <div className='text-6xl font-bold text-center'>
+        <div className='text-7xl font-bold text-center text-blizzard'>
           <h1>Login</h1>
         </div>
         <br/>
+        <br/>
+        <br/>
+        <div className='my-6'></div>
         <form className='flex flex-col items-center max-w-md mx-auto' onSubmit={handleSubmit}>
-          <div className='flex items-center border bg-blizzard border-enamelled-jewel p-2 rounded-10px w-full max-h-12 focus:outline-none focus:border-blue-500'>
+          <div className='flex items-center border bg-blizzard border-enamelled-jewel p-2 rounded-10px w-full h-14 focus:outline-none focus:border-blue-500'>
             <PiUserCircleFill className='text-enamelled-jewel text-4xl' />
             <VerticalSeparator />
             <div className='w-full'>
@@ -79,7 +82,7 @@ const Login = () => {
             </div>
           </div>
           <br/>
-          <div className='flex items-center border bg-blizzard border-enamelled-jewel p-2 rounded-10px w-full max-h-12 focus:outline-none focus:border-blue-500'>
+          <div className='flex items-center border bg-blizzard border-enamelled-jewel p-2 rounded-10px w-full h-14 focus:outline-none focus:border-blue-500'>
             <MdLock className='text-enamelled-jewel text-4xl' />
             <VerticalSeparator />
             <div className='w-full flex'>
@@ -103,9 +106,9 @@ const Login = () => {
               )}
             </div>
           </div>
-          <br/>
-          <button className='bg-blizzard border border-enamelled-jewel text-enamelled-jewel' type='submit' onClick={()=>handleSubmit()}>
-            Sign In
+          <div className='my-8'></div>
+          <button className='bg-blizzard text-2xl font-bold border w-40 h-14 border-enamelled-jewel text-enamelled-jewel' type='submit' onClick={()=>handleSubmit()}>
+            Login
           </button>
         </form>
         <div>
