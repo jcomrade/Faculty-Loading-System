@@ -74,10 +74,10 @@ const getAllSemester = async (req, res) => {
 }
 
 const getSemesterSchedules = async (req, res) => {
-    const { id } = req.params
+    const { sem } = req.params
 
     try {
-        const semesterSchedules = await SCHEDULE.find({ semester: id, isDeleted: false })
+        const semesterSchedules = await SCHEDULE.find({ semester: sem, isDeleted: false })
         const ScheduleData = await schedRawData(semesterSchedules)
         res.status(200).json(ScheduleData)
 

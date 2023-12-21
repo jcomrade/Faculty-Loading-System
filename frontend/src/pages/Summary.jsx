@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import {useParams} from "react-router-dom";
+import FilterBar from "../components/FilterBar";
 
 
 //Assume that no "Create new" Button is clicked.. 
@@ -40,65 +41,31 @@ const newData = {
 }
 
 
+
 const Summary = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
     const [facultyList, setFacultyList] = useState([]);
-    const [queries, setQueries] = useState([])
-    const [checked, setChecked] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const params = useParams()
     console.log(params.id)
     useEffect(() => {
         (async function () {
+            setIsLoading(true)
             const res = await fetch(`http://localhost:4000/api/summary/${params.id}`, {
                 method: 'GET',
                 credentials: 'include',
             })
             const data = await res.json()
             setFacultyList(data)
+            setIsLoading(false)
         }())
     }, [params.id])
-
-    useEffect(() => {
-        setSearchParams({ filter: queries })
-    }, [queries])
-
-    function handleCheck(event) {
-        if (event.target.checked) {
-            setQueries([event.target.value, ...queries])
-        } else if (!event.target.checked) {
-            const temp = queries
-            const index = temp.indexOf(event.target.value);
-            temp.splice(index, 1);
-            setQueries([...temp])
-        }
-    }
 
     return (
         <div className="px-20 pt-10 text-center">
             <h1 className="text-enamelled-jewel-text">Summary of units per Faculty</h1>
             <div className="flex flex-row space-x-20 mt-7">
                 {/* Filter Div */}
-                <div className="flex flex-col w-48 border border-enamelled-jewel rounded-2xl">
-                    <div className="flex items-center justify-center w-full h-20 bg-placebo-turquoise border border-b-enamelled-jewel rounded-t-2xl">
-                        <p className="text-4xl text-enamelled-jewel underline font-bold">Filter:</p>
-                    </div>
-                    <div className="flex flex-col items-start pl-10 py-5 space-y-5">
-                        <div className="flex flex-col items-start">
-                            <p className="text-2xl text-enamelled-jewel-text font-bold">CSM</p>
-                            <div className="text-enamelled-jewel-text font-bold"><input type="checkbox" onChange={(e) => { handleCheck(e) }} value="DMPCS" /> DMPCS </div>
-                            <div className="text-enamelled-jewel-text font-bold"><input type="checkbox" onChange={(e) => { handleCheck(e) }} value="DFSC" /> DFSC  </div>
-                            <div className="text-enamelled-jewel-text font-bold"><input type="checkbox" onChange={(e) => { handleCheck(e) }} value="DBSES" /> DBSES </div>
-                        </div>
-                        <div className="flex flex-col items-start">
-                            <p className="text-2xl text-enamelled-jewel-text font-bold">CHSS</p>
-                            <div className="text-enamelled-jewel-text font-bold"><input type="checkbox" onChange={(e) => { handleCheck(e) }} value="HSS" /> HSS </div>
-                        </div>
-                        <div className="flex flex-col items-start">
-                            <p className="text-2xl text-enamelled-jewel-text font-bold">SOM</p>
-                            <div className="text-enamelled-jewel-text font-bold"><input type="checkbox" onChange={(e) => { handleCheck(e) }} value="SOM" /> SOM </div>
-                        </div>
-                    </div>
-                </div>
+                <FilterBar />
                 <div className="w-full">
                     <table className="w-full border-separate border-spacing-0">
                         <thead className="h-12">
@@ -129,8 +96,14 @@ const Summary = () => {
                         </tbody>
                     </table>
                     <div className="w-full h-full flex items-center justify-center">
+                    {
+                        isLoading &&
+                        <div className="mt-24">
+                            <p className="text-8xl font-bold">Loading ...</p>
+                        </div>
+                    }
                         {
-                            facultyList.length == 0 &&
+                            facultyList.length == 0 && !isLoading &&
                             <div>
                             <p className="text-8xl font-bold">Start adding the list</p>
                             <p className="text-3xl bold">or</p>

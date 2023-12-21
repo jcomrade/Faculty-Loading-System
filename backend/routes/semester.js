@@ -13,7 +13,7 @@ router.post('/', createSemester)
 
 router.get('/', getAllSemester)
 
-router.get('/:id', getSemesterSchedules)
+router.get('/:sem', getSemesterSchedules)
 
 router.post('/copy', copySemester)
 
