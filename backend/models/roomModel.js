@@ -7,6 +7,10 @@ const roomSchema = new Schema({
     type: String,
     required: true
   },
+  semester: {
+    type: String,
+    required: true
+  },
   building: {
     type: String,
     required: true

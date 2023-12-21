@@ -7,6 +7,7 @@ const ROOM = require('../models/roomModel')
 const USER = require('../models/userModel')
 const {schedRawData} = require('../utils/getSchedRawData')
 const mongoose = require('mongoose')
+const LOAD = require('../models/loadModel')
 
 
 const createSemester = async (req, res) => {
@@ -25,15 +26,24 @@ const copySemester = async (req, res) => {
     const { targetSemesterId, currentSemesterId } = req.body
 
     try {
-        const semesterCopy = await SCHEDULE.find({ semester: targetSemesterId })
-        const finalCopy = semesterCopy.map(({ course, section, weeklySchedule, room, lecturer, students }) => ({
-            semester: currentSemesterId,
-            course,
-            section,
-            weeklySchedule,
-            room,
-            lecturer,
-            students,
+        const semesterCopy = await SCHEDULE.find({semester: targetSemesterId})
+        const finalCopy = await Promise.all(semesterCopy.map(async({ course, section, weeklySchedule, room, faculty, students }) => {
+            let courseCopy = await COURSE.findOne({_id:course},{_id: 0});
+            courseCopy.semester = currentSemesterId
+            const newCourse = await COURSE.create(courseCopy.toObject())
+            console.log(newCourse)
+            let loadcopy = await LOAD.findOne({faculty: faculty, semester: targetSemesterId},{_id: 0})
+            loadcopy.semester=currentSemesterId
+            const newcopy = await LOAD.create(loadcopy.toObject())
+            return {
+                semester: currentSemesterId,
+                course:(newCourse._id).toString(),
+                section,
+                weeklySchedule,
+                room,
+                faculty,
+                students,
+            }
         }))
         const newSemester = await SCHEDULE.insertMany(finalCopy)
         res.status(200).json(newSemester)

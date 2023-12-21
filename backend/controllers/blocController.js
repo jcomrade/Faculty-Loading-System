@@ -4,11 +4,11 @@ const { schedRawData } = require('../utils/getSchedRawData')
 const mongoose = require('mongoose')
 
 const getBloc = async(req, res) => {
-    const { id } = req.params
+    const { sem } = req.params
     const queries = req.query
     console.log(queries)
     try{
-        const semesterScheds = await SCHEDULE.find({semester: id})
+        const semesterScheds = await SCHEDULE.find({semester: sem})
         const BlocShed = (await schedRawData(semesterScheds)).filter(
             (sched) => {
                     return sched.students.some(bloc => 
@@ -26,6 +26,7 @@ const getBloc = async(req, res) => {
 }
 
 const createBloc = async (req, res) => {
+    const { sem } = req.params
     try {
         const createdBloc = await BLOC.create(req.body)
         res.status(200).json(createdBloc)

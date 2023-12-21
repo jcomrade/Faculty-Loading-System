@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import NavBar from '../components/NavBar';
 import { FaRegFileAlt } from "react-icons/fa";
-import { CiFileOn } from "react-icons/ci";
+import { FaRegFile } from "react-icons/fa";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { HiPlus } from "react-icons/hi";
 import { useDisclosure } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { IoTrashOutline } from "react-icons/io5";
 import {
   Modal,
   ModalOverlay,
@@ -24,12 +25,29 @@ const Home = () => {
   const [userData, setUserData] = useState({});
   const [selectedRow, setSelectedRow] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [editing, setEditing] = useState(false);
+
+  const handleDeleteClick = () => {
+    console.log("Deleted");
+  };
+
+  const handleEditClick = () => {
+    setEditing(!editing);
+  };
+
+  const commonModalButtonStyle = {
+    borderRadius: '50%',
+    background: '#035C65',
+    cursor: 'pointer',
+    borderColor: 'transparent',
+    marginTop: '12px',
+  };
 
   const handleSubmit = (fyear, syear, sem) => {
     const payload = {
       semesterType: sem,
       AY: `${fyear}-${syear}`,
-      userId:userData.userId
+      userId: userData.userId
     };
     (
       async function () {
@@ -42,10 +60,10 @@ const Home = () => {
           body: JSON.stringify(payload)
         })
         const data = await res.json()
-        setSemData([...semData,data])
+        setSemData([...semData, data])
       }()
     )
-    
+
   }
   useEffect(() => {
     (async function () {
@@ -87,8 +105,26 @@ const Home = () => {
       <div className='flex flex-row justify-center space-x-4 py-7'>
         {userData.userType === "Super User" && (
           <>
-            <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40' onClick={onOpen}><HiPlus />New File</button>
-            <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40'><HiOutlinePencilSquare />Edit</button>
+            {editing ? (
+              <>
+                <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11'
+                  onClick={handleEditClick}>
+                  Cancel
+                </button>
+                <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11'>
+                  Save
+                </button>
+              </>
+            ) : (
+              <>
+                <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11' onClick={onOpen}>
+                  <HiPlus />New File
+                </button>
+                <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11' onClick={handleEditClick}>
+                  <HiOutlinePencilSquare />Edit
+                </button>
+              </>
+            )}
           </>
         )}
       </div>
@@ -97,12 +133,12 @@ const Home = () => {
         <table className='w-full border-b'>
           <thead className='border-b-2 border-black text-left'>
             <tr>
-              <th className='flex items-center text-black p-2'>
-                <CiFileOn />
+              <th className='flex font-bold text-2xl items-center text-black p-2'>
+                <FaRegFile />
                 Name
               </th>
-              <th className='text-black p-2'>Modified By</th>
-              <th className='text-black p-2'>Date Modified</th>
+              <th className='text-black font-bold text-2xl p-2'>Modified By</th>
+              <th className='text-black font-bold text-2xl p-2'>Date Modified</th>
             </tr>
           </thead>
           <tbody>
@@ -112,14 +148,15 @@ const Home = () => {
                   className={`border-b cursor-pointer ${index === selectedRow ? 'bg-placebo-turquoise' : ''}`}
                   key={sem._id}
                   onMouseEnter={() => handleRowClick(index)}
-                  onMouseDown={()=> navigate(`/semester/${sem._id}/summary`)}
+                  onMouseDown={() => navigate(`/semester/${sem._id}/summary`)}
                 >
-                  <td className="flex flex-row items-center text-black p-2">
+                  <td className="flex text-xl font-semibold flex-row items-center text-black p-2">
                     <FaRegFileAlt />
                     {sem.semesterType} Semester {sem.AY}
                   </td>
-                  <td className='text-black p-2'>{sem.modifiedBy}</td>
-                  <td className='text-black p-2'>{sem.dateModified}</td>
+                  <td className='text-black text-xl font-semibold p-2'>{sem.modifiedBy}</td>
+                  <td className='text-black text-xl font-semibold p-2'>{sem.dateModified}</td>
+                  {editing && <td><button onClick={handleDeleteClick}><IoTrashOutline /></button></td>}
                 </tr>
               ))
             ) : (
@@ -131,39 +168,38 @@ const Home = () => {
         </table>
       </div>
 
-
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} size={'xl'} onClose={onClose} isCentered>
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>New File</ModalHeader>
-          <ModalCloseButton />
+        <ModalContent style={{ border: '2px solid #035C65', borderColor: '#035C65' }}>
+          <h1 className='text-5xl text-enamelled-jewel font-bold bg-placebo-turquoise border-b-4 mb-4 border-enamelled-jewel rounded-tl-md rounded-tr-md pl-5 py-2'>New File</h1>
+          <ModalCloseButton size="sm" style={{ ...commonModalButtonStyle, marginRight: '30px', pointerEvents: 'none', color: '#035C65',}} />
+          <ModalCloseButton size="sm" style={{ ...commonModalButtonStyle, marginRight: '60px', pointerEvents: 'none', color: '#035C65',}} />
+          <ModalCloseButton size="sm" style={{ ...commonModalButtonStyle, color: 'white',}} />
           <ModalBody>
-            <div className='flex flex-row items-center mb-5 '>
+            <div className='flex flex-row items-center mb-10'>
               <div className='pr-3'>
-                <p>Academic Year: </p>
+                <h1 className='text-3xl font-semibold mr-10'>Academic Year: </h1>
               </div>
               <div>
-                <input className='w-20 border border-black rounded-md p-1 text-center' onChange={(e)=>setFirstYear(e.target.value)} type='text' placeholder='Year'/>
+                <input className='w-20 h-10 text-2xl border border-black rounded-md p-1 text-center' onChange={(e) => setFirstYear(e.target.value)} type='text' placeholder='Year' />
               </div>
-              <div className='mx-3'>
-                -
-              </div>
+              <div className='mx-5 border-2 w-2 border-black'></div>
               <div className='bg-blue'>
-                <input className='w-20 border border-black rounded-md p-1 text-center' onChange={(e)=>setSecondYear(e.target.value)} type='text' placeholder='Year'/>
+                <input className='w-20 h-10 text-2xl border border-black rounded-md p-1 text-center' onChange={(e) => setSecondYear(e.target.value)} type='text' placeholder='Year' />
               </div>
             </div>
-            <div className='flex flex-row items-center'>
-              <div>Semester: </div>
-              <button onClick={()=>setSemester("1st")} className={`mx-4 ${semester == "1st" ? "bg-placebo-turquoise":""} border px-3 border-black rounded-md`}>1st</button>
-              <button onClick={()=>setSemester("2nd")} className={`mx-2 ${semester == "2nd" ? "bg-placebo-turquoise":""} border px-3 border-black rounded-md`}>2nd</button>
-              <button onClick={()=>setSemester("Mid Year")} className={`mx-4 ${semester == "Mid Year" ? "bg-placebo-turquoise":""} border px-3 border-black rounded-md`}>Mid Year</button>
+            <div className='flex flex-row items-center mb-'>
+              <h1 className='text-3xl font-semibold mr-16'>Semester: </h1>
+              <button onClick={() => setSemester("1st")} className={`mr-6 ${semester == "1st" ? "bg-placebo-turquoise" : ""} border w-16 h-10 text-2xl border-black rounded-md`}>1st</button>
+              <button onClick={() => setSemester("2nd")} className={`mr-6 ${semester == "2nd" ? "bg-placebo-turquoise" : ""} border w-16 h-10 text-2xl border-black rounded-md`}>2nd</button>
+              <button onClick={() => setSemester("Mid Year")} className={`mr-6 ${semester == "Mid Year" ? "bg-placebo-turquoise" : ""} border w-32 h-10 text-2xl border-black rounded-md`}>Mid Year</button>
             </div>
           </ModalBody>
-          <ModalFooter>
-              <div className="flex flex-row space-x-4">
-                <button onClick={()=>{handleSubmit(firstYear, secondYear, semester);onClose}} className='px-3 py-1'>Add</button>
-                <button onClick={onClose}className='px-3 py-1'>Cancel</button>
-              </div>
+          <ModalFooter justifyContent={"center"} alignItems={"center"}>
+            <div className="flex flex-row space-x-4 mt-6">
+              <button onClick={() => { handleSubmit(firstYear, secondYear, semester); onClose }} className='w-20 h-10 border-2 border-enamelled-jewel'>Add</button>
+              <button onClick={onClose} className='w-20 h-10 border-2 border-enamelled-jewel'>Cancel</button>
+            </div>
           </ModalFooter>
         </ModalContent>
       </Modal>

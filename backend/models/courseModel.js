@@ -19,6 +19,10 @@ const courseSchema = new Schema({
     type: Number,
     required: true,
   },
+  semester: {
+    type: String,
+    required: true,
+  },
   isDeleted: {
     type: Boolean,
     default: false
