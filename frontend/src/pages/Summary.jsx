@@ -36,6 +36,7 @@ const newData = {
         "name": "Intro to Statistics",
         "code": "AMAT 101",
         "type": "LEC",
+        "department": "CSM",
         "units": 3
     }
 }

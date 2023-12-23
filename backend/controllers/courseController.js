@@ -10,6 +10,7 @@ const createCourse = async (req, res) => {
     code,
     type,
     units,
+    department,
   } = req.body
 
   let emptyFields = []
@@ -32,7 +33,7 @@ const createCourse = async (req, res) => {
 
   // add to the database
   try {
-    const createdCourse = await COURSE.create({ name, code, type, units, semester })
+    const createdCourse = await COURSE.create({ name, code, type, units, semester, department })
     res.status(200).json(createdCourse)
   } catch (error) {
     res.status(400).json({ error: error.message })

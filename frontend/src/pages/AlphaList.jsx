@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import FilterBar from "../components/FilterBar";
 import SearchBar from "../components/SearchBar";
@@ -7,10 +7,13 @@ import { HiOutlinePencilSquare } from "react-icons/hi2";
 import SchedList from "../components/SchedList";
 const AlphaList = () => {
     const [semScheds, setSemScheds] = useState([])
+    const [filteredScheds, setFilteredScheds] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [editing, setEditing] = useState(false)
+    const [queryParameters] = useSearchParams()
+
     const params = useParams()
-    useEffect(() => {
+    useMemo(() => {
         (async function () {
             setIsLoading(true)
             const res = await fetch(`http://localhost:4000/api/semester/${params.id}/`, {
@@ -18,11 +21,21 @@ const AlphaList = () => {
                 credentials: 'include',
             })
             const data = await res.json()
-            console.log(data)
             setSemScheds(data)
+            setFilteredScheds(data)
             setIsLoading(false)
         }())
     }, [params.id])
+
+    useEffect(()=>{
+        (function (){
+            setIsLoading(true)
+            queryParameters.getAll("filter").length > 0 
+                ? setFilteredScheds(semScheds.filter((sched)=>queryParameters.getAll("filter").includes(sched.course.department)))
+                : setFilteredScheds(semScheds)
+            setIsLoading(false)
+        }())
+    },[queryParameters])
 
     return (
         <div className="px-20 pt-10 text-center">
@@ -38,7 +51,7 @@ const AlphaList = () => {
                     <FilterBar />
                 </div>
                 <div className="w-full">
-                    <SchedList editing={editing} sched={semScheds} />
+                    <SchedList editing={editing} sched={filteredScheds} />
                     {
                         isLoading &&
                         <div className="mt-24">
@@ -51,6 +64,13 @@ const AlphaList = () => {
                             <p className="text-8xl font-bold">Start adding the list</p>
                             <p className="text-3xl bold">or</p>
                             <button className="w-96 h-20 border border-enamelled-jewel hover:border-enamelled-jewel rounded-lg hover:bg-placebo-turquoise">Copy Alpha List</button>
+                        </div>
+                    }
+                    {
+                        filteredScheds.length == 0 && !isLoading &&
+                        <div className="mt-24 flex-col space-y-10">
+                            <p className="text-8xl font-bold">No Schedule Found</p>
+                            <p className="text-4xl font-bold">Start adding the list</p>
                         </div>
                     }
                 </div>
