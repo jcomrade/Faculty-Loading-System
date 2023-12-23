@@ -15,6 +15,10 @@ const courseSchema = new Schema({
     type: String,
     required: true
   },
+  department: {
+    type: String,
+    required: true
+  },
   units: {
     type: Number,
     required: true,

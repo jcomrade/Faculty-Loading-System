@@ -2,8 +2,8 @@ import { useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 const SchedList = ({ editing, sched }) => {
     return (
-        <table className="w-full h-24 border-separate border-spacing-0">
-            <thead className="">
+        <table className="w-full border-separate border-spacing-0">
+            <thead className="h-12">
                 <tr>
                     <th className="bg-placebo-turquoise border border-collapse border-enamelled-jewel rounded-tl-2xl rounded-bl-2xl border-r-0">Course Code</th>
                     <th className="bg-placebo-turquoise border border-collapse border-enamelled-jewel border-x-0 ">Course Description</th>
@@ -44,4 +44,4 @@ const SchedList = ({ editing, sched }) => {
     )
 }
 
-export default SchedList
+export default SchedList;
