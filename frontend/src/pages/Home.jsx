@@ -65,25 +65,6 @@ const Home = () => {
     )
 
   }
-import React, { useEffect, useMemo, useState } from 'react';
-const Home = () => {
-  const [semData, setSemData] = useState()
-  const [userData, setUserData] = useState({});
-  useEffect(() => {
-    (async function(){
-        try {
-            const res = await fetch("http://localhost:4000/api/auth/user", {
-                method: 'GET',
-                credentials: "include"
-            });
-            const user = await res.json();
-            setUserData(user);
-        } catch (error) {
-            console.error("Error fetching user data:", error);
-        }
-
-    }())
-  }, []);
   useEffect(() => {
     (async function () {
       try {
