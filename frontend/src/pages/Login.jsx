@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import VerticalSeparator from '../components/VerticalSeparator';
 import { PiUserCircleFill } from 'react-icons/pi';
@@ -31,23 +31,13 @@ const Login = () => {
       const data = await res.json()
       if(data.errors){
         setErrors(data.errors)
-      }else{
+      }else if(data.userType == "Super User" || data.userType == "User"){
         navigate("/home")
+      }else if(data.userType == "Admin"){
+        navigate("/admin")
+      }else{
+        navigate("/")
       }
-
-
-      // .then(async(response)=> await response.json())
-      // .then(async(res)=>{
-      //   const data = await res;
-      //   if(data.errors){
-      //     setErrors(data.errors)
-      //     console.log(errors)
-      //   }else{
-      //     setUserData(data)
-      //     console.log(userData)
-      //   }
-      // })
-      // .catch((err)=>console.log(err))
     }catch(err){
       console.log(err)
     }
@@ -56,7 +46,26 @@ const Login = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
+  useEffect(() => {
+    (async function () {
+      try {
+        const res = await fetch("http://localhost:4000/api/auth/user", {
+          method: 'GET',
+          credentials: "include"
+        });
+        const user = await res.json();
+        if(user.userType == "Super User" || user.userType == "User"){
+          navigate("/home")
+        }else if(user.userType == "Admin"){
+          navigate("/admin")
+        }else{
+          navigate("/")
+        }
+      } catch (error) {
+        navigate("/")
+      }
+    }())
+  }, []);
   return (
     <div className='bg-aqua-wave h-screen w-screen flex justify-center items-center'>
       <div>
@@ -107,7 +116,7 @@ const Login = () => {
             </div>
           </div>
           <div className='my-8'></div>
-          <button className='bg-blizzard text-2xl font-bold border w-40 h-14 border-enamelled-jewel text-enamelled-jewel' type='submit' onClick={()=>handleSubmit()}>
+          <button className='bg-blizzard text-2xl font-bold border w-40 h-14 border-enamelled-jewel text-enamelled-jewel' type='submit' onClick={(e)=>handleSubmit(e)}>
             Login
           </button>
         </form>

@@ -1,5 +1,4 @@
 const UserList = ({users}) => {
-    console.log(users)
     return (
         <table className="w-full border-separate border-spacing-0">
             <thead className="h-12">

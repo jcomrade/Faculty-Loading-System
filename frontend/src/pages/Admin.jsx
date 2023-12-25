@@ -2,7 +2,9 @@ import { HiPlus } from "react-icons/hi";
 import AdminNavBar from "../components/AdminNavBar";
 import UserList from "../components/UserList";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 const Admin = () => {
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [userList, setUserList] = useState(null);
     const [adminData, setAdminData] = useState({})
@@ -14,7 +16,12 @@ const Admin = () => {
               credentials: "include"
             });
             const admin = await res.json();
-            setAdminData(admin);
+            if(admin.userType == "Admin"){
+                setAdminData(admin);
+            }
+            else{
+                navigate("/")
+            }
           } catch (error) {
             console.error("Error fetching Admin data:", error);
           }
@@ -58,6 +65,12 @@ const Admin = () => {
                 {/* User List */}
                 <div className="w-full">
                     <UserList users={userList}/>
+                    {
+                        isLoading &&
+                        <div className="mt-24">
+                            <p className="text-8xl font-bold">Loading ...</p>
+                        </div>
+                    }
                 </div>
             </div>
         </>
