@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 const cors = require('cors')
 
-const {requireAuth} = require('./middleware/auth') 
+const {requireAuth, requireAdminAuth} = require('./middleware/auth') 
 const courseRoutes = require('./routes/course')
 const facultyRoutes = require('./routes/faculty')
 const roomRoutes = require('./routes/room')
@@ -17,7 +17,7 @@ const authRoutes = require('./routes/auth')
 const summaryRoutes = require('./routes/summary')
 const loginRoutes = require('./routes/auth')
 const signupRoutes = require('./routes/auth')
-
+const adminRoutes = require('./routes/admin')
 // express app
 const app = express()
 
@@ -47,7 +47,7 @@ app.use('/api/schedule', scheduleRoutes)
 app.use('/api/signup', authRoutes)
 app.use('/api/bloc', blocRoutes)
 app.use('/api/summary', summaryRoutes)
-
+app.use('/api/admin/', requireAdminAuth, adminRoutes)
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
