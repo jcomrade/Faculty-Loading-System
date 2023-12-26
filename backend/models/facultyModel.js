@@ -7,6 +7,10 @@ const facultySchema = new Schema({
     type: String,
     required: true
   },
+  semester: {
+    type: String, //The value here must be Semester Specific (Semester ID)
+    required: true
+  },
   lastName: {
     type: String,
     required: true
@@ -15,15 +19,10 @@ const facultySchema = new Schema({
     type: String,
     required: true,
   },
-  onLeave: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
   isDeleted: {
     type: Boolean,
     default: false
   }
 })
 
-module.exports = mongoose.model('Lecturer', facultySchema)
+module.exports = mongoose.model('Faculty', facultySchema)

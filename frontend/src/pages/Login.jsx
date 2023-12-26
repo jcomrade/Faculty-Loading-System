@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import VerticalSeparator from '../components/VerticalSeparator';
 import { PiUserCircleFill } from 'react-icons/pi';
@@ -31,23 +31,13 @@ const Login = () => {
       const data = await res.json()
       if(data.errors){
         setErrors(data.errors)
-      }else{
+      }else if(data.userType == "Super User" || data.userType == "User"){
         navigate("/home")
+      }else if(data.userType == "Admin"){
+        navigate("/admin")
+      }else{
+        navigate("/")
       }
-
-
-      // .then(async(response)=> await response.json())
-      // .then(async(res)=>{
-      //   const data = await res;
-      //   if(data.errors){
-      //     setErrors(data.errors)
-      //     console.log(errors)
-      //   }else{
-      //     setUserData(data)
-      //     console.log(userData)
-      //   }
-      // })
-      // .catch((err)=>console.log(err))
     }catch(err){
       console.log(err)
     }
@@ -56,16 +46,38 @@ const Login = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
+  useEffect(() => {
+    (async function () {
+      try {
+        const res = await fetch("http://localhost:4000/api/auth/user", {
+          method: 'GET',
+          credentials: "include"
+        });
+        const user = await res.json();
+        if(user.userType == "Super User" || user.userType == "User"){
+          navigate("/home")
+        }else if(user.userType == "Admin"){
+          navigate("/admin")
+        }else{
+          navigate("/")
+        }
+      } catch (error) {
+        navigate("/")
+      }
+    }())
+  }, []);
   return (
     <div className='bg-aqua-wave h-screen w-screen flex justify-center items-center'>
       <div>
-        <div className='text-6xl font-bold text-center'>
+        <div className='text-7xl font-bold text-center text-blizzard'>
           <h1>Login</h1>
         </div>
         <br/>
+        <br/>
+        <br/>
+        <div className='my-6'></div>
         <form className='flex flex-col items-center max-w-md mx-auto' onSubmit={handleSubmit}>
-          <div className='flex items-center border bg-blizzard border-enamelled-jewel p-2 rounded-10px w-full max-h-12 focus:outline-none focus:border-blue-500'>
+          <div className='flex items-center border bg-blizzard border-enamelled-jewel p-2 rounded-10px w-full h-14 focus:outline-none focus:border-blue-500'>
             <PiUserCircleFill className='text-enamelled-jewel text-4xl' />
             <VerticalSeparator />
             <div className='w-full'>
@@ -79,7 +91,7 @@ const Login = () => {
             </div>
           </div>
           <br/>
-          <div className='flex items-center border bg-blizzard border-enamelled-jewel p-2 rounded-10px w-full max-h-12 focus:outline-none focus:border-blue-500'>
+          <div className='flex items-center border bg-blizzard border-enamelled-jewel p-2 rounded-10px w-full h-14 focus:outline-none focus:border-blue-500'>
             <MdLock className='text-enamelled-jewel text-4xl' />
             <VerticalSeparator />
             <div className='w-full flex'>
@@ -103,9 +115,9 @@ const Login = () => {
               )}
             </div>
           </div>
-          <br/>
-          <button className='bg-blizzard border border-enamelled-jewel text-enamelled-jewel' type='submit' onClick={()=>handleSubmit()}>
-            Sign In
+          <div className='my-8'></div>
+          <button className='bg-blizzard text-2xl font-bold border w-40 h-14 border-enamelled-jewel text-enamelled-jewel' type='submit' onClick={(e)=>handleSubmit(e)}>
+            Login
           </button>
         </form>
         <div>

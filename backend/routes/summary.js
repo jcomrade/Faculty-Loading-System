@@ -6,7 +6,7 @@ const { requireAuth,requireAdminAuth,requireSuperUserAuth } = require('../middle
 const router = express.Router()
 
 // GET summary
-router.get('/:id', getSummary)
+router.get('/:semId', getSummary)
 
 module.exports = router
 

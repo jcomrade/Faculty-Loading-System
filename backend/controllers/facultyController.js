@@ -3,9 +3,10 @@ const SCHEDULE = require('../models/scheduleModel')
 const {schedRawData} = require('../utils/getSchedRawData')
 const mongoose = require('mongoose')
 const getFacultySchedule = async(req, res) => {
-    const { id } = req.params
+    const { semId } = req.params
+    const { facultyId } = req.body
     try{
-        const facultyData = await SCHEDULE.find({faculty: id, isDeleted: false})
+        const facultyData = await SCHEDULE.find({faculty: facultyId, semester: semId,isDeleted: false})
         const schedData = await schedRawData(facultyData)
         res.status(200).json(schedData)
     } catch (error) {
