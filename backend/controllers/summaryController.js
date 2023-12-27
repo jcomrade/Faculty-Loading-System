@@ -32,16 +32,23 @@ const getSummary = async (req, res) => {
 
         // Output array of objects with faculty id and courses specific to that faculty
         const outputArray = getCoursesByFaculty(semesterSchedules);
-        console.log(outputArray)
-        const facultyLoad = await Promise.all(outputArray.map(async({faculty, courses})=>{
-            const courseSum = (await COURSE.find({_id:{$in:courses}},{_id:0,__v:0,name:0,code:0,type:0,isDeleted:0   })).reduce((acc, obj) => acc + obj.units, 0);
-            const loadData = await LOAD.findOne({semester:semId, faculty: faculty})
+        const facultyLoad = await Promise.all(outputArray.map(async ({ faculty, courses }) => {
+            const unitsMap = {};
+            courses.forEach(async(id) => {
+                if(!unitsMap[faculty]){
+                    unitsMap[faculty] = 0;
+                }
+                const unit = await COURSE.findOne({ _id: id }, {units: 1, _id: 0});
+                unitsMap[faculty] += unit.units;
+            })
+    
+            const loadData = await LOAD.findOne({ semester: semId, faculty: faculty })
             const facultyData = await FACULTY.findById(faculty)
             return {
                 firstName: facultyData.firstName,
                 lastName: facultyData.lastName,
                 employeeId: facultyData.employeeId,
-                TLC: courseSum,
+                TLC: unitsMap[faculty],
                 ALC: loadData.ALC,
                 SLC: loadData.SLC,
                 RLC: loadData.RLC
