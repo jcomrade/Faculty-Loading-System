@@ -56,10 +56,10 @@ const Faculty = () => {
                 // Check if timeSlot falls within the range of start and end times
                 return timeSlot >= startTime && timeSlot <= endTime;
               }) ? (
-                semScheds[day]
-                  .filter(schedule => {
-                    const startTime = schedule.start;
-                    const endTime = schedule.end;
+              semScheds[day]
+                .filter(schedule => {
+                  const startTime = schedule.start;
+                  const endTime = schedule.end;
 
                     // Check if timeSlot falls within the range of start and end times
                     return timeSlot >= startTime && timeSlot <= endTime;
