@@ -98,7 +98,7 @@ const Home = () => {
   const handleRowClick = (index) => {
     setSelectedRow(index);
   };
-
+  
   return (
     <div className='flex flex-col h-screen w-screen'>
       <NavBar />

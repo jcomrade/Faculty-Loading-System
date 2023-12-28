@@ -33,20 +33,20 @@ const Faculty = () => {
   // Function to generate schedule rows based on the data
   const generateScheduleRows = () => {
     const timeSlots = [
-      "7:00 - 7:30", "7:30 - 8:00", "8:00 - 8:30", "8:30 - 9:00", "9:00 - 9:30",
-      "9:30 - 10:00", "10:00 - 10:30", "10:30 - 11:00", "11:00 - 11:30", "11:30 - 12:00",
-      "12:00 - 12:30", "12:30 - 1:00", "1:00 - 1:30", "1:30 - 2:00", "2:00 - 2:30",
-      "2:30 - 3:00", "3:00 - 3:30", "3:30 - 4:00", "4:00 - 4:30", "4:30 - 5:00",
-      "5:00 - 5:30", "5:30 - 6:00", "6:00 - 6:30", "6:30 - 7:00"
+        "7:00 AM - 7:30 AM", "7:30 AM - 8:00 AM", "8:00 AM - 8:30 AM", "8:30 AM - 9:00 AM", "9:00 AM - 9:30 AM",
+        "9:30 AM - 10:00 AM", "10:00 AM - 10:30 AM", "10:30 AM - 11:00 AM", "11:00 AM - 11:30 AM", "11:30 AM - 12:00 PM",
+        "12:00 PM - 12:30 PM", "12:30 PM - 1:00 PM", "1:00 PM - 1:30 PM", "1:30 PM - 2:00 PM", "2:00 PM - 2:30 PM",
+        "2:30 PM - 3:00 PM", "3:00 PM - 3:30 PM", "3:30 PM - 4:00 PM", "4:00 PM - 4:30 PM", "4:30 PM - 5:00 PM",
+        "5:00 PM - 5:30 PM", "5:30 PM - 6:00 PM", "6:00 PM - 6:30 PM", "6:30 PM - 7:00 PM"
     ];
 
     return timeSlots.map((timeSlot, index) => (
-      <tr key={index} className="border border-black">
+      <tr key={index}>
         <td className="border border-black w-1/8">{timeSlot}</td>
         {daysOfWeek.map((day, dayIndex) => (
           <td
             key={dayIndex}
-            className={`border border-black ${getShadeClass(day, timeSlot, dayIndex)} w-7/8`}
+            className={`border border-black  ${getShadeClass(day, timeSlot, dayIndex)} w-7/8`}
           >
             {semScheds[day] &&
               semScheds[day].some(schedule => {
@@ -69,10 +69,10 @@ const Faculty = () => {
                       {(() => {
                         if (!schedule.subjectRendered) {
                           schedule.subjectRendered = true;
-                          return <p className="text-enamelled-jewel font-extrabold">{schedule.subject}</p>;
+                          return <p className="text-enamelled-jewel text-center font-extrabold">{schedule.subject}</p>;
                         } else if (!schedule.sectionRendered) {
                           schedule.sectionRendered = true;
-                          return <p className="text-enamelled-jewel font-extrabold">{schedule.section}</p>;
+                          return <p className="text-enamelled-jewel text-center font-extrabold">{schedule.section}</p>;
                         }
                         return null;
                       })()}
@@ -112,7 +112,7 @@ const Faculty = () => {
         </colgroup>
         <thead>
           <tr>
-            <th className="border-b-2 border-enamelled-jewel text-enamelled-jewel font-extrabold">Time</th>
+            <th className="border-b-2 border-enamelled-jewel text-enamelled-jewel font-extrabold w-40">Time</th>
             {daysOfWeek.map((day, index) => (
               <th key={index} className="border-b-2 border-enamelled-jewel text-enamelled-jewel font-extrabold">{day}</th>
             ))}
