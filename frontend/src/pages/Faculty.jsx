@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const Faculty = () => {
@@ -7,13 +7,13 @@ const Faculty = () => {
 
   // Sample data for demonstration
   const sampleData = [
-    { day: 'Monday', subject: "Math", section: "A", start: "7:00", end: "8:30" },
-    { day: 'Tuesday', subject: "Chemistry", section: "B", start: "9:00", end: "10:30" },
-    { day: 'Wednesday', subject: "Biology", section: "A", start: "12:00", end: "1:30" },
-    { day: 'Wednesday', subject: "History", section: "B", start: "2:00", end: "3:30" },
-    { day: 'Thursday', subject: "English", section: "A", start: "10:00", end: "11:30" },
-    { day: 'Friday', subject: "Computer Science", section: "B", start: "2:00", end: "3:30" },
-    { day: 'Friday', subject: "Physical Education", section: "A", start: "5:00", end: "6:30" }
+    { day: 'Monday', subject: "CMSC 178", section: "1-DL", start: "7:00", end: "8:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Tuesday', subject: "CMSC 195", section: "M", start: "9:00", end: "10:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Wednesday', subject: "MATH 10", section: "A", start: "12:00", end: "1:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Wednesday', subject: "SCI 10", section: "1-BL", start: "2:00", end: "3:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Thursday', subject: "MATH 28", section: "A", start: "10:00", end: "11:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Friday', subject: "CMSC 185", section: "2-BL", start: "2:00", end: "3:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Friday', subject: "CMSC 128", section: "A", start: "5:00", end: "6:30", subjectRendered: false, sectionRendered: false }
   ];
 
   useEffect(() => {
@@ -41,12 +41,12 @@ const Faculty = () => {
     ];
 
     return timeSlots.map((timeSlot, index) => (
-      <tr key={index} className="border border-enamelled-jewel">
-        <td className="border border-enamelled-jewel">{timeSlot}</td>
+      <tr key={index} className="border border-black">
+        <td className="border border-black w-1/8">{timeSlot}</td>
         {daysOfWeek.map((day, dayIndex) => (
           <td
             key={dayIndex}
-            className={`border border-enamelled-jewel ${getShadeClass(day, timeSlot)}`}
+            className={`border border-black ${getShadeClass(day, timeSlot, dayIndex)} w-7/8`}
           >
             {semScheds[day] &&
               semScheds[day].some(schedule => {
@@ -66,9 +66,16 @@ const Faculty = () => {
                   })
                   .map((schedule, index) => (
                     <div key={index}>
-                      <strong className="text-white">{schedule.subject}</strong>
-                      <br />
-                      <span className="text-white">{schedule.section}</span>   
+                      {(() => {
+                        if (!schedule.subjectRendered) {
+                          schedule.subjectRendered = true;
+                          return <p className="text-enamelled-jewel font-extrabold">{schedule.subject}</p>;
+                        } else if (!schedule.sectionRendered) {
+                          schedule.sectionRendered = true;
+                          return <p className="text-enamelled-jewel font-extrabold">{schedule.section}</p>;
+                        }
+                        return null;
+                      })()}
                     </div>
                   ))
               ) : ''}
@@ -79,7 +86,7 @@ const Faculty = () => {
   };
 
   // Function to determine the shading class based on the schedule
-  const getShadeClass = (day, timeSlot) => {
+  const getShadeClass = (day, timeSlot, index) => {
     const isScheduled = semScheds[day] && semScheds[day].some(schedule => {
       const startTime = schedule.start;
       const endTime = schedule.end;
@@ -88,19 +95,26 @@ const Faculty = () => {
       return timeSlot >= startTime && timeSlot <= endTime;
     });
 
-    return isScheduled ? 'bg-enamelled-jewel' : ''; // Change the background color class as needed
+    // Alternate between 'placebo-turquoise' and 'veiling-waterfalls'
+    return isScheduled ? (index % 2 === 0 ? 'bg-placebo-turquoise' : 'bg-veiling-waterfalls') : '';
   };
 
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
   return (
     <>
-      <table className="bg-white text-black">
+      <table className="bg-white text-black w-818 h-729 table-fixed">
+        <colgroup>
+          <col className="w-1/8" />
+          {daysOfWeek.map((day, index) => (
+            <col key={index} className="w-7/8" />
+          ))}
+        </colgroup>
         <thead>
           <tr>
-            <th>Time</th>
+            <th className="border-b-2 border-enamelled-jewel text-enamelled-jewel font-extrabold">Time</th>
             {daysOfWeek.map((day, index) => (
-              <th key={index}>{day}</th>
+              <th key={index} className="border-b-2 border-enamelled-jewel text-enamelled-jewel font-extrabold">{day}</th>
             ))}
           </tr>
         </thead>

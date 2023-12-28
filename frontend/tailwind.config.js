@@ -6,6 +6,12 @@ export default {
   ],
   theme: {
     extend: {
+      width: {
+        '818': '818px',
+      },
+      height: {
+        '729': '729px',
+      },
       backgroundImage: {
         'aqua-wave': 'linear-gradient(to bottom right, #07BEB8, #38CBC7, #68D8D6, #96ECE8, #C4FFF9)',
       },
@@ -25,6 +31,10 @@ export default {
         'placebo-turquoise': {
           DEFAULT: '#E8FFF8',
           'text': '#E8FFF8',
+        },
+        'veiling-waterfalls': {
+          DEFAULT: '#D3EEFF',
+          'text': '#D3EEFF',
         },
       },
       borderRadius: {
