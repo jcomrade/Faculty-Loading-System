@@ -7,13 +7,13 @@ const Faculty = () => {
 
   // Sample data for demonstration
   const sampleData = [
-    { day: 'Monday', subject: "Math", start: "7:00", end: "8:30" },
-    { day: 'Tuesday', subject: "Chemistry", start: "9:00", end: "10:30" },
-    { day: 'Wednesday', subject: "Biology", start: "12:00", end: "1:30" },
-    { day: 'Wednesday', subject: "History", start: "2:00", end: "3:30" },
-    { day: 'Thursday', subject: "English", start: "10:00", end: "11:30" },
-    { day: 'Friday', subject: "Computer Science", start: "2:00", end: "3:30" },
-    { day: 'Friday', subject: "Physical Education", start: "5:00", end: "6:30" }
+    { day: 'Monday', subject: "Math", section: "B-1L", start: "7:00", end: "8:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Tuesday', subject: "Chemistry", section: "B-1L", start: "9:00", end: "10:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Wednesday', subject: "Biology", section: "B-1L", start: "12:00", end: "1:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Wednesday', subject: "History", section: "B-1L", start: "2:00", end: "3:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Thursday', subject: "English", section: "B-1L", start: "10:00", end: "11:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Friday', subject: "Computer Science", section: "B-1L", start: "2:00", end: "3:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Friday', subject: "Physical Education", section: "B-1L", start: "5:00", end: "6:30", subjectRendered: false, sectionRendered: false }
   ];
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const Faculty = () => {
       acc[day].push(rest);
       return acc;
     }, {});
-    
+
     setSemScheds(formattedData);
   }, [params.id]);
 
@@ -56,20 +56,30 @@ const Faculty = () => {
                 // Check if timeSlot falls within the range of start and end times
                 return timeSlot >= startTime && timeSlot <= endTime;
               }) ? (
-                semScheds[day]
-                  .filter(schedule => {
-                    const startTime = schedule.start;
-                    const endTime = schedule.end;
+              semScheds[day]
+                .filter(schedule => {
+                  const startTime = schedule.start;
+                  const endTime = schedule.end;
 
-                    // Check if timeSlot falls within the range of start and end times
-                    return timeSlot >= startTime && timeSlot <= endTime;
-                  })
-                  .map((schedule, index) => (
-                    <div key={index}>
-                      <strong>{schedule.subject}</strong>
-                    </div>
-                  ))
-              ) : ''}
+                  // Check if timeSlot falls within the range of start and end times
+                  return timeSlot >= startTime && timeSlot <= endTime;
+                })
+                .map((schedule, index) => (
+                  <div key={index}>
+                    {
+                      (function(sched){
+                        if(!sched.subjectRendered){
+                          sched.subjectRendered = true;
+                          return <strong>{sched.subject}</strong>
+                        }else if(!sched.sectionRendered){
+                          sched.sectionRendered = true;
+                          return <strong>{sched.section}</strong>
+                        }
+                      }(schedule))
+                    }
+                  </div>
+                ))
+            ) : ''}
           </td>
         ))}
       </tr>
