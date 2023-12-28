@@ -7,6 +7,7 @@ const Faculty = () => {
 
   // Sample data for demonstration
   const sampleData = [
+<<<<<<< HEAD
     { day: 'Monday', subject: "Math", section: "B-1L", start: "7:00", end: "8:30", subjectRendered: false, sectionRendered: false },
     { day: 'Tuesday', subject: "Chemistry", section: "B-1L", start: "9:00", end: "10:30", subjectRendered: false, sectionRendered: false },
     { day: 'Wednesday', subject: "Biology", section: "B-1L", start: "12:00", end: "1:30", subjectRendered: false, sectionRendered: false },
@@ -14,6 +15,15 @@ const Faculty = () => {
     { day: 'Thursday', subject: "English", section: "B-1L", start: "10:00", end: "11:30", subjectRendered: false, sectionRendered: false },
     { day: 'Friday', subject: "Computer Science", section: "B-1L", start: "2:00", end: "3:30", subjectRendered: false, sectionRendered: false },
     { day: 'Friday', subject: "Physical Education", section: "B-1L", start: "5:00", end: "6:30", subjectRendered: false, sectionRendered: false }
+=======
+    { day: 'Monday', subject: "Math", section: "A", start: "7:00", end: "8:30" },
+    { day: 'Tuesday', subject: "Chemistry", section: "B", start: "9:00", end: "10:30" },
+    { day: 'Wednesday', subject: "Biology", section: "A", start: "12:00", end: "1:30" },
+    { day: 'Wednesday', subject: "History", section: "B", start: "2:00", end: "3:30" },
+    { day: 'Thursday', subject: "English", section: "A", start: "10:00", end: "11:30" },
+    { day: 'Friday', subject: "Computer Science", section: "B", start: "2:00", end: "3:30" },
+    { day: 'Friday', subject: "Physical Education", section: "A", start: "5:00", end: "6:30" }
+>>>>>>> 3437e6a3bbcfdb1b7bb13b49060b8634f1455294
   ];
 
   useEffect(() => {
@@ -61,6 +71,7 @@ const Faculty = () => {
                   const startTime = schedule.start;
                   const endTime = schedule.end;
 
+<<<<<<< HEAD
                   // Check if timeSlot falls within the range of start and end times
                   return timeSlot >= startTime && timeSlot <= endTime;
                 })
@@ -80,6 +91,19 @@ const Faculty = () => {
                   </div>
                 ))
             ) : ''}
+=======
+                    // Check if timeSlot falls within the range of start and end times
+                    return timeSlot >= startTime && timeSlot <= endTime;
+                  })
+                  .map((schedule, index) => (
+                    <div key={index}>
+                      <strong className="text-white">{schedule.subject}</strong>
+                      <br />
+                      <span className="text-white">{schedule.section}</span>   
+                    </div>
+                  ))
+              ) : ''}
+>>>>>>> 3437e6a3bbcfdb1b7bb13b49060b8634f1455294
           </td>
         ))}
       </tr>
