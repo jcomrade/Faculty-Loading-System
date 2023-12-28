@@ -7,13 +7,13 @@ const Faculty = () => {
 
   // Sample data for demonstration
   const sampleData = [
-    { day: 'Monday', subject: "Math", start: "7:00", end: "8:30" },
-    { day: 'Tuesday', subject: "Chemistry", start: "9:00", end: "10:30" },
-    { day: 'Wednesday', subject: "Biology", start: "12:00", end: "1:30" },
-    { day: 'Wednesday', subject: "History", start: "2:00", end: "3:30" },
-    { day: 'Thursday', subject: "English", start: "10:00", end: "11:30" },
-    { day: 'Friday', subject: "Computer Science", start: "2:00", end: "3:30" },
-    { day: 'Friday', subject: "Physical Education", start: "5:00", end: "6:30" }
+    { day: 'Monday', subject: "Math", section: "A", start: "7:00", end: "8:30" },
+    { day: 'Tuesday', subject: "Chemistry", section: "B", start: "9:00", end: "10:30" },
+    { day: 'Wednesday', subject: "Biology", section: "A", start: "12:00", end: "1:30" },
+    { day: 'Wednesday', subject: "History", section: "B", start: "2:00", end: "3:30" },
+    { day: 'Thursday', subject: "English", section: "A", start: "10:00", end: "11:30" },
+    { day: 'Friday', subject: "Computer Science", section: "B", start: "2:00", end: "3:30" },
+    { day: 'Friday', subject: "Physical Education", section: "A", start: "5:00", end: "6:30" }
   ];
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const Faculty = () => {
       acc[day].push(rest);
       return acc;
     }, {});
-    
+
     setSemScheds(formattedData);
   }, [params.id]);
 
@@ -66,7 +66,9 @@ const Faculty = () => {
                   })
                   .map((schedule, index) => (
                     <div key={index}>
-                      <strong>{schedule.subject}</strong>
+                      <strong className="text-white">{schedule.subject}</strong>
+                      <br />
+                      <span className="text-white">{schedule.section}</span>   
                     </div>
                   ))
               ) : ''}
