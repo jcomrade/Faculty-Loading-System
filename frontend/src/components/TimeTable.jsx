@@ -76,13 +76,15 @@ const TimeTable = () => {
                   // Check if timeSlot falls within the range of start and end times
                   return timeSlot >= startTime && timeSlot <= endTime;
                 })
-                .map((schedule, index) => (
+                .map((schedule, index, self) => (
                   <div key={index}>
                     {(() => {
-                      if (!schedule.subjectRendered) {
+                      if(self.length > 1 && index == 0){
+                        return <p className="text-enamelled-jewel text-center font-extrabold">CONFLICT!</p>;
+                      }else if (!schedule.subjectRendered && self.length == 1) {
                         schedule.subjectRendered = true;
                         return <p className="text-enamelled-jewel text-center font-extrabold">{schedule.subject}</p>;
-                      } else if (!schedule.sectionRendered) {
+                      } else if (!schedule.sectionRendered && self.length == 1) {
                         schedule.sectionRendered = true;
                         return <p className="text-enamelled-jewel text-center font-extrabold">{schedule.section}</p>;
                       }
