@@ -36,6 +36,10 @@ export default {
           DEFAULT: '#D3EEFF',
           'text': '#D3EEFF',
         },
+        'pastel-red': {
+          DEFAULT: '#FF6962',
+          'text': '#FF6962',
+        },
       },
       borderRadius: {
         '10px': '10px',

@@ -13,7 +13,8 @@ const Faculty = () => {
     { day: 'Wednesday', subject: "SCI 10", section: "1-BL", start: "2:00", end: "3:30", subjectRendered: false, sectionRendered: false },
     { day: 'Thursday', subject: "MATH 28", section: "A", start: "10:00", end: "11:30", subjectRendered: false, sectionRendered: false },
     { day: 'Friday', subject: "CMSC 185", section: "2-BL", start: "2:00", end: "3:30", subjectRendered: false, sectionRendered: false },
-    { day: 'Friday', subject: "CMSC 128", section: "A", start: "5:00", end: "6:30", subjectRendered: false, sectionRendered: false }
+    { day: 'Friday', subject: "CMSC 128", section: "A", start: "5:00", end: "6:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Friday', subject: "CMSC 199", section: "2-1F", start: "2:30", end: "4:00", subjectRendered: false, sectionRendered: false }
   ];
 
   useEffect(() => {
@@ -33,11 +34,11 @@ const Faculty = () => {
   // Function to generate schedule rows based on the data
   const generateScheduleRows = () => {
     const timeSlots = [
-        "7:00 AM - 7:30 AM", "7:30 AM - 8:00 AM", "8:00 AM - 8:30 AM", "8:30 AM - 9:00 AM", "9:00 AM - 9:30 AM",
-        "9:30 AM - 10:00 AM", "10:00 AM - 10:30 AM", "10:30 AM - 11:00 AM", "11:00 AM - 11:30 AM", "11:30 AM - 12:00 PM",
-        "12:00 PM - 12:30 PM", "12:30 PM - 1:00 PM", "1:00 PM - 1:30 PM", "1:30 PM - 2:00 PM", "2:00 PM - 2:30 PM",
-        "2:30 PM - 3:00 PM", "3:00 PM - 3:30 PM", "3:30 PM - 4:00 PM", "4:00 PM - 4:30 PM", "4:30 PM - 5:00 PM",
-        "5:00 PM - 5:30 PM", "5:30 PM - 6:00 PM", "6:00 PM - 6:30 PM", "6:30 PM - 7:00 PM"
+      "7:00 - 7:30 AM", "7:30- 8:00 AM", "8:00- 8:30 AM", "8:30- 9:00 AM", "9:00- 9:30 AM",
+      "9:30- 10:00 AM", "10:00- 10:30 AM", "10:30- 11:00 AM", "11:00- 11:30 AM", "11:30- 12:00 PM",
+      "12:00 - 12:30 PM", "12:30 - 1:00 PM", "1:00 - 1:30 PM", "1:30 - 2:00 PM", "2:00 - 2:30 PM",
+      "2:30 - 3:00 PM", "3:00 - 3:30 PM", "3:30 - 4:00 PM", "4:00 - 4:30 PM", "4:30 - 5:00 PM",
+      "5:00 - 5:30 PM", "5:30 - 6:00 PM", "6:00 - 6:30 PM", "6:30 - 7:00 PM"
     ];
 
     return timeSlots.map((timeSlot, index) => (
@@ -46,7 +47,17 @@ const Faculty = () => {
         {daysOfWeek.map((day, dayIndex) => (
           <td
             key={dayIndex}
-            className={`border border-black  ${getShadeClass(day, timeSlot, dayIndex)} w-7/8`}
+            className={`w-7/8 ${semScheds[day] &&
+                semScheds[day].some(schedule => {
+                  const startTime = schedule.start;
+                  const endTime = schedule.end;
+
+                  // Check if timeSlot falls within the range of start and end times
+                  return timeSlot >= startTime && timeSlot <= endTime;
+                })
+                ? '' // No border when cell is not empty
+                : 'border border-black' // Apply border when cell is empty
+              } ${getShadeClass(day, timeSlot, dayIndex)}`}
           >
             {semScheds[day] &&
               semScheds[day].some(schedule => {
@@ -61,33 +72,34 @@ const Faculty = () => {
                   const startTime = schedule.start;
                   const endTime = schedule.end;
 
-                    // Check if timeSlot falls within the range of start and end times
-                    return timeSlot >= startTime && timeSlot <= endTime;
-                  })
-                  .map((schedule, index) => (
-                    <div key={index}>
-                      {(() => {
-                        if (!schedule.subjectRendered) {
-                          schedule.subjectRendered = true;
-                          return <p className="text-enamelled-jewel text-center font-extrabold">{schedule.subject}</p>;
-                        } else if (!schedule.sectionRendered) {
-                          schedule.sectionRendered = true;
-                          return <p className="text-enamelled-jewel text-center font-extrabold">{schedule.section}</p>;
-                        }
-                        return null;
-                      })()}
-                    </div>
-                  ))
-              ) : ''}
+                  // Check if timeSlot falls within the range of start and end times
+                  return timeSlot >= startTime && timeSlot <= endTime;
+                })
+                .map((schedule, index) => (
+                  <div key={index}>
+                    {(() => {
+                      if (!schedule.subjectRendered) {
+                        schedule.subjectRendered = true;
+                        return <p className="text-enamelled-jewel text-center font-extrabold">{schedule.subject}</p>;
+                      } else if (!schedule.sectionRendered) {
+                        schedule.sectionRendered = true;
+                        return <p className="text-enamelled-jewel text-center font-extrabold">{schedule.section}</p>;
+                      }
+                      return null;
+                    })()}
+                  </div>
+                ))
+            ) : ''}
           </td>
         ))}
       </tr>
+
     ));
   };
 
   // Function to determine the shading class based on the schedule
-  const getShadeClass = (day, timeSlot, index) => {
-    const isScheduled = semScheds[day] && semScheds[day].some(schedule => {
+  const getShadeClass = (day, timeSlot) => {
+    const conflictingSchedules = semScheds[day] && semScheds[day].filter(schedule => {
       const startTime = schedule.start;
       const endTime = schedule.end;
 
@@ -95,8 +107,11 @@ const Faculty = () => {
       return timeSlot >= startTime && timeSlot <= endTime;
     });
 
-    // Alternate between 'placebo-turquoise' and 'veiling-waterfalls'
-    return isScheduled ? (index % 2 === 0 ? 'bg-placebo-turquoise' : 'bg-veiling-waterfalls') : '';
+    // Check for conflicting schedules
+    const hasConflicts = conflictingSchedules && conflictingSchedules.length > 1;
+
+    // Return pastel-red if there are conflicts, else alternate between 'placebo-turquoise' and 'veiling-waterfalls'
+    return hasConflicts ? 'bg-pastel-red' : (conflictingSchedules && conflictingSchedules.length % 2 === 0 ? 'bg-placebo-turquoise' : 'bg-veiling-waterfalls');
   };
 
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -112,7 +127,7 @@ const Faculty = () => {
         </colgroup>
         <thead>
           <tr>
-            <th className="border-b-2 border-enamelled-jewel text-enamelled-jewel font-extrabold w-40">Time</th>
+            <th className="border-b-2 border-enamelled-jewel text-enamelled-jewel font-extrabold w-32">Time</th>
             {daysOfWeek.map((day, index) => (
               <th key={index} className="border-b-2 border-enamelled-jewel text-enamelled-jewel font-extrabold">{day}</th>
             ))}
