@@ -15,6 +15,7 @@ const RouterComponent = () => {
             <Route exact path="/" element={<Login />} />
             <Route path="/home" element={<Home />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/export" element={<Export />} />
             <Route path="/semester/:id" element={<Semester/>}>
                 <Route path="/semester/:id/" element={<Summary/>} /> 
                 <Route path='/semester/:id/summary' element={<Summary />}/>
