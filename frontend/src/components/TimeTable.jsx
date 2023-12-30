@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { MdError } from "react-icons/md";
+import { MdOutlineErrorOutline } from "react-icons/md";
+
 
 const TimeTable = () => {
   const [semScheds, setSemScheds] = useState({});
@@ -35,8 +38,8 @@ const TimeTable = () => {
   // Function to generate schedule rows based on the data
   const generateScheduleRows = () => {
     const timeSlots = [
-      "7:00 - 7:30 AM", "7:30- 8:00 AM", "8:00- 8:30 AM", "8:30- 9:00 AM", "9:00- 9:30 AM",
-      "9:30- 10:00 AM", "10:00- 10:30 AM", "10:30- 11:00 AM", "11:00- 11:30 AM", "11:30- 12:00 PM",
+      "7:00 - 7:30 AM", "7:30 - 8:00 AM", "8:00 - 8:30 AM", "8:30 - 9:00 AM", "9:00 - 9:30 AM",
+      "9:30 - 10:00 AM", "10:00 - 10:30 AM", "10:30 - 11:00 AM", "11:00 - 11:30 AM", "11:30 - 12:00 PM",
       "12:00 - 12:30 PM", "12:30 - 1:00 PM", "1:00 - 1:30 PM", "1:30 - 2:00 PM", "2:00 - 2:30 PM",
       "2:30 - 3:00 PM", "3:00 - 3:30 PM", "3:30 - 4:00 PM", "4:00 - 4:30 PM", "4:30 - 5:00 PM",
       "5:00 - 5:30 PM", "5:30 - 6:00 PM", "6:00 - 6:30 PM", "6:30 - 7:00 PM"
@@ -56,7 +59,7 @@ const TimeTable = () => {
                 // Check if timeSlot falls within the range of start and end times
                 return timeSlot >= startTime && timeSlot <= endTime;
               })
-              ? '' // No border when cell is not empty
+              ? 'border-r border-black' 
               : 'border border-black' // Apply border when cell is empty
               } ${getShadeClass(day, timeSlot, dayIndex)}`}
           >
@@ -80,7 +83,7 @@ const TimeTable = () => {
                   <div key={index}>
                     {(() => {
                       if(self.length > 1 && index == 0){
-                        return <p className="text-enamelled-jewel text-center font-extrabold">CONFLICT!</p>;
+                        return <p className="flex items-center justify-center text-blizzard font-normal">Time Conflict<MdOutlineErrorOutline/></p>;
                       }else if (!schedule.subjectRendered && self.length == 1) {
                         schedule.subjectRendered = true;
                         return <p className="text-enamelled-jewel text-center font-extrabold">{schedule.subject}</p>;
@@ -137,9 +140,9 @@ const getShadeClass = (day, timeSlot) => {
         </colgroup>
         <thead>
           <tr>
-            <th className="border-b-2 border-enamelled-jewel text-enamelled-jewel font-extrabold w-32">Time</th>
+            <th className="border-b-2 border-enamelled-jewel text -enamelled-jewel font-extrabold font-sora w-32">Time</th>
             {daysOfWeek.map((day, index) => (
-              <th key={index} className="border-b-2 border-enamelled-jewel text-enamelled-jewel font-extrabold">{day}</th>
+              <th key={index} className="border-b-2 border-enamelled-jewel text-enamelled-jewel font-sora font-extrabold">{day}</th>
             ))}
           </tr>
         </thead>
