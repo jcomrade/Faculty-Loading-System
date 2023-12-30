@@ -1,24 +1,16 @@
 const express = require('express')
 const {
-  getCourse,
-  getAllCourse,
   createCourse,
   updateCourse
 } = require('../controllers/courseController')
 const { requireAuth,requireAdminAuth,requireSuperUserAuth } = require('../middleware/auth')
 const router = express.Router()
 
-// GET a single course
-router.get('/:id', getCourse)
-
-// GET all course
-// router.get('/', getAllCourse)
-
 // POST a new course
 router.post('/', createCourse)
 
 // PATCH an existing course
-router.patch('/:id', updateCourse)
+router.patch('/:courseId', updateCourse)
 
 
 module.exports = router
