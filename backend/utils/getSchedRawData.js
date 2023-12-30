@@ -3,12 +3,12 @@ const DEGREE_PROGRAM = require('../models/blocModel')
 const FACULTY = require('../models/facultyModel')
 const ROOM = require('../models/roomModel')
 const schedRawData = async (sched) => {
-    let courseData = "None";
-    let roomData = "None";
-    let facultyData = "None";
-    let studentsData = "None";
     const schedData = await Promise.all(sched
         .map(async ({ course, section, weeklySchedule, room, faculty, students }) => {
+            let courseData = "None";
+            let roomData = "None";
+            let facultyData = "None";
+            let studentsData = "None";
             try {
                 courseData = await COURSE.findOne({ _id: course, isDeleted: false })
             } catch (error) {

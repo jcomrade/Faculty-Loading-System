@@ -11,6 +11,9 @@ const SemNavbar = ({semId}) => {
   return (
     <nav className='bg-placebo-turquoise p-8 border-b-2 border-enamelled-jewel'>
       <div className='flex items-center space-x-24 justify-center gap-x-20 gap-2 px-2'>
+        <LinkButton to={`/home`}>
+          <IoMdHome /> Back
+        </LinkButton>
         <LinkButton to={`/semester/${semId}/summary`}>
           <IoMdHome /> Summary
         </LinkButton>
