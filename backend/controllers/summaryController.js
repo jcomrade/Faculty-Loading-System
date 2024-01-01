@@ -6,12 +6,14 @@ const SCHEDULE = require('../models/scheduleModel')
 const getSummary = async (req, res) => {
     const { semId } = req.params
     try {
+        const semesterFaculties = await FACULTY.find({ semester: semId }, { _id: 1 })
         const semesterSchedules = await SCHEDULE.find({ semester: semId })
 
-        function getCoursesByFaculty(input) {
-            const facultyMap = {};
+        function getCoursesByFaculty(semesterScheds, facultyList) {
+            const facultyMap = {}
+            facultyList.map(({ _id }) => facultyMap[_id.toString()] = []);
 
-            input.forEach(item => {
+            semesterScheds.forEach(item => {
                 const facultyId = item.faculty;
                 const courseId = item.course;
 
@@ -22,7 +24,7 @@ const getSummary = async (req, res) => {
             });
 
             const result = [];
-
+            console.log(facultyMap)
             for (const facultyId in facultyMap) {
                 result.push({ faculty: facultyId, courses: facultyMap[facultyId] });
             }
@@ -31,17 +33,22 @@ const getSummary = async (req, res) => {
         }
 
         // Output array of objects with faculty id and courses specific to that faculty
-        const outputArray = getCoursesByFaculty(semesterSchedules);
+        const outputArray = getCoursesByFaculty(semesterSchedules, semesterFaculties);
         const facultyLoad = await Promise.all(outputArray.map(async ({ faculty, courses }) => {
             const unitsMap = {};
-            courses.forEach(async(id) => {
-                if(!unitsMap[faculty]){
-                    unitsMap[faculty] = 0;
-                }
-                const unit = await COURSE.findOne({ _id: id }, {units: 1, _id: 0});
-                unitsMap[faculty] += unit.units;
-            })
-    
+            if (courses.length > 0) {
+                courses.forEach(async (id) => {
+                    if (!unitsMap[faculty]) {
+                        unitsMap[faculty] = 0;
+                    }
+                    const unit = await COURSE.findOne({ _id: id }, { units: 1, _id: 0 });
+                    unitsMap[faculty] += unit.units;
+
+                })
+            }else{
+                unitsMap[faculty] = 0;
+            }
+
             const loadData = await LOAD.findOne({ semester: semId, faculty: faculty })
             const facultyData = await FACULTY.findById(faculty)
             return {

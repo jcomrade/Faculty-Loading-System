@@ -6,7 +6,7 @@ import { HiPlus } from "react-icons/hi";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { useDisclosure } from '@chakra-ui/react';
 import SchedList from "../components/SchedList";
-import AddScheduleModal from "../components/AddScheduleModal";
+import AddScheduleModal from "../modals/AddScheduleModal";
 const AlphaList = () => {
     const [semScheds, setSemScheds] = useState([])
     const [filteredScheds, setFilteredScheds] = useState([])

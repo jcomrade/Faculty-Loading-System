@@ -25,8 +25,19 @@ const getBloc = async(req, res) => {
     }
 }
 
+const getSemBlocs = async(req,res)=>{
+    const {sem} = req.params
+    try{
+        const semBlocs = await BLOC.find({semester:sem})
+        res.status(200).json(semBlocs)
+        
+    }catch(error){
+        res.status(400).json({error: error.message})
+    }
+}
+
 const createBloc = async (req, res) => {
-    const { sem } = req.params
+    const { sem, type } = req.params
     try {
         const createdBloc = await BLOC.create(req.body)
         res.status(200).json(createdBloc)
@@ -36,6 +47,6 @@ const createBloc = async (req, res) => {
 }
 
 module.exports = {
-    getBloc,
+    getSemBlocs,
     createBloc
 }

@@ -1,10 +1,12 @@
 const express = require('express')
 const {
-    createRoom
+    createRoom, getSemRooms
 } = require('../controllers/roomController')
 const { requireAuth,requireAdminAuth,requireSuperUserAuth } = require('../middleware/auth')
 const router = express.Router()
 
-router.post("/", createRoom)
+router.post("/:sem", createRoom)
+
+router.get("/:sem", getSemRooms)
 
 module.exports = router

@@ -10,6 +10,17 @@ const createRoom = async (req, res) => {
     }
 }
 
+const getSemRooms = async (req, res) => {
+    const { sem } = req.params
+    try {
+        const semRooms = await ROOM.find({semester: sem})
+        res.status(200).json(semRooms)
+    }catch(error){
+        res.status(400).json({error: error.message})
+    }
+}
+
 module.exports = {
+    getSemRooms,
     createRoom,
 }

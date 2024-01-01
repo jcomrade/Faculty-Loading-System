@@ -1,16 +1,16 @@
 const express = require('express')
 const {
-  getSemBlocs,
-  createBloc
-} = require('../controllers/blocController')
+  getDegreePrograms,
+  createDegreeProgram
+} = require('../controllers/degreeProgramController')
 const { requireAuth,requireAdminAuth,requireSuperUserAuth } = require('../middleware/auth')
 const router = express.Router()
 
 // // GET a single Bloc
-router.get('/:sem', getSemBlocs)
+router.get('/:sem', getDegreePrograms)
 
 // POST a Bloc
-router.post('/:sem', createBloc)
+router.post('/:sem', createDegreeProgram)
 
 
 module.exports = router

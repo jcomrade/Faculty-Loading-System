@@ -8,6 +8,6 @@ const router = express.Router()
 
 router.get("/:id", getSchedule)
 
-router.post("/", createSchedule)
+router.post("/:sem", createSchedule)
 
 module.exports = router

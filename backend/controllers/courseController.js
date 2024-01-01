@@ -39,6 +39,7 @@ const createCourse = async (req, res) => {
     res.status(400).json({ error: error.message })
   }
 }
+
 const updateCourse = async (req, res) => {
   const { courseId } = req.params
 
@@ -57,7 +58,18 @@ const updateCourse = async (req, res) => {
   res.status(200).json(updatedCourse)
 }
 
+const getSemCourse = async (req, res) => {
+  const { sem } = req.params
+  try{
+    const semesterCourses = await COURSE.find({semester:sem})
+    res.status(200).json(semesterCourses)
+  }catch(error){
+    console.log(error)
+  }
+}
+
 module.exports = {
   createCourse,
+  getSemCourse,
   updateCourse,
 }

@@ -1,6 +1,5 @@
 const SEMESTER = require('../models/semesterModel')
 const COURSE = require('../models/courseModel')
-const DEGREE_PROGRAM = require('../models/blocModel')
 const FACULTY = require('../models/facultyModel')
 const ROOM = require('../models/roomModel')
 const SCHEDULE = require('../models/scheduleModel')
@@ -8,7 +7,9 @@ const { sectionPattern } = require('../models/sectionPattern')
 const mongoose = require('mongoose')
 const LOAD = require('../models/loadModel')
 const BLOC = require('../models/blocModel')
+const DEGREE_PROGRAM = require('../models/degreeProgramModel')
 const { schedRawData } = require('../utils/getSchedRawData')
+const { allAttributesFilledOrEmptyInList } = require('../utils/weeklySchedValidation')
 
 
 const getSchedule = async (req, res) => {
@@ -30,7 +31,12 @@ const getSchedule = async (req, res) => {
       facultyData = await FACULTY.findById(schedule.faculty)
     }
     if (schedule.students.length != 0) {
-      studentsData = await DEGREE_PROGRAM.find({ _id: { $in: schedule.students } })
+      if (courseData.type == "LAB"){
+        studentsData = await BLOC.find({ _id: { $in: schedule.students } })
+      }
+      if (courseData.type == "LEC"){
+        studentsData = await DEGREE_PROGRAM.find({ _id: { $in: schedule.students } })
+      }
     }
     const output = { semester: semesterData, course: courseData, room: roomData, faculty: facultyData, students: studentsData }
     res.status(200).json(output)
@@ -42,59 +48,38 @@ const getSchedule = async (req, res) => {
 
 const createSchedule = async (req, res) => {
   let {
-    semester,
     course,
     section,
     weeklySchedule,
     room,
     faculty,
     students,
-    newFaculty,
-    newRoom,
-    newBloc,
-    newCourse
+    remarks,
   } = req.body
+  const { sem } = req.params
   let emptyFields = []
-  if (!course && !newCourse) {
-    emptyFields.push('course')
+  if (!course) {
+    emptyFields.push('Course')
+  }
+  if(!allAttributesFilledOrEmptyInList(weeklySchedule)){
+    emptyFields.push('Weekly Schedule')
+  }
+  if(!room){
+    emptyFields.push('Room')
+  }
+  if(!faculty){
+    emptyFields.push('Faculty')
+  }
+  if(students.length == 0){
+    emptyFields.push("Students")
   }
   if (emptyFields.length > 0) {
-    return res.status(400).json({ error: 'Please fill in the neccessary fields for Schedule Creation', emptyFields })
+    return res.status(400).json({ error: 'Please fill in the neccessary fields for Schedule Creation:', emptyFields })
   }
 
   // add to the database
   try {
-    if (newCourse) {
-      const createdCourse = await COURSE.create({...newCourse, semester})
-      course = createdCourse
-    }
-    if (newBloc) {
-      newBloc = newBloc.map((bloc)=>{
-        return {
-          ...bloc,
-          semester: semester,
-        }
-      })
-      const createdBloc = await BLOC.insertMany(newBloc)
-      const newBlocList = createdBloc.map((bloc) => { return bloc._id })
-      if (students) {
-        students = students.concat(newBlocList)
-      } else {
-        students = newBlocList
-      }
-
-    }
-    if (newFaculty) {
-      const courseUnits = await COURSE.findById(course._id);
-      const facultyData = await FACULTY.create({ ...newFaculty, semester: semester});
-      const createdLoad = await LOAD.create({semester: semester, faculty: (facultyData._id).toString()})
-      faculty = facultyData._id
-    }
-    if (newRoom) {
-      const roomData = await ROOM.create({...newRoom, semester: semester})
-      room = roomData._id
-    }
-    const createdSchedule = await SCHEDULE.create({ semester, course: course._id ? course._id : course, section, weeklySchedule, room, faculty, students })
+    const createdSchedule = await SCHEDULE.create({ semester: sem, course: course, section, weeklySchedule, room, faculty, students, remarks })
     res.status(200).json(await schedRawData([createdSchedule]))
   } catch (error) {
     console.log(error)
