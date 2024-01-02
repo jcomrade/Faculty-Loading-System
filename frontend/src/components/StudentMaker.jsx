@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { FaXmark } from "react-icons/fa6";
+import { useParams } from "react-router-dom";
 
-const StudentMaker = ({ semId, courseType, setStudents, students }) => {
+const StudentMaker = ({ courseType, setStudents, students }) => {
     const [chosenStudents, setChosenStudents] = useState([])
 
     const [semBlocs, setSemBlocs] = useState([])
@@ -13,10 +14,11 @@ const StudentMaker = ({ semId, courseType, setStudents, students }) => {
     const [dropdown, setDropdown] = useState([])
     const [dropdownVisible, setDropdownVisible] = useState(false)
     const [studentSearch, setStudentSearch] = useState([])
+    const params = useParams()
 
     useEffect(() => {
         (async function () {
-            const res = await fetch(`http://localhost:4000/api/degreeprogram/${semId}`, {
+            const res = await fetch(`http://localhost:4000/api/degreeprogram/${params.id}`, {
                 method: 'GET',
                 credentials: 'include'
             })
@@ -24,11 +26,11 @@ const StudentMaker = ({ semId, courseType, setStudents, students }) => {
             setSemDegreePrograms(data)
             setSemFilteredDegreePrograms(data)
         }())
-    }, [semId])
+    }, [params.id])
 
     useEffect(() => {
         (async function () {
-            const res = await fetch(`http://localhost:4000/api/bloc/${semId}`, {
+            const res = await fetch(`http://localhost:4000/api/bloc/${params.id}`, {
                 method: 'GET',
                 credentials: 'include'
             })
@@ -36,7 +38,7 @@ const StudentMaker = ({ semId, courseType, setStudents, students }) => {
             setSemBlocs(data)
             setSemFilteredBlocs(data)
         }())
-    }, [semId])
+    }, [params.id])
 
     useEffect(() => {
         if (courseType.type == "LEC") {

@@ -88,7 +88,51 @@ const createSchedule = async (req, res) => {
 }
 
 
+const updateSchedule = async(req, res) => {
+  let {
+    course,
+    section,
+    weeklySchedule,
+    room,
+    faculty,
+    students,
+    remarks,
+    _id
+  } = req.body
+  const { sem } = req.params
+  let emptyFields = []
+  if (!course) {
+    emptyFields.push('Course')
+  }
+  if(!allAttributesFilledOrEmptyInList(weeklySchedule)){
+    emptyFields.push('Weekly Schedule')
+  }
+  if(!room){
+    emptyFields.push('Room')
+  }
+  if(!faculty){
+    emptyFields.push('Faculty')
+  }
+  if(students.length == 0){
+    emptyFields.push("Students")
+  }
+  if (emptyFields.length > 0) {
+    return res.status(400).json({ error: 'Please fill in the neccessary fields for Schedule Creation:', emptyFields })
+  }
+
+  // add to the database
+  try {
+    const updatedSchedule = await SCHEDULE.findByIdAndUpdate(_id,{ semester: sem, course: course, section, weeklySchedule, room, faculty, students, remarks }, {new: true})
+    console.log(updatedSchedule)
+    res.status(200).json(await schedRawData([updatedSchedule]))
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({ error })
+  }
+}
+
 module.exports = {
   getSchedule,
-  createSchedule
+  createSchedule,
+  updateSchedule
 }

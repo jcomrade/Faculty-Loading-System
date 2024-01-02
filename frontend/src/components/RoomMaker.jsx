@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom";
 
 
 
@@ -22,17 +23,18 @@ const RoomMaker = ({semId, setMainRoom, mainRoom}) => {
     const [roomDropdownVisible, setRoomDropdownVisible] = useState(false)
     const [roomSearch, setRoomSearch] = useState("")
     const [filteredRoom, setFilteredRoom] = useState([])
+    const params = useParams()
 
     useEffect(() => {
         (async function () {
-            const res = await fetch(`http://localhost:4000/api/room/${semId}`, {
+            const res = await fetch(`http://localhost:4000/api/room/${params.id}`, {
                 method: 'GET',
                 credentials: 'include'
             })
             const data = await res.json()
             setFilteredRoom(data)
         }())
-    }, [semId])
+    }, [params.id])
 
     useEffect(() => {
         const roomFilter = filteredRoom.filter((room) => {

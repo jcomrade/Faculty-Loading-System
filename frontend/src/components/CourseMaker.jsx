@@ -9,6 +9,7 @@ import {
     ModalCloseButton,
 } from '@chakra-ui/react';
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 const filterRepeatedCourses = (arr) => {
     const coursesMap = {}; // Map to track unique colors
 
@@ -23,7 +24,7 @@ const filterRepeatedCourses = (arr) => {
     return filteredArray;
 };
 
-const CourseMaker = ({ semId, setMainCourse, mainCourse, setCourseType, courseType, students, setStudents }) => {
+const CourseMaker = ({ setMainCourse, mainCourse, setCourseType, courseType, students, setStudents }) => {
     const [initialCourse, setInitialCourse] = useState(null)
 
     const [courseDisplay, setCourseDisplay] = useState(mainCourse)
@@ -31,7 +32,7 @@ const CourseMaker = ({ semId, setMainCourse, mainCourse, setCourseType, courseTy
 
     const [courseList, setCourseList] = useState([])
     const [filteredCourse, setFilteredCourse] = useState([])
-
+    const params = useParams()
     // Search Box Input
     const [courseSearch, setCourseSearch] = useState('')
 
@@ -39,7 +40,7 @@ const CourseMaker = ({ semId, setMainCourse, mainCourse, setCourseType, courseTy
 
     useEffect(() => {
         (async function () {
-            const res = await fetch(`http://localhost:4000/api/course/${semId}`, {
+            const res = await fetch(`http://localhost:4000/api/course/${params.id}`, {
                 method: 'GET',
                 credentials: 'include'
             })
@@ -47,7 +48,7 @@ const CourseMaker = ({ semId, setMainCourse, mainCourse, setCourseType, courseTy
             setCourseList(data)
             setFilteredCourse(data)
         }())
-    }, [semId])
+    }, [params.id])
 
     useEffect(() => {
         const courseFilter = courseList.filter((course) => {
@@ -112,6 +113,8 @@ const CourseMaker = ({ semId, setMainCourse, mainCourse, setCourseType, courseTy
             <div>
                 <p className='underline opacity-30'>create new course</p>
             </div>
+
+            {/* Warning modal for changing course type */}
             <Modal isOpen={isOpen} onClose={onClose} size={"2xl"}>
                 <ModalContent style={{ border: '2px solid #035C65', borderColor: '#035C65' }}>
                     <ModalBody>

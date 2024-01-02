@@ -18,7 +18,6 @@ const getSemFaculty = async(req, res) => {
     const { semId } = req.params
     try{
         const facultyData = await FACULTY.find({semester: semId})
-        console.log(facultyData)
         res.status(200).json(facultyData)
     } catch (error) {
         res.status(400).json({error: error.message})

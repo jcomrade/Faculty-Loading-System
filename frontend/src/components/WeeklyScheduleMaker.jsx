@@ -2,15 +2,14 @@ import { useEffect, useState } from "react"
 import { FaXmark, FaAngleDown, FaEraser } from "react-icons/fa6";
 import { getStartTime, getMatchingSection, generateTimeSlots } from "../utils/schedTimeUtils"
 
-const ScheduleMaker = ({ index, weeklySchedule, setWeeklySchedule }) => {
-    console.log("i am number ", index)
-    const [SectionStartTime, setSectionStartTime] = useState("")
-    const [SectionEndTime, setSectionEndTime] = useState("")
-    const [SectionDays, setSectionDays] = useState("")
+const ScheduleMaker = ({ edit, weeklySchedule, setWeeklySchedule }) => {
+    const [SectionStartTime, setSectionStartTime] = useState(edit ? weeklySchedule.startTime : "")
+    const [SectionEndTime, setSectionEndTime] = useState(edit ? weeklySchedule.endTime : "")
+    const [SectionDays, setSectionDays] = useState(edit ? weeklySchedule.day : "")
     const [SectionDropdownVisible, setSectionDropdownVisible] = useState(false)
     const [StartTimeDropdownVisible, setStartTimeDropdownVisible] = useState(false)
     const [EndtimeDropdownVisible, setEndtimeDropdownVisible] = useState(false)
-    const [Section, setSection] = useState("")
+    const [Section, setSection] = useState(edit ? weeklySchedule.section : "")
     const startTimeSlots = [
         "7:00 AM", "8:30 AM", "10:00 AM", "11:30 AM",
         "1:00 PM", "2:30 PM", "4:00 PM", "5:30 PM"
@@ -22,7 +21,6 @@ const ScheduleMaker = ({ index, weeklySchedule, setWeeklySchedule }) => {
         "M", "N", "O", "P", "Q", "R",
         "S", "T", "U", "V", "W", "X"
     ]
-    console.log(weeklySchedule, "inside")
     useEffect(()=>{setWeeklySchedule({section: Section, startTime: SectionStartTime, endTime: SectionEndTime, day: SectionDays})
     },[Section, SectionStartTime, SectionEndTime, SectionDays])
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const FacultyMaker = ({ semId, setMainFaculty, mainFaculty }) => {
     const [facultyList, setFacultyList] = useState([])
@@ -6,9 +7,10 @@ const FacultyMaker = ({ semId, setMainFaculty, mainFaculty }) => {
     const [facultySearch, setFacultySearch] = useState('')
     const [facultyDisplay, setFacultyDisplay] = useState(mainFaculty)
     const [facultyDropdownVisible, setFacultyDropdownVisible] = useState(false)
+    const params = useParams()
     useEffect(() => {
         (async function () {
-            const res = await fetch(`http://localhost:4000/api/faculty/list/${semId}`, {
+            const res = await fetch(`http://localhost:4000/api/faculty/list/${params.id}`, {
                 method: 'GET',
                 credentials: "include"
             })
@@ -16,7 +18,7 @@ const FacultyMaker = ({ semId, setMainFaculty, mainFaculty }) => {
             setFacultyList(data)
             setFacultyFilteredList(data)
         }())
-    }, [semId])
+    }, [params.id])
 
     useEffect(() => {
         const facultyFilter = facultyList.filter((e) => {
