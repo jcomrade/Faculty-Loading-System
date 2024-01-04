@@ -16,7 +16,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react';
-const Home = () => {
+const Export = () => {
   const navigate = useNavigate()
   const [semData, setSemData] = useState(null);
   const [firstYear, setFirstYear] = useState("");
@@ -25,14 +25,10 @@ const Home = () => {
   const [userData, setUserData] = useState({});
   const [selectedRow, setSelectedRow] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [editing, setEditing] = useState(false);
+  const [exporting, setExporting] = useState(false);
 
-  const handleDeleteClick = () => {
-    console.log("Deleted");
-  };
-
-  const handleEditClick = () => {
-    setEditing(!editing);
+  const handleExportClick = () => {
+    setExporting(!exporting);
   };
 
   const commonModalButtonStyle = {
@@ -103,28 +99,12 @@ const Home = () => {
     <div className='flex flex-col h-screen w-screen'>
       <NavBar />
       <div className='flex flex-row justify-center space-x-4 py-7'>
-        {userData.userType === "Super User" && (
+        {userData.userType && (
           <>
-            {editing ? (
-              <>
-                <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11'
-                  onClick={handleEditClick}>
-                  Cancel
-                </button>
-                <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11'>
-                  Save
-                </button>
-              </>
-            ) : (
-              <>
-                <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11' onClick={onOpen}>
-                  <HiPlus />New File
-                </button>
-                <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11' onClick={handleEditClick}>
-                  <HiOutlinePencilSquare />Edit
-                </button>
-              </>
-            )}
+            <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11'
+                  onClick={handleExportClick}>
+                Export
+            </button>
           </>
         )}
       </div>
@@ -137,8 +117,7 @@ const Home = () => {
                 <FaRegFile />
                 Name
               </th>
-              <th className='text-black font-bold text-2xl p-2'>Modified By</th>
-              <th className='text-black font-bold text-2xl p-2'>Date Modified</th>
+              <th className='text-black font-bold text-2xl p-2'>Type</th>
             </tr>
           </thead>
           <tbody>
@@ -154,9 +133,13 @@ const Home = () => {
                     <FaRegFileAlt />
                     {sem.semesterType} Semester {sem.AY}
                   </td>
-                  <td className='text-black text-xl font-semibold p-2'>{sem.modifiedBy}</td>
-                  <td className='text-black text-xl font-semibold p-2'>{sem.dateModified}</td>
-                  {editing && <td><button onClick={handleDeleteClick}><IoTrashOutline /></button></td>}
+                  <td className='text-black text-xl font-semibold p-2'>
+                    <div className='flex flex-col'>
+                        <p>Summary</p>
+                        <p>Faculty</p>
+                        <p>Bloc</p>
+                    </div>
+                  </td>
                 </tr>
               ))
             ) : (
@@ -207,4 +190,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default Export;

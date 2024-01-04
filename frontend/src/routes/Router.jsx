@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Login from '../pages/Login.jsx';
 import Home from '../pages/Home.jsx';
+import Export from '../pages/Export.jsx';
 import Semester from '../pages/Semester.jsx';
 import Summary from '../pages/Summary.jsx';
 import AlphaList from '../pages/AlphaList.jsx';
@@ -14,6 +15,7 @@ const RouterComponent = () => {
             <Route exact path="/" element={<Login />} />
             <Route path="/home" element={<Home />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/export" element={<Export />} />
             <Route path="/semester/:id" element={<Semester/>}>
                 <Route path="/semester/:id/" element={<Summary/>} /> 
                 <Route path='/semester/:id/summary' element={<Summary />}/>
