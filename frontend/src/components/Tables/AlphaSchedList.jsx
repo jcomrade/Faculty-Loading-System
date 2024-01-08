@@ -31,6 +31,14 @@ const AlphaSchedList = ({ editing }) => {
         }())
     }, [queryParameters])
 
+    const dayAbbreviations = {
+        Monday: 'Mon',
+        Tuesday: 'T',
+        Wednesday: 'W',
+        Thursday: 'Th',
+        Friday: 'F',
+    };
+
     return (
         <>
             <table className="w-full border-separate border-spacing-0">
@@ -79,15 +87,29 @@ const AlphaSchedList = ({ editing }) => {
                                 <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{course.code}</td>
                                 <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{course.name}</td>
                                 <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{course.type}</td>
-                                <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{schedule.map(({ section }) => { return section })}</td>
+                                <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">
+                                    {students.map(({ bloc }, index) => {
+                                        const labSection = bloc ? ` - ${bloc}L` : ''; // Add lab section if bloc is present
+                                        return (
+                                            <p key={index}>{ schedule.map((sched)=>sched.section).join('') + `${labSection}`}</p>
+                                        );
+                                    })}
+                                </td>
                                 <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{schedule.map((time) => { return Object.keys(time).length !== 0 && (<p>{time.startTime + " - " + time.endTime}</p>) })}</td>
-                                <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{schedule.map((time, index) => { return <p key={index}>{Object.keys(time).length !== 0 && (time.day.map((e) => { return e }))}</p> })}</td>
+                                <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">
+                                    {schedule.map((time, index) => (
+                                        <p key={index}>
+                                            {Object.keys(time).length !== 0 &&
+                                                time.day.map((day) => dayAbbreviations[day])}
+                                        </p>
+                                    ))}
+                                </td>
                                 <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{room.building + " " + room.name}</td>
                                 <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{course.units}</td>
                                 <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{students.map(({ name, bloc, yearLevel }, index) => { return (<p key={index} >{yearLevel + name + `${bloc ? (" - " + bloc) : ""}`}</p>) })}</td>
                                 <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{faculty.lastName}</td>
-                                <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{remarks}</td>
-                                <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{editing && <IoTrashOutline />}</td>
+                                <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{remarks.length > 10 ? `${remarks.slice(0, 10)}...` : remarks}</td>
+                                <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0"><div className="flex justify-center">{editing && <IoTrashOutline />}</div></td>
                             </tr>
                         )
                     })
