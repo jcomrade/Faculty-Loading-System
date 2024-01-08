@@ -1,13 +1,16 @@
 const express = require('express')
 const {
     getFacultySchedule,
-    createFaculty
+    createFaculty,
+    getSemFaculty
 } = require('../controllers/facultyController')
 const { requireAuth,requireAdminAuth,requireSuperUserAuth } = require('../middleware/auth')
 const router = express.Router()
 
 router.get("/:semId", getFacultySchedule)
 
-router.post("/", createFaculty)
+router.get("/list/:semId", getSemFaculty)
+
+router.post("/:sem", createFaculty)
 
 module.exports = router

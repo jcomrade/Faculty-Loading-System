@@ -7,6 +7,10 @@ const BlocSchema = new Schema({
     type: String,
     required: true
   },
+  degreeProgram: {
+    type: String,
+    required: true
+  },
   semester: {
     type: String, //The value here must be Semester Specific (Semester ID)
     required: true

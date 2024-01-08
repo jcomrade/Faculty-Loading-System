@@ -1,10 +1,11 @@
 const COURSE = require('../models/courseModel')
-const DEGREE_PROGRAM = require('../models/blocModel')
+const BLOC = require('../models/blocModel')
+const DEGREE_PROGRAM = require('../models/degreeProgramModel')
 const FACULTY = require('../models/facultyModel')
 const ROOM = require('../models/roomModel')
 const schedRawData = async (sched) => {
     const schedData = await Promise.all(sched
-        .map(async ({ course, section, weeklySchedule, room, faculty, students }) => {
+        .map(async ({ course, section, weeklySchedule, room, faculty, students, remarks, _id }) => {
             let courseData = "None";
             let roomData = "None";
             let facultyData = "None";
@@ -30,12 +31,17 @@ const schedRawData = async (sched) => {
             }
             if (students.length != 0) {
                 try {
-                    studentsData = await DEGREE_PROGRAM.find({ _id: { $in: students }, isDeleted: false })
+                    if (courseData.type == "LAB"){
+                        studentsData = await BLOC.find({ _id: { $in: students } })
+                      }
+                      if (courseData.type == "LEC"){
+                        studentsData = await DEGREE_PROGRAM.find({ _id: { $in: students } })
+                      }
                 } catch (error) {
                     studentsData = null
                 }
             }
-            const output = { course: courseData, room: roomData, faculty: facultyData, students: studentsData, schedule: weeklySchedule, section: section }
+            const output = {_id: _id, course: courseData, room: roomData, faculty: facultyData, students: studentsData, schedule: weeklySchedule, section: section, remarks: remarks }
             return output
         }))
     return schedData
