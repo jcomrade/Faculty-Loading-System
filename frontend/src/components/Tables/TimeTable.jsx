@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+<<<<<<< HEAD:frontend/src/components/TimeTable.jsx
 import { MdErrorOutline } from "react-icons/md";
 
+=======
+import { convertToFacultyTimeTableData } from "../../utils/convertDataforTImeTable";
+import { useFacultyContext } from "../../hooks/useFacultyContext";
+>>>>>>> 2fcc03713046f6ce830ebe28b6fcc8e66f294fe6:frontend/src/components/Tables/TimeTable.jsx
 const TimeTable = () => {
+  // const { facultySchedules,filteredFacultySchedules, dispatch } = useFacultyContext()
   const [semScheds, setSemScheds] = useState({});
   const params = useParams();
+<<<<<<< HEAD:frontend/src/components/TimeTable.jsx
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   // Sample data for demonstration
   const sampleData = [
@@ -13,10 +20,29 @@ const TimeTable = () => {
     { day: 'Wednesday', subject: "MATH 10", section: "A", start: "12:00", end: "1:30", subjectRendered: false, sectionRendered: false },
     { day: 'Thursday', subject: "MATH 28", section: "A", start: "10:00", end: "11:30", subjectRendered: false, sectionRendered: false },
     { day: 'Friday', subject: "CMSC 185", section: "2-BL", start: "2:00", end: "3:30", subjectRendered: false, sectionRendered: false },
+=======
+
+
+
+  // Sample data for demonstration
+  const sampleData = [
+    { day: 'Monday', subject: "CMSC 178", section: "DL", start: "07:00", end: "09:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Tuesday', subject: "CMSC 115", section: "M", start: "09:00", end: "10:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Tuesday', subject: "CMSC 125", section: "M", start: "12:00", end: "01:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Tuesday', subject: "CMSC 195", section: "M", start: "12:00", end: "01:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Wednesday', subject: "MATH 10", section: "A", start: "12:00", end: "01:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Wednesday', subject: "SCI 10", section: "BL", start: "02:00", end: "03:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Thursday', subject: "MATH 28", section: "A", start: "10:00", end: "11:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Friday', subject: "CMSC 185", section: "BL", start: "02:00", end: "03:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Friday', subject: "CMSC 128", section: "A", start: "05:00", end: "06:30", subjectRendered: false, sectionRendered: false },
+    { day: 'Friday', subject: "CMSC 199", section: "F", start: "02:30", end: "04:00", subjectRendered: false, sectionRendered: false }
+>>>>>>> 2fcc03713046f6ce830ebe28b6fcc8e66f294fe6:frontend/src/components/Tables/TimeTable.jsx
   ];
 
   useEffect(() => {
     // Convert sample data to a dictionary format for easier manipulation
+    console.log()
+    console.log(sampleData)
     const formattedData = sampleData.reduce((acc, entry) => {
       const { day, ...rest } = entry;
       if (!acc[day]) {
@@ -32,11 +58,19 @@ const TimeTable = () => {
   // Function to generate schedule rows based on the data
   const generateScheduleRows = () => {
     const timeSlots = [
+<<<<<<< HEAD:frontend/src/components/TimeTable.jsx
       "7:00 - 7:30 AM", "7:30 - 8:00 AM", "8:00 - 8:30 AM", "8:30 - 9:00 AM", "9:00 - 9:30 AM",
       "9:30 - 10:00 AM", "10:00 - 10:30 AM", "10:30 - 11:00 AM", "11:00 - 11:30 AM", "11:30 - 12:00 PM",
       "12:00 - 12:30 PM", "12:30 - 1:00 PM", "1:00 - 1:30 PM", "1:30 - 2:00 PM", "2:00 - 2:30 PM",
       "2:30 - 3:00 PM", "3:00 - 3:30 PM", "3:30 - 4:00 PM", "4:00 - 4:30 PM", "4:30 - 5:00 PM",
       "5:00 - 5:30 PM", "5:30 - 6:00 PM", "6:00 - 6:30 PM", "6:30 - 7:00 PM"
+=======
+      "07:00-07:30 AM", "07:30-08:00 AM", "08:00-08:30 AM", "08:30-09:00 AM", "09:00-09:30 AM",
+      "09:30-10:00 AM", "10:00-10:30 AM", "10:30-11:00 AM", "11:00-11:30 AM", "11:30-12:00 PM",
+      "12:00-12:30 PM", "12:30-01:00 PM", "01:00-01:30 PM", "01:30-02:00 PM", "02:00-02:30 PM",
+      "02:30-03:00 PM", "03:00-03:30 PM", "03:30-04:00 PM", "04:00-04:30 PM", "04:30-05:00 PM",
+      "05:00-05:30 PM", "05:30-06:00 PM", "06:00-06:30 PM", "06:30-07:00 PM"
+>>>>>>> 2fcc03713046f6ce830ebe28b6fcc8e66f294fe6:frontend/src/components/Tables/TimeTable.jsx
     ];
     
     return timeSlots.map((timeSlot, index) => (

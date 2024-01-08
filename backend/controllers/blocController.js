@@ -25,10 +25,38 @@ const getBloc = async(req, res) => {
     }
 }
 
+const getSemBlocs = async(req,res)=>{
+    const {sem} = req.params
+    try{
+        const semBlocs = await BLOC.find({semester:sem})
+        res.status(200).json(semBlocs)
+        
+    }catch(error){
+        res.status(400).json({error: error.message})
+    }
+}
+
 const createBloc = async (req, res) => {
+    const {
+        degreeProgram,
+        yearLevel,
+        bloc,
+        department
+    } = req.body
     const { sem } = req.params
+    const emptyFields = []
+    if (!degreeProgram) {
+        emptyFields.push("Degree Program");
+    }
+    if(!bloc){
+        emptyFields.push("Bloc Number")
+    }
+    if (emptyFields.length > 0) {
+        return res.status(400).json({ error: `Invalid Fields : ${emptyFields.map((field) => field + " ")}` })
+    }
+
     try {
-        const createdBloc = await BLOC.create(req.body)
+        const createdBloc = await BLOC.create({...req.body, semester: sem})
         res.status(200).json(createdBloc)
     } catch (error) {
         res.status(400).json({ error: error.message })
@@ -36,6 +64,6 @@ const createBloc = async (req, res) => {
 }
 
 module.exports = {
-    getBloc,
+    getSemBlocs,
     createBloc
 }

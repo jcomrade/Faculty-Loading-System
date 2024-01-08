@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-const FilterBar = () => {
+const HorizontalFilterBar = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [queries, setQueries] = useState([])
     useEffect(() => {
@@ -20,28 +20,23 @@ const FilterBar = () => {
     }
 
     return (
-        <div className="flex flex-col w-48 border-2 border-enamelled-jewel rounded-2xl">
-        <div className="flex items-center justify-center w-full h-20 bg-placebo-turquoise border border-b-enamelled-jewel rounded-t-2xl">
-            <p className="text-4xl text-enamelled-jewel underline font-bold">Filter:</p>
-        </div>
-        <div className="flex flex-col items-start pl-10 py-5 space-y-5">
-            <div className="flex flex-col items-start">
+        <div className="flex flex-row justify-between space-x-5">
+            <div className="flex flex-col items-start bg-placebo-turquoise border-2 border-enamelled-jewel p-4 rounded-lg">
                 <p className="text-2xl text-enamelled-jewel-text font-bold">CSM</p>
                 <div className="text-enamelled-jewel-text font-bold"><input type="checkbox" onChange={(e) => { handleCheck(e) }} value="DMPCS" /> DMPCS </div>
                 <div className="text-enamelled-jewel-text font-bold"><input type="checkbox" onChange={(e) => { handleCheck(e) }} value="DFSC" /> DFSC  </div>
                 <div className="text-enamelled-jewel-text font-bold"><input type="checkbox" onChange={(e) => { handleCheck(e) }} value="DBSES" /> DBSES </div>
             </div>
-            <div className="flex flex-col items-start">
+            <div className="flex flex-col items-start bg-placebo-turquoise border-2 border-enamelled-jewel p-4 rounded-lg">
                 <p className="text-2xl text-enamelled-jewel-text font-bold">CHSS</p>
                 <div className="text-enamelled-jewel-text font-bold"><input type="checkbox" onChange={(e) => { handleCheck(e) }} value="HSS" /> HSS </div>
             </div>
-            <div className="flex flex-col items-start">
+            <div className="flex flex-col items-start bg-placebo-turquoise border-2 border-enamelled-jewel p-4 rounded-lg">
                 <p className="text-2xl text-enamelled-jewel-text font-bold">SOM</p>
                 <div className="text-enamelled-jewel-text font-bold"><input type="checkbox" onChange={(e) => { handleCheck(e) }} value="SOM" /> SOM </div>
             </div>
         </div>
-    </div>
     )
 }
 
-export default FilterBar;
+export default HorizontalFilterBar
