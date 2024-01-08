@@ -2,11 +2,27 @@ const ROOM = require('../models/roomModel')
 const mongoose = require('mongoose')
 
 const createRoom = async (req, res) => {
+    const {
+        name,
+        building
+    } = req.body
+
+    const { sem } = req.params;
+    const emptyFields = []
+    if(!name){
+        emptyFields.push("name")
+    }
+    if(!building){
+        emptyFields.push("building")
+    }
+    if(emptyFields.length > 0){
+        return res.status(400).json({error: `Invalid Fields: ${emptyFields.map((field)=>field)}`})
+    }
     try {
-        const createdRoom = await ROOM.create(req.body)
-        res.status(200).json(createdRoom)
+        const createdRoom = await ROOM.create({...req.body, semester: sem})
+        return res.status(200).json(createdRoom)
     }catch(error){
-        res.status(400).json({error: error.message})
+        return res.status(400).json({error: error.message})
     }
 }
 

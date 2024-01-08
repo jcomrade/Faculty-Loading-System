@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import NavBar from '../components/NavBar';
+import NavBar from '../components/NavBar/NavBar';
 import { FaRegFileAlt } from "react-icons/fa";
 import { FaRegFile } from "react-icons/fa";
 import { HiOutlinePencilSquare } from "react-icons/hi2";

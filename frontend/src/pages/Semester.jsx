@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
-import SemNavBar from "../components/SemNavBar.jsx";
-import { ScheduleContextProvider } from "../context/scheduleContext.jsx"
+import SemNavBar from "../components/NavBar/SemNavBar.jsx";
+import { SemesterContextProvider } from "../context/semesterContext.jsx";
+import { useSemesterContext } from "../hooks/useSemesterContext.jsx";
 
 const Semester = () => {
     const params = useParams()
+
     return (
         <div className='flex flex-col h-screen w-screen'>
-            <SemNavBar semId={params.id} />
-            <ScheduleContextProvider>
+            <SemesterContextProvider>
+                <SemNavBar semId={params.id} />
                 <Outlet />
-            </ScheduleContextProvider>
+            </SemesterContextProvider>
         </div>
     )
 }

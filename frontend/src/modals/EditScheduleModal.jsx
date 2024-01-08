@@ -10,33 +10,33 @@ import {
 } from '@chakra-ui/react';
 import { FaXmark } from "react-icons/fa6";
 import { useEffect, useMemo, useState } from 'react';
-import ScheduleMaker from '../components/WeeklyScheduleMaker';
-import CourseMaker from '../components/CourseMaker';
-import FacultyMaker from '../components/FacultyMaker';
-import StudentMaker from '../components/StudentMaker';
-import RemarksMaker from '../components/RemarksMaker';
-import RoomMaker from '../components/RoomMaker';
-import SectionMaker from '../components/SectionMaker';
+import ScheduleMaker from '../components/DetailsMaker/WeeklyScheduleMaker';
+import CourseMaker from '../components/DetailsMaker/CourseMaker';
+import FacultyMaker from '../components/DetailsMaker/FacultyMaker';
+import StudentMaker from '../components/DetailsMaker/StudentMaker';
+import RemarksMaker from '../components/DetailsMaker/RemarksMaker';
+import RoomMaker from '../components/DetailsMaker/RoomMaker';
+import SectionMaker from '../components/DetailsMaker/SectionMaker';
 import { useSchedulesContext } from '../hooks/useScheduleContext';
+import { useSemesterContext } from '../hooks/useSemesterContext';
+import { useParams } from 'react-router-dom';
 
 
 
 
 
-
-const EditScheduleModal = ({ semester, data, onClose, isOpen }) => {
-    const { semesterSchedules, dispatch } = useSchedulesContext()
-    const [course, setCourse] = useState(data.course)
+const EditScheduleModal = ({onClose, isOpen }) => {
+    const {editSchedule, semesterFaculties, semesterDegreePrograms, semesterBlocs, dispatch} = useSemesterContext()
+    const [course, setCourse] = useState(editSchedule.course)
     const [error, setError] = useState(null)
-    const [room, setRoom] = useState(data.room)
-    const [faculty, setFaculty] = useState(data.faculty)
-    const [students, setStudents] = useState(data.students)
-    const [remarks, setRemarks] = useState(data.remarks)
-    const [weeklySchedule, setWeeklySchedule] = useState(data.schedule)
-    const [courseType, setCourseType] = useState({ type: "None", status: "None" })
-
-
-
+    const [room, setRoom] = useState(editSchedule.room)
+    const [faculty, setFaculty] = useState(editSchedule.faculty)
+    const [students, setStudents] = useState(editSchedule.students)
+    const [remarks, setRemarks] = useState(editSchedule.remarks)
+    const [weeklySchedule, setWeeklySchedule] = useState(editSchedule.schedule)
+    const [courseType, setCourseType] = useState({ type: editSchedule.course.type, status: "Unchanged" })
+                           
+    const params = useParams()
     const commonModalButtonStyle = {
         borderRadius: '50%',
         background: '#035C65',
@@ -57,7 +57,7 @@ const EditScheduleModal = ({ semester, data, onClose, isOpen }) => {
                     <div className='flex justify-center'>
                         <div className='flex flex-col space-y-5 w-full px-10'>
                             {/* Course */}
-                            <CourseMaker semId={semester} setMainCourse={setCourse} mainCourse={course} setCourseType={setCourseType} courseType={courseType.type} students={students} setStudents={setStudents} />
+                            <CourseMaker setMainCourse={setCourse} mainCourse={course} setCourseType={setCourseType} courseType={courseType.type} students={students} setStudents={setStudents} />
 
                             {/* Schedule */}
                             <div>
@@ -97,24 +97,24 @@ const EditScheduleModal = ({ semester, data, onClose, isOpen }) => {
 
                                 </div>
 
-                                {/* Add more section */}
-                                <p className={`underline px-1 mt-2 opacity-30 max-w-max cursor-pointer ${weeklySchedule.length == 3 && "hidden"}`}
+                            {/* Add more section */}
+                            <p className={`underline px-1 mt-2 opacity-30 max-w-max cursor-pointer ${weeklySchedule && weeklySchedule.length == 3 && "hidden"}`}
                                     onMouseDown={() => {
                                         setWeeklySchedule(prev => [...prev, {}])
                                     }}
                                 >add schedule</p>
-                            </div>
+                            </div> 
 
                             {/* Room */}
-                            <RoomMaker semId={semester} setMainRoom={setRoom} mainRoom={room} />
+                             <RoomMaker setMainRoom={setRoom} mainRoom={room} /> 
 
                             {/* Faculty & Students */}
                             <div className='flex flex-row justify-between'>
                                 {/* Faculty */}
-                                <FacultyMaker semId={semester} setMainFaculty={setFaculty} mainFaculty={faculty} />
+                                <FacultyMaker setMainFaculty={setFaculty} mainFaculty={faculty} faculties={semesterFaculties} />
 
                                 {/* Students */}
-                                <StudentMaker semId={semester} setStudents={setStudents} students={students} courseType={courseType} />
+                                <StudentMaker setStudents={setStudents} students={students} courseType={courseType} degreePrograms={semesterDegreePrograms} blocs={semesterBlocs} />
                             </div>
 
                             {/* Remarks */}
@@ -138,18 +138,19 @@ const EditScheduleModal = ({ semester, data, onClose, isOpen }) => {
                     </div>
                 </ModalBody>
                 <ModalFooter justifyContent={"center"} alignItems={"center"}>
+                { console.log("3")}
                     <div className="flex flex-row space-x-4 mt-6">
                         <button className='w-20 h-10 bg-placebo-turquoise border-2 border-enamelled-jewel'
                             onClick={async () => {
-                                const res = await fetch(`http://localhost:4000/api/schedule/${semester}`, {
+                                const res = await fetch(`http://localhost:4000/api/schedule/${params.id}`, {
                                     method: 'PATCH',
                                     credentials: 'include',
                                     headers: {
                                         "Content-Type": "application/json",
                                     },
                                     body: JSON.stringify({
-                                        _id: data._id,
-                                        semester: semester,
+                                        _id: editSchedule._id,
+                                        semester: params.id,
                                         course: course._id,
                                         weeklySchedule: weeklySchedule,
                                         room: room._id,
@@ -169,6 +170,7 @@ const EditScheduleModal = ({ semester, data, onClose, isOpen }) => {
                             }}
                         >Save</button>
                         <button onClick={onClose} className='w-20 h-10 border-2 border-enamelled-jewel'>Cancel</button>
+                   
                     </div>
                 </ModalFooter>
             </ModalContent>

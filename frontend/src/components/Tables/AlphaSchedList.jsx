@@ -1,37 +1,32 @@
 import { useEffect, useMemo, useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
-import AddScheduleModal from "../modals/AddScheduleModal";
+import AddScheduleModal from "../../modals/AddScheduleModal";
 import { useDisclosure } from "@chakra-ui/react";
-import EditScheduleModal from "../modals/EditScheduleModal";
-import { useSchedulesContext } from "../hooks/useScheduleContext";
+import EditScheduleModal from "../../modals/EditScheduleModal";
 import { useParams, useSearchParams } from "react-router-dom";
-
-const SchedList = ({ editing }) => {
-    const { semesterSchedules,filteredSemesterSchedules, dispatch } = useSchedulesContext()
+import { useSemesterContext } from "../../hooks/useSemesterContext";
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    Button,
+    ModalCloseButton,
+} from '@chakra-ui/react'
+import TestModal from "../../modals/testModal";
+const AlphaSchedList = ({ editing }) => {
+    const { semesterSchedules, filteredSemesterSchedules, editSchedule, dispatch } = useSemesterContext()
     const [queryParameters] = useSearchParams()
-    const [editSched, setEditSched] = useState("")
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [isLoading, setIsLoading] = useState(false)
     const params = useParams()
-    useMemo(() => {
-        (async function () {
-            setIsLoading(true)
-            const res = await fetch(`http://localhost:4000/api/semester/${params.id}/`, {
-                method: 'GET',
-                credentials: 'include',
-            })
-            const data = await res.json()
-            // setSemScheds(data)
-            dispatch({ type: 'SET_SCHEDULES', payload: data })
-            // setFilteredScheds(data)
-            setIsLoading(false)
-        }())
-    }, [params.id])
 
     useEffect(() => {
         (function () {
             setIsLoading(true)
-            dispatch({type: 'FILTER_SCHEDULE_DEPARTMENT', payload:queryParameters.getAll("filter") })
+            dispatch({ type: 'FILTER_SCHEDULE_DEPARTMENT', payload: queryParameters.getAll("filter") })
             setIsLoading(false)
         }())
     }, [queryParameters])
@@ -62,19 +57,25 @@ const SchedList = ({ editing }) => {
                                 className="h-12 hover:bg-placebo-turquoise"
                                 key={_id}
                                 onMouseDown={() => {
-                                    editing &&
-                                        (setEditSched({
-                                            _id: _id,
-                                            course: course,
-                                            faculty: faculty,
-                                            room: room,
-                                            students: students,
-                                            remarks: remarks,
-                                            schedule: schedule
-                                        }), onOpen())
+                                    if (editing) {
+                                        dispatch({
+                                            type: 'SET_EDIT_SCHEDULE',
+                                            payload: {
+                                                _id: _id,
+                                                course: course,
+                                                faculty: faculty,
+                                                room: room,
+                                                students: students,
+                                                remarks: remarks,
+                                                schedule: schedule
+                                            }
+                                        });
+                                        onOpen();
+                                    }
+                                }}
 
-                                }
-                                }>
+
+                            >
                                 <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{course.code}</td>
                                 <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{course.name}</td>
                                 <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{course.type}</td>
@@ -114,11 +115,27 @@ const SchedList = ({ editing }) => {
                     <p className="text-4xl font-bold">Start adding the list</p>
                 </div>
             }
-            {editSched &&
-                <EditScheduleModal data={editSched} semester={params.id} onClose={onClose} isOpen={isOpen} />
-            }
+
+            {isOpen && <EditScheduleModal onClose={onClose} isOpen={isOpen} />}
+            {/* <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Modal Title</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        asdasd
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button colorScheme='blue' mr={3} onClick={onClose}>
+                            Close
+                        </Button>
+                        <Button variant='ghost'>Secondary Action</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal> */}
         </>
     )
 }
 
-export default SchedList;
+export default AlphaSchedList;

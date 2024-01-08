@@ -3,7 +3,7 @@ const {
   createSemester,
   getAllSemester,
   copySemester,
-  getSemesterSchedules
+  getSemesterInformation
 } = require('../controllers/semesterController')
 const { requireAuth,requireAdminAuth,requireSuperUserAuth } = require('../middleware/auth')
 const router = express.Router()
@@ -13,7 +13,7 @@ router.post('/', createSemester)
 
 router.get('/', getAllSemester)
 
-router.get('/:sem', getSemesterSchedules)
+router.get('/:sem', getSemesterInformation)
 
 router.post('/copy', copySemester)
 

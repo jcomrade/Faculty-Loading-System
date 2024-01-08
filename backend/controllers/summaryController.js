@@ -34,6 +34,7 @@ const getSummary = async (req, res) => {
 
         // Output array of objects with faculty id and courses specific to that faculty
         const outputArray = getCoursesByFaculty(semesterSchedules, semesterFaculties);
+        console.log(outputArray)
         const facultyLoad = await Promise.all(outputArray.map(async ({ faculty, courses }) => {
             const unitsMap = {};
             if (courses.length > 0) {

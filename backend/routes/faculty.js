@@ -11,6 +11,6 @@ router.get("/:semId", getFacultySchedule)
 
 router.get("/list/:semId", getSemFaculty)
 
-router.post("/", createFaculty)
+router.post("/:sem", createFaculty)
 
 module.exports = router

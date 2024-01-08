@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { FaXmark, FaAngleDown, FaEraser } from "react-icons/fa6";
-import { getStartTime, getMatchingSection, generateTimeSlots } from "../utils/schedTimeUtils"
+import { getStartTime, getMatchingSection, generateTimeSlots } from "../../utils/schedTimeUtils"
 
 const ScheduleMaker = ({ edit, weeklySchedule, setWeeklySchedule }) => {
     const [SectionStartTime, setSectionStartTime] = useState(edit ? weeklySchedule.startTime : "")
