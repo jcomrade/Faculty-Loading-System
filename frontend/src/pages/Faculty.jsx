@@ -1,39 +1,24 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React from 'react';
+import TimeTable from '../components/Tables/TimeTable';
+import HorizontalFilterBar from '../components/Filters/HorizontalFilterBar';
+import FacultySearch from '../components/Filters/FacultySearch';
+import FacultyDetails from '../components/Tables/FacultyDetails';
+import FacultySchedList from '../components/Tables/FacultySchedList';
 
-
-const Faculty= () => {
-    const [semScheds, setSemScheds] = useState([])
-    const params = useParams()
-    useEffect(()=>{
-        (async function(){
-            const res = await fetch(`http://localhost:4000/api/semester/${params.id}`,{
-                method: 'GET',
-                credentials: 'include',
-            })
-            const data = await res.json()
-            console.log(data)
-            setSemScheds(data)
-        }())
-    }, [params.id])
-
-    return (
-        <div>
-            {
-                semScheds.length > 0 ? (
-                    semScheds.map((sched)=>{
-                        <div>
-                            {sched}
-                        </div>
-                    })
-                ):(
-                    <div>
-                        THIS IS EMPTY
-                    </div>
-                )
-            }
+function Faculty() {
+  return (
+      <div className='flex flex-col w-full px-48 space-y-10 justify-center items-center mt-10'>
+        <div className='flex flex-row w-full justify-evenly'>
+          <TimeTable/>
+          <div className='flex flex-col space-y-5'>
+            <HorizontalFilterBar />
+            <FacultySearch />
+            <FacultyDetails />
+          </div>
         </div>
-    )
+        <FacultySchedList />
+      </div>
+  );
 }
 
 export default Faculty;

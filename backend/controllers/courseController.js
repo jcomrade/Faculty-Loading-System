@@ -12,7 +12,7 @@ const createCourse = async (req, res) => {
     units,
     department,
   } = req.body
-
+  console.log(req.body)
   let emptyFields = []
 
   if (!name) {
@@ -25,6 +25,7 @@ const createCourse = async (req, res) => {
     emptyFields.push('type')
   }
   if (!units) {
+    console.log(units)
     emptyFields.push('units')
   }
   if (emptyFields.length > 0) {
@@ -33,12 +34,13 @@ const createCourse = async (req, res) => {
 
   // add to the database
   try {
-    const createdCourse = await COURSE.create({ name, code, type, units, semester, department })
+    const createdCourse = await COURSE.create({ name, code, type, units: Number.parseFloat(units), semester, department })
     res.status(200).json(createdCourse)
   } catch (error) {
     res.status(400).json({ error: error.message })
   }
 }
+
 const updateCourse = async (req, res) => {
   const { courseId } = req.params
 
@@ -57,7 +59,18 @@ const updateCourse = async (req, res) => {
   res.status(200).json(updatedCourse)
 }
 
+const getSemCourse = async (req, res) => {
+  const { sem } = req.params
+  try{
+    const semesterCourses = await COURSE.find({semester:sem})
+    res.status(200).json(semesterCourses)
+  }catch(error){
+    console.log(error)
+  }
+}
+
 module.exports = {
   createCourse,
+  getSemCourse,
   updateCourse,
 }

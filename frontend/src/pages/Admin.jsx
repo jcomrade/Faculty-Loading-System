@@ -1,10 +1,23 @@
 import { HiPlus } from "react-icons/hi";
-import AdminNavBar from "../components/AdminNavBar";
+import AdminNavBar from "../components/NavBar/AdminNavBar";
 import UserList from "../components/UserList";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure,
+} from '@chakra-ui/react';
+import { useAdminContext } from "../hooks/useAdminContext";
+
 const Admin = () => {
     const navigate = useNavigate();
+    const {users,dispatch} = useAdminContext()
     const [isLoading, setIsLoading] = useState(false);
     const [userList, setUserList] = useState(null);
     const [adminData, setAdminData] = useState({})
@@ -27,19 +40,6 @@ const Admin = () => {
           }
         }())
       }, []);
-
-    useEffect(()=>{
-        (async function () {
-            setIsLoading(true);
-            const res = await fetch('http://localhost:4000/api/admin', {
-                method: 'GET',
-                credentials: 'include'
-            })
-            const data = await res.json()
-            setUserList(data)
-            setIsLoading(false);
-        }())
-    },[])
     return (
         <>
             <AdminNavBar />
@@ -47,8 +47,8 @@ const Admin = () => {
                 {/* Admin Detauls */}
                 <div className="w-11/12 min-h-min bg-placebo-turquoise flex flex-row p-5 border-2 border-enamelled-jewel rounded-lg text-2xl">
                     <div className="flex flex-col w-1/2 justify-start">
-                        <p>Name : Juan Cruz</p>
-                        <p>Account Type: Admin</p>
+                        <p>Name : {adminData.userName}</p>
+                        <p>Account Type: {adminData.userType}</p>
                     </div>
                     <div className="flex justify-end w-1/2">
                         <p> Employee Number: 2021-2021  </p>
@@ -64,7 +64,7 @@ const Admin = () => {
 
                 {/* User List */}
                 <div className="w-full">
-                    <UserList users={userList}/>
+                    <UserList/>
                     {
                         isLoading &&
                         <div className="mt-24">
@@ -73,6 +73,9 @@ const Admin = () => {
                     }
                 </div>
             </div>
+            <Modal>
+
+            </Modal>
         </>
     )
 }

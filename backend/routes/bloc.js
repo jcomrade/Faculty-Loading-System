@@ -1,13 +1,13 @@
 const express = require('express')
 const {
-  getBloc,
+  getSemBlocs,
   createBloc
 } = require('../controllers/blocController')
 const { requireAuth,requireAdminAuth,requireSuperUserAuth } = require('../middleware/auth')
 const router = express.Router()
 
 // // GET a single Bloc
-router.get('/:sem', getBloc)
+router.get('/:sem', getSemBlocs)
 
 // POST a Bloc
 router.post('/:sem', createBloc)

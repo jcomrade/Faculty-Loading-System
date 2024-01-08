@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 const cors = require('cors')
 
 const {requireAuth, requireAdminAuth} = require('./middleware/auth') 
+const degreeProgramRoutes = require('./routes/degreeProgram')
 const courseRoutes = require('./routes/course')
 const facultyRoutes = require('./routes/faculty')
 const roomRoutes = require('./routes/room')
@@ -26,7 +27,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
   origin: 'http://localhost:5173',
-  methods: ["GET", "POST"],
+  methods: ["GET", "POST", "PATCH"],
   credentials: true,
 
 }))
@@ -46,6 +47,7 @@ app.use('/api/room', roomRoutes)
 app.use('/api/schedule', scheduleRoutes)
 app.use('/api/signup', authRoutes)
 app.use('/api/bloc', blocRoutes)
+app.use('/api/degreeprogram', degreeProgramRoutes)
 app.use('/api/summary', summaryRoutes)
 app.use('/api/admin/', requireAdminAuth, adminRoutes)
 

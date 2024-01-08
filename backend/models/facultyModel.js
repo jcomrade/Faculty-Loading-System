@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const LOAD = require('./loadModel')
 const Schema = mongoose.Schema
 
 const facultySchema = new Schema({
@@ -15,7 +15,11 @@ const facultySchema = new Schema({
     type: String,
     required: true
   },
-  employeeId:{
+  department: {
+    type: String,
+    required: true,
+  },
+  employeeId: {
     type: String,
     required: true,
   },
@@ -25,4 +29,31 @@ const facultySchema = new Schema({
   }
 })
 
+facultySchema.post('save', async function (doc) {
+  try {
+    await LOAD.create({ semester: doc.semester, faculty: doc._id })
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+facultySchema.statics.findAndGetLoad = async function (query) {
+  try {
+    console.log(query)
+    let facultyData = await this.find(query);
+    const loadData = await LOAD.find(query);
+    const temp = []
+    facultyData.forEach((faculty) => {
+      loadData.forEach((load)=>{
+        if(load.faculty == faculty._doc._id.toString()){
+          temp.push({...faculty._doc,load :{...load._doc}})
+        }
+      })
+    });
+    return temp;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error in findAndGetLoad function');
+  }
+}
 module.exports = mongoose.model('Faculty', facultySchema)
