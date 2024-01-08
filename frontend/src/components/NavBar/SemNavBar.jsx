@@ -3,33 +3,34 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { IoMdHome } from 'react-icons/io';
-import { TiExport } from 'react-icons/ti';
-import { IoHelpCircleSharp } from 'react-icons/io5';
 import { IoIosLogOut } from 'react-icons/io';
-
-
+import { LuClipboardList } from "react-icons/lu";
+import { MdPerson2 } from "react-icons/md";
+import { FaPeopleGroup } from "react-icons/fa6";
+import { FaListUl } from "react-icons/fa";
+import { TiArrowBack } from "react-icons/ti";
 
 const SemNavbar = ({semId}) => {
   return (
     <nav className='bg-placebo-turquoise p-8 border-b-2 border-enamelled-jewel'>
       <div className='flex items-center space-x-24 justify-center gap-x-20 gap-2 px-2'>
         <LinkButton to={`/home`}>
-          <IoMdHome /> Back
+          <TiArrowBack /> Back
         </LinkButton>
         <LinkButton to={`/semester/${semId}/summary`}>
-          <IoMdHome /> Summary
+          <LuClipboardList /> <p className='px-1'>Summary</p>
         </LinkButton>
         <LinkButton to={`/semester/${semId}/faculty`}>
-          <TiExport /> Faculty
+          <MdPerson2 /> <p className='px-1'>Faculty</p>
         </LinkButton>
         <LinkButton to={`/semester/${semId}/bloc`}>
-          <IoHelpCircleSharp /> Bloc
+          <FaPeopleGroup /> <p className='px-1'>Bloc</p>
         </LinkButton>
         <LinkButton to={`/semester/${semId}/alphalist`}>
-          <IoIosLogOut /> Alpha List
+          <FaListUl /> <p className='px-1'>Alpha List</p>
         </LinkButton>
         <LinkButton to="/">
-          <IoIosLogOut /> Signout
+          <IoIosLogOut /> <p className='px-1'>Signout</p>
         </LinkButton>
       </div>
     </nav>
