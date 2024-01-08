@@ -3,7 +3,8 @@ const {
     login_post,
     signup_post,
     signout,
-    user
+    user,
+    updateUser
 } = require('../controllers/authController')
 
 const router = express.Router()
@@ -19,5 +20,7 @@ router.get('/signout', signout)
 
 //Check user
 router.get('/user', user)
+
+router.patch('/update', updateUser)
 
 module.exports = router

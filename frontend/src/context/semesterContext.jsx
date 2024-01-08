@@ -66,20 +66,31 @@ export const semesterReducer = (state, action) => {
                     return obj
                 }),
             }
-        case 'SELECT_FACULTY':
-            return{
+        case 'UPDATE_FACULTY':
+            return {
                 ...state,
-                selectedFacultySchedules: state.semesterSchedules.filter((sched)=>sched.faculty._id == action.payload._id),
-                selectedFacultyFilteredSchedules: state.semesterSchedules.filter((sched)=>sched.faculty._id == action.payload._id),
+                semesterFaculties: [...state.semesterFaculties].map(obj => {
+                    if (obj.load._id == action.payload._id) {
+                        return { ...obj, load: action.payload}
+                    }
+                    return obj
+                }),
+                selectedFaculty: {...state.selectedFaculty, load: action.payload},
+            }
+        case 'SELECT_FACULTY':
+            return {
+                ...state,
+                selectedFacultySchedules: state.semesterSchedules.filter((sched) => sched.faculty._id == action.payload._id),
+                selectedFacultyFilteredSchedules: state.semesterSchedules.filter((sched) => sched.faculty._id == action.payload._id),
                 selectedFaculty: action.payload
             }
         case 'SET_EDIT_SCHEDULE':
-            return{
+            return {
                 ...state,
                 editSchedule: action.payload
             }
         case 'FILTER_SELECTED_FACULTY_SCHEDULE_DEPARTMENT':
-            return{
+            return {
                 ...state,
                 selectedFacultyFilteredSchedules: action.payload.length > 0
                     ? state.selectedFacultySchedules.filter((sched) => action.payload.includes(sched.course.department))
@@ -108,7 +119,7 @@ export const SemesterContextProvider = ({ children }) => {
         semesterDegreePrograms: [],
         editSchedule: {},
 
-        selectedFacultyFilteredSchedules:[],
+        selectedFacultyFilteredSchedules: [],
         selectedFacultySchedules: [],
         selectedFaculty: null,
     })

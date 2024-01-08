@@ -12,7 +12,6 @@ const createCourse = async (req, res) => {
     units,
     department,
   } = req.body
-  console.log(req.body)
   let emptyFields = []
 
   if (!name) {

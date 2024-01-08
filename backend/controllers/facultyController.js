@@ -50,6 +50,24 @@ const getSemFaculty = async (req, res) => {
     }
 }
 
+const updateFaculty = async(req,res) => {
+    const{
+        ALC,
+        SLC,
+        RLC,
+        _id
+    } = req.body;
+
+    const { sem } = req.params
+    try {
+        const updatedFaculty = await LOAD.findOneAndUpdate({faculty: _id, semester: sem},{ALC: !ALC ? 0 : ALC , SLC: !SLC ? 0 : SLC, RLC: !RLC ? 0 : RLC}, {new: true})
+        return res.status(200).json(updatedFaculty)
+    } catch (error) {
+        return res.status(400).json({ error: error.message })
+    }
+
+}
+
 const createFaculty = async (req, res) => {
     const {
         firstName,
@@ -87,5 +105,6 @@ const createFaculty = async (req, res) => {
 module.exports = {
     createFaculty,
     getFacultySchedule,
-    getSemFaculty
+    getSemFaculty,
+    updateFaculty
 }

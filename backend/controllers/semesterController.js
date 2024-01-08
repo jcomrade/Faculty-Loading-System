@@ -27,27 +27,52 @@ const copySemester = async (req, res) => {
     const { targetSemesterId, currentSemesterId } = req.body
 
     try {
-        const semesterCopy = await SCHEDULE.find({ semester: targetSemesterId })
-        const finalCopy = await Promise.all(semesterCopy.map(async ({ course, section, weeklySchedule, room, faculty, students }) => {
-            let courseCopy = await COURSE.findOne({ _id: course }, { _id: 0 });
-            courseCopy.semester = currentSemesterId
-            const newCourse = await COURSE.create(courseCopy.toObject())
-            console.log(newCourse)
-            let loadcopy = await LOAD.findOne({ faculty: faculty, semester: targetSemesterId }, { _id: 0 })
-            loadcopy.semester = currentSemesterId
-            const newcopy = await LOAD.create(loadcopy.toObject())
-            return {
-                semester: currentSemesterId,
-                course: (newCourse._id).toString(),
-                section,
-                weeklySchedule,
-                room,
-                faculty,
-                students,
-            }
-        }))
-        const newSemester = await SCHEDULE.insertMany(finalCopy)
-        res.status(200).json(newSemester)
+        const facultyCopy = await FACULTY.find({ semester: targetSemesterId },{_id: 0})
+        const newFacultyDocs = facultyCopy.map(doc => {
+            return { ...doc.toObject(), semester: currentSemesterId };
+          });
+        const newFaculty = await FACULTY.insertMany(newFacultyDocs)
+
+        const loadCopy = await LOAD.find({ semester: targetSemesterId },{_id: 0})
+        const newLoadDocs = loadCopy.map(doc => {
+            return { ...doc.toObject(), semester: currentSemesterId };
+          });
+        const newLoad = await LOAD.insertMany(newLoadDocs)
+
+        const degreeProgramCopy = await DEGREE_PROGRAM.find({ semester: targetSemesterId },{_id: 0})
+        const newDegreeProgramDocs = degreeProgramCopy.map(doc => {
+            return { ...doc.toObject(), semester: currentSemesterId };
+          });
+        const newDegreeProgram = await DEGREE_PROGRAM.insertMany(newDegreeProgramDocs)
+
+        const blocsCopy = await BLOC.find({ semester: targetSemesterId },{_id: 0})
+        const newBlocDocs = blocsCopy.map(doc => {
+            return { ...doc.toObject(), semester: currentSemesterId };
+          });
+        const newBloc = await BLOC.insertMany(newBlocDocs)
+
+        const courseCopy = await COURSE.find({ semester: targetSemesterId },{_id: 0})
+        const newCourseDocs = courseCopy.map(doc => {
+            return { ...doc.toObject(), semester: currentSemesterId };
+          });
+        const newCourse = await COURSE.insertMany(newLoadDocs)
+
+        const roomCopy = await ROOM.find({ semester: targetSemesterId },{_id: 0})
+        const newRoomDocs = roomCopy.map(doc => {
+            return { ...doc.toObject(), semester: currentSemesterId };
+          });
+        const newRoom = await ROOM.insertMany(newRoomDocs)
+
+        const schedCopy = await SCHEDULE.find({ semester: targetSemesterId },{_id: 0})
+        const newSchedDocs = semesterCopy.map(doc => {
+            return { 
+                ...doc.toObject(),
+
+                semester: currentSemesterId };
+          });
+        const newSched = await SCHEDULE.insertMany(newSchedDocs)
+
+        res.end()
     } catch (error) {
         res.status(400).json({ error: error.message })
     }

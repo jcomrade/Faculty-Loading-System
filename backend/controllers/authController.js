@@ -82,3 +82,38 @@ module.exports.user = async (req, res) => {
       res.status(401).json({error: "Authentication Failure"});
   }
 }
+
+module.exports.updateUser = async(req, res) =>{
+  const {
+    _id,
+    userName,
+    userType,
+    password
+  } = req.body
+  
+  let emptyFields = []
+
+  if (!_id) {
+    emptyFields.push('id')
+  }
+  if (!userName) {
+    emptyFields.push('User Name')
+  }
+  if (!userType) {
+    emptyFields.push('User type')
+  }
+  if (!password) {
+    emptyFields.push('password')
+  }
+  if (emptyFields.length > 0) {
+    return res.status(400).json({ error: 'Please fill in the neccessary field for Account Update', emptyFields })
+  }
+
+  try{
+    const updatedUser = await USER.findByIdAndUpdate(_id,{...req.body}, {new: true})
+    res.status(200).json(updatedUser)
+  }catch(err){
+    res.status(400).json(err)
+  }
+  
+}

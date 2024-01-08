@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import FilterBar from "../components/Filters/FilterBar";
 import { useSemesterContext } from "../hooks/useSemesterContext";
 
@@ -7,10 +7,10 @@ import { useSemesterContext } from "../hooks/useSemesterContext";
 //Only use ID's for the value of variables  
 
 const Summary = () => {
-    const {semesterFaculties, semesterSchedules } = useSemesterContext()
+    const { semesterFaculties, semesterSchedules } = useSemesterContext()
     const [isLoading, setIsLoading] = useState(false)
-    console.log(semesterFaculties)
-
+    const navigate = useNavigate()
+    const params = useParams()
     return (
         <div className="px-20 pt-10 text-center">
             <h1 className="text-enamelled-jewel-text">Summary of units per Faculty</h1>
@@ -33,7 +33,7 @@ const Summary = () => {
                         <tbody>
                             {
                                 semesterFaculties.length > 0 && semesterFaculties.map((faculty) => {
-                                    const TLC = semesterSchedules.reduce((totalUnits, sched)=> totalUnits + (sched.faculty._id === faculty._id ? sched.course.units : 0),0)
+                                    const TLC = semesterSchedules.reduce((totalUnits, sched) => totalUnits + (sched.faculty._id === faculty._id ? sched.course.units : 0), 0)
                                     return (
                                         <tr key={faculty._id} className="h-12 hover:bg-placebo-turquoise">
                                             <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{faculty.lastName}</td>
@@ -49,18 +49,18 @@ const Summary = () => {
                         </tbody>
                     </table>
                     <div className="w-full h-full flex items-center justify-center">
-                    {
-                        isLoading &&
-                        <div className="mt-24">
-                            <p className="text-8xl font-bold">Loading ...</p>
-                        </div>
-                    }
+                        {
+                            isLoading &&
+                            <div className="mt-24">
+                                <p className="text-8xl font-bold">Loading ...</p>
+                            </div>
+                        }
                         {
                             semesterFaculties.length == 0 && !isLoading &&
                             <div>
-                            <p className="text-8xl font-bold">Start adding the list</p>
-                            <p className="text-3xl bold">or</p>
-                            <button className="w-96 h-20 border border-enamelled-jewel hover:border-enamelled-jewel rounded-lg hover:bg-placebo-turquoise">Copy Alpha List</button>
+                                <p className="text-8xl font-bold">Start adding the list</p>
+                                <p className="text-3xl bold">or</p>
+                                <button onClick={() => { navigate(`../../../home?copy=true&currentSemester=${params.id}`)}} className="w-96 h-20 border border-enamelled-jewel hover:border-enamelled-jewel rounded-lg hover:bg-placebo-turquoise">Copy Alpha List</button>
                             </div>
                         }
                     </div>
