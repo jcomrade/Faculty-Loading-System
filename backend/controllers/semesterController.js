@@ -27,52 +27,66 @@ const copySemester = async (req, res) => {
     const { targetSemesterId, currentSemesterId } = req.body
 
     try {
-        const facultyCopy = await FACULTY.find({ semester: targetSemesterId },{_id: 0})
-        const newFacultyDocs = facultyCopy.map(doc => {
-            return { ...doc.toObject(), semester: currentSemesterId };
-          });
-        const newFaculty = await FACULTY.insertMany(newFacultyDocs)
+        const facultyCopy = await FACULTY.find({ semester: targetSemesterId })
+        const newFacultyDocs = Promise.all(facultyCopy.map(async(doc) => {
+            const copy =  { ...doc.toObject(), semester: currentSemesterId, previousId : doc._id };
+            delete copy._id;
+            const createdFaculty =  await FACULTY.create(copy)
+            return {...createdFaculty, previousId : doc._id}
+          }));
 
-        const loadCopy = await LOAD.find({ semester: targetSemesterId },{_id: 0})
-        const newLoadDocs = loadCopy.map(doc => {
-            return { ...doc.toObject(), semester: currentSemesterId };
-          });
-        const newLoad = await LOAD.insertMany(newLoadDocs)
 
-        const degreeProgramCopy = await DEGREE_PROGRAM.find({ semester: targetSemesterId },{_id: 0})
-        const newDegreeProgramDocs = degreeProgramCopy.map(doc => {
-            return { ...doc.toObject(), semester: currentSemesterId };
-          });
-        const newDegreeProgram = await DEGREE_PROGRAM.insertMany(newDegreeProgramDocs)
+        const degreeProgramCopy = await DEGREE_PROGRAM.find({ semester: targetSemesterId })
+        const newDegreeProgramDocs = Promise.all(degreeProgramCopy.map(async(doc) => {
+            const copy =  { ...doc.toObject(), semester: currentSemesterId, previousId : doc._id };
+            delete copy._id;
+            const createdDegreeProgram =  await DEGREE_PROGRAM.create(copy)
+            return {...createdDegreeProgram, previousId : doc._id}
+          }));
 
-        const blocsCopy = await BLOC.find({ semester: targetSemesterId },{_id: 0})
-        const newBlocDocs = blocsCopy.map(doc => {
-            return { ...doc.toObject(), semester: currentSemesterId };
-          });
-        const newBloc = await BLOC.insertMany(newBlocDocs)
+        const blocsCopy = await BLOC.find({ semester: targetSemesterId })
+        const newBlocDocs = Promise.all(blocsCopy.map(async(doc) => {
+            const copy =  { ...doc.toObject(), 
+                degreeProgram: (await newDegreeProgramDocs).find((obj)=>obj.previousId == doc.degreeProgram)._id,
+                semester: currentSemesterId, previousId : doc._id };
+            delete copy._id;
+            const createdBloc =  await BLOC.create(copy)
+            return {...createdBloc, previousId : doc._id}
+          }))
 
-        const courseCopy = await COURSE.find({ semester: targetSemesterId },{_id: 0})
-        const newCourseDocs = courseCopy.map(doc => {
-            return { ...doc.toObject(), semester: currentSemesterId };
-          });
-        const newCourse = await COURSE.insertMany(newLoadDocs)
+        const courseCopy = await COURSE.find({ semester: targetSemesterId })
+        const newCourseDocs = Promise.all(courseCopy.map(async(doc) => {
+            const copy =  { ...doc.toObject(), semester: currentSemesterId, previousId : doc._id };
+            delete copy._id;
+            const createdCourse =  await COURSE.create(copy)
+            return {...createdCourse, previousId : doc._id}
+          }))
 
-        const roomCopy = await ROOM.find({ semester: targetSemesterId },{_id: 0})
-        const newRoomDocs = roomCopy.map(doc => {
-            return { ...doc.toObject(), semester: currentSemesterId };
-          });
-        const newRoom = await ROOM.insertMany(newRoomDocs)
+        const roomCopy = await ROOM.find({ semester: targetSemesterId })
+        const newRoomDocs = Promise.all(roomCopy.map(async(doc) => {
+            const copy =  { ...doc.toObject(), semester: currentSemesterId, previousId : doc._id };
+            delete copy._id;
+            const createdRoom =  await ROOM.create(copy)
+            return {...createdRoom, previousId : doc._id}
+          }))
 
-        const schedCopy = await SCHEDULE.find({ semester: targetSemesterId },{_id: 0})
-        const newSchedDocs = semesterCopy.map(doc => {
-            return { 
+        const schedCopy = await SCHEDULE.find({ semester: targetSemesterId })
+        const newSchedDocs = Promise.all(schedCopy.map(async(doc) => {
+            const copy =  { 
                 ...doc.toObject(),
+                course: (await newCourseDocs).find(obj => obj.previousId == doc._id)._id,
+                room: (await newRoomDocs).find(obj => obj.previousId == doc._id)._id,
+                faculty: (await newFacultyDocs).find(obj => obj.previousId == doc._id)._id,
+                students: doc.students.map(async (e)=>{
+                    (await newDegreeProgramDocs).find((degree) => degree.previousId == e._id)._id || (await newBlocDocs).find((bloc)=> bloc.previousId == e._id)._id
+                }),
+                semester: currentSemesterId, previousId : doc._id };
+            delete copy._id
+            const createdSchedule = await SCHEDULE.create(copy)
+            return {...createdSchedule, previousId: doc._id}
+          }))
 
-                semester: currentSemesterId };
-          });
-        const newSched = await SCHEDULE.insertMany(newSchedDocs)
-
-        res.end()
+        res.status(200).json({})
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
