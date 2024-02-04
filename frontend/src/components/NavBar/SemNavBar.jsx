@@ -13,7 +13,7 @@ import { TiArrowBack } from "react-icons/ti";
 const SemNavbar = ({semId}) => {
   return (
     <nav className='bg-placebo-turquoise p-8 border-b-2 border-enamelled-jewel'>
-      <div className='flex items-center space-x-24 justify-center gap-x-20 gap-2 px-2'>
+      <div className='flex items-center space-x-24 justify-center gap-x-18 gap-2 px-2'>
         <LinkButton to={`/home`}>
           <TiArrowBack /> Back
         </LinkButton>
@@ -30,7 +30,7 @@ const SemNavbar = ({semId}) => {
           <FaListUl /> <p className='px-1'>Alpha List</p>
         </LinkButton>
         <LinkButton to="/">
-          <IoIosLogOut /> <p className='px-1'>Signout</p>
+          <IoIosLogOut /> <p className='px-1'>Sign Out</p>
         </LinkButton>
       </div>
     </nav>
@@ -61,7 +61,7 @@ const LinkButton = ({ to, children }) => {
 
   return (
     <a
-      className={`flex items-center cursor-pointer text-3xl bg-transparent text-enamelled-jewel ${isActive ? 'border-b-2 border-enamelled-jewel rounded-sm' : ''}`}
+      className={`flex items-center cursor-pointer text-3xl bg-transparent text-enamelled-jewel font-bold ${isActive ? 'border-b-2 border-enamelled-jewel rounded-sm' : ''}`}
       onClick={handleClick}
     >
       {children}

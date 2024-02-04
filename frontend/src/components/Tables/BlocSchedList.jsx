@@ -9,7 +9,7 @@ import EditFacultyScheduleModal from "../../modals/EditFacultyScheduleModal";
 import { useSemesterContext } from "../../hooks/useSemesterContext";
 import { PiCopy } from "react-icons/pi";
 
-const FacultySchedList = ({edit}) => {
+const BlocSchedList = ({edit}) => {
     const { semesterSchedules,selectedFacultySchedules, selectedFacultyFilteredSchedules, dispatch } = useSemesterContext()
     const [queryParameters] = useSearchParams()
     const [editSched, setEditSched] = useState("")
@@ -120,4 +120,4 @@ const FacultySchedList = ({edit}) => {
     )
 }
 
-export default FacultySchedList;
+export default BlocSchedList;

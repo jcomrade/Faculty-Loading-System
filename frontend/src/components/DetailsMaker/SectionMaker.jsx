@@ -39,11 +39,11 @@ const SectionMaker = ({mainWeeklySchedule, setMainWeeklySchedule}) => {
             </div>
 
             {/* Add more section */}
-            <p className={`underline px-1 mt-2 opacity-30 max-w-max cursor-pointer ${sectionComponents.length == 3 && "hidden"}`}
+            <p className={`underline px-1 mt-2 max-w-max cursor-pointer ${sectionComponents.length == 3 && "hidden"}`}
                 onMouseDown={() => {
                     setSectionComponents(prev => [...prev, <ScheduleMaker key={sectionComponents.length + 1} index={sectionComponents.length - 1} weeklySchedule={mainWeeklySchedule} setWeeklySchedule={setMainWeeklySchedule} />])
                 }}
-            >add schedule</p>
+            >Add Schedule</p>
         </div>
     )
 }

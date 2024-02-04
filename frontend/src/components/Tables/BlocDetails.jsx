@@ -1,6 +1,6 @@
 import { useFacultyContext } from "../../hooks/useFacultyContext"
 import { useSemesterContext } from "../../hooks/useSemesterContext"
-const FacultyDetails = () => {
+const BlocDetails = () => {
     const { selectedFaculty, selectedFacultySchedules, dispatch } = useSemesterContext()
     return (
         <div>
@@ -8,7 +8,7 @@ const FacultyDetails = () => {
                 <thead>
                     <tr className="bg-enamelled-jewel h-10 border-2 border-enamelled-jewel">
                         <th className="font-bold text-white text-2xl">
-                            {selectedFaculty ? selectedFaculty.lastName : "Name"}
+                            {selectedFaculty ? selectedFaculty.lastName : "Bloc"}
                         </th>
                     </tr>
                 </thead>
@@ -68,4 +68,4 @@ const FacultyDetails = () => {
     )
 }
 
-export default FacultyDetails
+export default BlocDetails;

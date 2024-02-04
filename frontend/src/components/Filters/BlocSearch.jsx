@@ -4,7 +4,7 @@ import { useFacultyContext } from "../../hooks/useFacultyContext"
 import { useSemesterContext } from "../../hooks/useSemesterContext"
 import { FaAngleDown } from "react-icons/fa6"
 
-const FacultySearch = () => {
+const BlocSearch = () => {
 
     const [queryParameters] = useSearchParams()
     const [dropdownVisible, setDropdownVisible] = useState(false)
@@ -13,7 +13,7 @@ const FacultySearch = () => {
     return (
         <div className="relative inline-block">
             <div className="flex flex-row items-center w-full border-2 border-enamelled-jewel rounded-md px-1">
-                <input className="w-full text-2xl font-semibold text-enamelled-jewel p-1 outline-none" onFocus={() => { setDropdownVisible(true) }} onBlur={() => { setDropdownVisible(false) }} placeholder="Faculty" />
+                <input className="w-full text-2xl font-semibold text-enamelled-jewel p-1 outline-none" onFocus={() => { setDropdownVisible(true) }} onBlur={() => { setDropdownVisible(false) }} placeholder="Bloc" />
                 <FaAngleDown className="text-enamelled-jewel"/>
             </div>
             <div className={`absolute w-full bg-white border-2 border-enamelled-jewel rounded-md ${!dropdownVisible && "hidden"}`}>
@@ -37,4 +37,4 @@ const FacultySearch = () => {
 
 }
 
-export default FacultySearch
+export default BlocSearch;

@@ -41,6 +41,14 @@ export default {
           'text': '#FF6962',
         },
       },
+      dropShadow: {
+        'title' : '0 3px 3px rgba(0, 0, 0, 0.25)',
+        'navbar' : '0 1px 1px rgba(0, 0, 0, 0.25)',
+      },
+      boxShadow: {
+        'custom' : '0 2px 2px rgba(0, 0, 0, 0.25)',
+        'checkbox' : '0 1px 1px rgba(0, 0, 0, 0.25)',
+      },
       borderRadius: {
         '10px': '10px',
       },

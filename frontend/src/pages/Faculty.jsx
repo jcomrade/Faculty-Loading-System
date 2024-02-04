@@ -7,7 +7,7 @@ import FacultySchedList from '../components/Tables/FacultySchedList';
 
 function Faculty() {
   return (
-      <div className='flex flex-col w-full px-48 space-y-10 justify-center items-center mt-10'>
+      <div className='flex flex-col w-full px-48 space-y-5 justify-center items-center mt-10'>
         <div className='flex flex-row w-full justify-evenly'>
           <TimeTable/>
           <div className='flex flex-col space-y-5'>
@@ -16,6 +16,7 @@ function Faculty() {
             <FacultyDetails />
           </div>
         </div>
+        <div className="border border-enamelled-jewel w-5/6"></div>
         <FacultySchedList />
       </div>
   );

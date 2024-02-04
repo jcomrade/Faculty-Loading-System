@@ -49,13 +49,13 @@ const AddScheduleModal = ({ onClose, isOpen }) => {
         <Modal isOpen={isOpen} size={'3xl'} onClose={onClose} isCentered>
             <ModalOverlay />
             <ModalContent style={{ border: '2px solid #035C65', borderColor: '#035C65' }}>
-                <h1 className='text-5xl text-enamelled-jewel font-bold bg-placebo-turquoise border-b-4 mb-4 border-enamelled-jewel rounded-tl-md rounded-tr-md pl-5 py-2'>New Schedule:</h1>
+                <h1 className='text-5xl text-enamelled-jewel font-bold bg-placebo-turquoise border-b-2 mb-4 border-enamelled-jewel rounded-tl-md rounded-tr-md pl-5 py-2'>New Schedule:</h1>
                 <ModalCloseButton size="sm" style={{ ...commonModalButtonStyle, marginRight: '30px', pointerEvents: 'none', color: '#035C65', }} />
                 <ModalCloseButton size="sm" style={{ ...commonModalButtonStyle, marginRight: '60px', pointerEvents: 'none', color: '#035C65', }} />
                 <ModalCloseButton size="sm" style={{ ...commonModalButtonStyle, color: 'white', }} />
                 <ModalBody >
                     <div className='flex justify-center'>
-                        <div className='flex flex-col space-y-5 w-full px-10'>
+                        <div className='flex flex-col space-y-3 w-full px-10'>
                             {/* Course */}
                             <CourseMaker semId={params.id} setMainCourse={setCourse} mainCourse={course} setCourseType={setCourseType} courseType={courseType.type} students={students} setStudents={setStudents} />
 
@@ -97,11 +97,11 @@ const AddScheduleModal = ({ onClose, isOpen }) => {
                                 </div>
 
                                 {/* Add more section */}
-                                <p className={`underline px-1 mt-2 opacity-30 max-w-max cursor-pointer ${weeklySchedule.length == 3 && "hidden"}`}
+                                <p className={`underline px-1 mt-2 max-w-max cursor-pointer ${weeklySchedule.length == 3 && "hidden"}`}
                                     onMouseDown={() => {
                                         setWeeklySchedule(prev => [...prev, {}])
                                     }}
-                                >add schedule</p>
+                                >Add Schedule</p>
                             </div>
 
                             {/* Room */}
@@ -135,7 +135,7 @@ const AddScheduleModal = ({ onClose, isOpen }) => {
                 </ModalBody>
                 <ModalFooter justifyContent={"center"} alignItems={"center"}>
                     <div className="flex flex-row space-x-4 mt-6">
-                        <button className='w-20 h-10 bg-placebo-turquoise border-2 border-enamelled-jewel'
+                        <button className='w-20 h-10 border border-enamelled-jewel text-enamelled-jewel font-semibold transition ease-in duration-200 hover:shadow-custom hover:bg-placebo-turquoise'
                             onClick={async () => {
                                 const res = await fetch(`http://localhost:4000/api/schedule/${params.id}`, {
                                     method: 'POST',
@@ -162,7 +162,7 @@ const AddScheduleModal = ({ onClose, isOpen }) => {
 
                             }}
                         >Save</button>
-                        <button onClick={onClose} className='w-20 h-10 border-2 border-enamelled-jewel'>Cancel</button>
+                        <button onClick={onClose} className='w-20 h-10 border border-enamelled-jewel text-enamelled-jewel font-semibold transition ease-in duration-200 hover:shadow-custom hover:bg-placebo-turquoise'>Cancel</button>
                     </div>
                 </ModalFooter>
             </ModalContent>

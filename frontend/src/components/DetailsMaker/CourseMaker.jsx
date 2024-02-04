@@ -58,11 +58,11 @@ const CourseMaker = ({ setMainCourse, mainCourse, setCourseType, courseType, stu
     }, [courseSearch, semesterCourses])
     return (
         <div className="w-full">
-            <p className='text-3xl font-bold cursor-pointer'>Course</p>
+            <p className='text-3xl font-semibold cursor-pointer'>Course</p>
             <div className='flex flex-wrap flex-row space-x-4'>
                 <div className='w-3/6 relative inline-block'>
                     {/* Course Search Box */}
-                    <input className="outline-none border-2 h-9 text-lg border-black rounded-md pl-2 w-full" onFocus={(e) => { setcourseDropdownVisible(true); setCourseSearch(e.target.value) }} onBlur={() => setcourseDropdownVisible(false)} onChange={(e) => (setCourseType({ type: courseType, status: "Unchanged" }), setCourseSearch(e.target.value))} placeholder="Course Code" type='text' value={courseSearch} />
+                    <input className="outline-none border-2 h-9 text-lg border-black rounded-lg pl-2 w-full placeholder-black" onFocus={(e) => { setcourseDropdownVisible(true); setCourseSearch(e.target.value) }} onBlur={() => setcourseDropdownVisible(false)} onChange={(e) => (setCourseType({ type: courseType, status: "Unchanged" }), setCourseSearch(e.target.value))} placeholder="Course Code" type='text' value={courseSearch} />
 
                     {/* Course Dropdown */}
                     <div className={`absolute flex flex-col w-full bg-white border-2 border-black z-10 ${!courseDropdownVisible && 'hidden'}`}>
@@ -95,23 +95,23 @@ const CourseMaker = ({ setMainCourse, mainCourse, setCourseType, courseType, stu
                 <div className="flex flex-col w-72 space-y-4">
                     <div className="flex flex-row justify-between w-full">
                         {/* Dispaly Course Type */}
-                        <div className='w-20'><input className={`outline-none border-2 border-black rounded-md w-full h-9 text-lg hover:cursor-not-allowed bg-placebo-turquoise text-center ${!courseDisplay && "opacity-30 bg-white"}`} placeholder="Type" type='text' value={courseDisplay ? courseDisplay.type : ""} readOnly /></div>
+                        <div className='w-20'><input className={`outline-none border-2 border-black rounded-lg w-full h-9 text-lg hover:cursor-not-allowed bg-placebo-turquoise placeholder-black text-center ${!courseDisplay && "bg-white"}`} placeholder="Type" type='text' value={courseDisplay ? courseDisplay.type : ""} readOnly /></div>
 
                         {/* Display Course Units */}
-                        <div className='w-20'><input className={`outline-none border-2 border-black rounded-md w-full h-9 text-lg hover:cursor-not-allowed bg-placebo-turquoise text-center ${!courseDisplay && "opacity-30 bg-white"}`} placeholder="Units" type='text' value={courseDisplay ? courseDisplay.units : ""} readOnly /></div>
+                        <div className='w-20'><input className={`outline-none border-2 border-black rounded-lg w-full h-9 text-lg hover:cursor-not-allowed bg-placebo-turquoise placeholder-black text-center ${!courseDisplay && "bg-white"}`} placeholder="Units" type='text' value={courseDisplay ? courseDisplay.units : ""} readOnly /></div>
 
                         {/* Display Course Department */}
-                        <div className='w-20'><input className={`outline-none border-2 border-black rounded-md w-full h-9 text-lg hover:cursor-not-allowed bg-placebo-turquoise text-center ${!courseDisplay && "opacity-30 bg-white"}`} placeholder="Dept." type='text' value={courseDisplay ? courseDisplay.department : ""} readOnly /></div>
+                        <div className='w-20'><input className={`outline-none border-2 border-black rounded-lg w-full h-9 text-lg hover:cursor-not-allowed bg-placebo-turquoise placeholder-black text-center ${!courseDisplay && "bg-white"}`} placeholder="Dept." type='text' value={courseDisplay ? courseDisplay.department : ""} readOnly /></div>
                     </div>
                     <div>
-                        <textarea className={`outline-none border-2 border-black rounded-md w-full h-16 resize-none text-lg hover:cursor-not-allowed bg-placebo-turquoise text-center ${!courseDisplay && "opacity-30 bg-white"}`} placeholder="Course Description" type='text' value={courseDisplay ? courseDisplay.name : ""} readOnly />
+                        <textarea className={`outline-none border-2 border-black rounded-lg w-full h-16 resize-none text-lg hover:cursor-not-allowed bg-placebo-turquoise placeholder-black text-left pl-1 ${!courseDisplay && "bg-white"}`} placeholder="Course Description" type='text' value={courseDisplay ? courseDisplay.name : ""} readOnly />
                     </div>
                 </div>
             </div>
 
             {/* Create New Non-Existing Course */}
             <div>
-                <p onMouseDown={() => onNewCourseModalOpen()} className='underline opacity-30'>create new course</p>
+                <p onMouseDown={() => onNewCourseModalOpen()} className='underline'>Create New Course</p>
             </div>
 
             {/* Warning modal for changing course type */}
@@ -197,21 +197,21 @@ const CourseMaker = ({ setMainCourse, mainCourse, setCourseType, courseType, stu
                         <div className="flex flex-col w-full space-y-4 items-center">
                             <div className="flex flex-row justify-between w-96">
                                 {/* Course Code */}
-                                <div className='w-20'><input className={`outline-none border-2 border-black rounded-md w-full h-9 text-lg text-center bg-white`} onChange={(e) => { setNewCourseCode(e.target.value) }} placeholder="Code" type='text' value={newCourseCode} /></div>
+                                <div className='w-20'><input className={`outline-none border-2 border-black rounded-lg w-full h-9 text-lg text-center bg-white placeholder-black`} onChange={(e) => { setNewCourseCode(e.target.value) }} placeholder="Code" type='text' value={newCourseCode} /></div>
                                 {/* Dispaly Course Type */}
                                 <div className='w-20 relative inline-block'>
-                                    <input className={`outline-none cursor-pointer border-2 border-black rounded-md w-full h-9 text-lg text-center bg-white`} onFocus={() => setNewCourseTypeDropdownVisible(true)} onBlur={() => setNewCourseTypeDropdownVisible(false)} onChange={(e) => { setNewCourseType(e.target.value) }} placeholder="Type" type='text' value={newCourseType} readOnly />
+                                    <input className={`outline-none cursor-pointer border-2 border-black rounded-lg w-full h-9 text-lg text-center bg-white placeholder-black`} onFocus={() => setNewCourseTypeDropdownVisible(true)} onBlur={() => setNewCourseTypeDropdownVisible(false)} onChange={(e) => { setNewCourseType(e.target.value) }} placeholder="Type" type='text' value={newCourseType} readOnly />
 
-                                    <div className={`absolute flex flex-col w-full items-center bg-white border-2 border-black rounded-md ${!newCourseTypeDropdownVisible && "hidden"}`}>
-                                        <p className="cursor-pointer hover:bg-placebo-turquoise w-full rounded-md text-center" onMouseDown={() => { setNewCourseType("LEC") }}>LEC</p>
-                                        <p className="cursor-pointer hover:bg-placebo-turquoise w-full rounded-md text-center" onMouseDown={() => { setNewCourseType("LAB") }}>LAB</p>
+                                    <div className={`absolute flex flex-col w-full items-center bg-white border-2 border-black rounded-lg ${!newCourseTypeDropdownVisible && "hidden"}`}>
+                                        <p className="cursor-pointer hover:bg-placebo-turquoise w-full rounded-lg text-center" onMouseDown={() => { setNewCourseType("LEC") }}>LEC</p>
+                                        <p className="cursor-pointer hover:bg-placebo-turquoise w-full rounded-lg text-center" onMouseDown={() => { setNewCourseType("LAB") }}>LAB</p>
                                     </div>
                                 </div>
 
                                 {/* Display Course Units */}
                                 <div className='w-20'>
                                     <input
-                                        className={`outline-none border-2 border-black rounded-md w-full h-9 text-lg text-center bg-white`}
+                                        className={`outline-none border-2 border-black rounded-lg w-full h-9 text-lg text-center bg-white placeholder-black`}
                                         onChange={(e) => { setNewCourseUnits(e.target.value) }}
                                         placeholder="Units"
                                         type="number"
@@ -219,18 +219,18 @@ const CourseMaker = ({ setMainCourse, mainCourse, setCourseType, courseType, stu
 
                                 {/* Display Course Department */}
                                 <div className='w-20 relative inline-block'>
-                                    <input className={`outline-none border-2 border-black rounded-md w-full h-9 text-lg text-center bg-white`} onFocus={() => setNewCourseDeptDropdownVisible(true)} onBlur={() => setNewCourseDeptDropdownVisible(false)} onChange={(e) => { setNewCourseDept(e.target.value) }} placeholder="Dept." type='text' value={newCourseDept} readOnly/>
-                                    <div className={`absolute flex flex-col w-full items-center bg-white border-2 border-black rounded-md ${!newCourseDeptDropdownVisible && "hidden"}`}>
-                                        <p className="cursor-pointer hover:bg-placebo-turquoise w-full rounded-md text-center" onMouseDown={() => { setNewCourseDept("DMPCS") }}>DMPCS</p>
-                                        <p className="cursor-pointer hover:bg-placebo-turquoise w-full rounded-md text-center" onMouseDown={() => { setNewCourseDept("DFSC") }}>DFSC</p>
-                                        <p className="cursor-pointer hover:bg-placebo-turquoise w-full rounded-md text-center" onMouseDown={() => { setNewCourseDept("DBSES") }}>DBSES</p>
-                                        <p className="cursor-pointer hover:bg-placebo-turquoise w-full rounded-md text-center" onMouseDown={() => { setNewCourseDept("HSS") }}>HSS</p>
-                                        <p className="cursor-pointer hover:bg-placebo-turquoise w-full rounded-md text-center" onMouseDown={() => { setNewCourseDept("SOM") }}>SOM</p>
+                                    <input className={`outline-none border-2 border-black rounded-lg w-full h-9 text-lg text-center bg-white placeholder-black`} onFocus={() => setNewCourseDeptDropdownVisible(true)} onBlur={() => setNewCourseDeptDropdownVisible(false)} onChange={(e) => { setNewCourseDept(e.target.value) }} placeholder="Dept." type='text' value={newCourseDept} readOnly/>
+                                    <div className={`absolute flex flex-col w-full items-center bg-white border-2 border-black rounded-lg ${!newCourseDeptDropdownVisible && "hidden"}`}>
+                                        <p className="cursor-pointer hover:bg-placebo-turquoise w-full rounded-lg text-center" onMouseDown={() => { setNewCourseDept("DMPCS") }}>DMPCS</p>
+                                        <p className="cursor-pointer hover:bg-placebo-turquoise w-full rounded-lg text-center" onMouseDown={() => { setNewCourseDept("DFSC") }}>DFSC</p>
+                                        <p className="cursor-pointer hover:bg-placebo-turquoise w-full rounded-lg text-center" onMouseDown={() => { setNewCourseDept("DBSES") }}>DBSES</p>
+                                        <p className="cursor-pointer hover:bg-placebo-turquoise w-full rounded-lg text-center" onMouseDown={() => { setNewCourseDept("HSS") }}>HSS</p>
+                                        <p className="cursor-pointer hover:bg-placebo-turquoise w-full rounded-lg text-center" onMouseDown={() => { setNewCourseDept("SOM") }}>SOM</p>
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <textarea className={`outline-none border-2 border-black rounded-md w-96 h-16 resize-none text-lg text-center bg-white`} onChange={(e) => { setNewCourseDescription(e.target.value) }} placeholder="Course Description" type='text' value={newCourseDescription} />
+                                <textarea className={`outline-none border-2 border-black rounded-lg w-96 h-16 resize-none text-lg text-left pl-1 bg-white placeholder-black`} onChange={(e) => { setNewCourseDescription(e.target.value) }} placeholder="Course Description" type='text' value={newCourseDescription} />
                             </div>
                         </div>
                         <div>
@@ -243,7 +243,7 @@ const CourseMaker = ({ setMainCourse, mainCourse, setCourseType, courseType, stu
                         <div>
                             <div className="flex flex-row space-x-4">
                                 <button
-                                    className='w-20 h-10 bg-placebo-turquoise border-2 border-enamelled-jewel'
+                                    className='w-20 h-10border border-enamelled-jewel transition ease-in duration-200 hover:shadow-custom hover:bg-placebo-turquoise'
                                     onClick={
                                         async () => {
                                             if (courseDisplay && students.length > 0 && newCourseType.toString() !== courseDisplay.type.toString()) {
@@ -295,7 +295,7 @@ const CourseMaker = ({ setMainCourse, mainCourse, setCourseType, courseType, stu
                                     setNewCourseDept("")
                                     setNewCourseDescription("")
                                     return onNewCourseModalClose()
-                                }} className='w-20 h-10 border-2 border-enamelled-jewel'>Cancel</button>
+                                }} className='w-20 h-10 border border-enamelled-jewel transition ease-in duration-200 hover:shadow-custom hover:bg-placebo-turquoise'>Cancel</button>
                             </div>
                         </div>
                     </ModalFooter>

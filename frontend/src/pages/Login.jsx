@@ -69,7 +69,7 @@ const Login = () => {
   return (
     <div className='bg-aqua-wave h-screen w-screen flex justify-center items-center'>
       <div>
-        <div className='text-7xl font-bold text-center text-blizzard'>
+        <div className='text-7xl font-bold text-center text-placebo-turquoise drop-shadow-title'>
           <h1>Login</h1>
         </div>
         <br/>
@@ -77,12 +77,12 @@ const Login = () => {
         <br/>
         <div className='my-6'></div>
         <form className='flex flex-col items-center max-w-md mx-auto' onSubmit={handleSubmit}>
-          <div className='flex items-center border bg-blizzard border-enamelled-jewel p-2 rounded-10px w-full h-14 focus:outline-none focus:border-blue-500'>
+          <div className='flex items-center border bg-blizzard border-enamelled-jewel p-2 rounded-10px w-full h-14 transition ease-in duration-200 hover:shadow-custom'>
             <PiUserCircleFill className='text-enamelled-jewel text-4xl' />
             <VerticalSeparator />
             <div className='w-full'>
               <input
-                className={`bg-blizzard w-full focus:outline-none ${username ? 'text-black' : 'text-black-mana'}`}
+                className={`bg-blizzard w-full text-xl focus:outline-none ${username ? 'text-black' : 'text-black-mana'}`}
                 placeholder='Username'
                 type='text'
                 value={username}
@@ -91,12 +91,12 @@ const Login = () => {
             </div>
           </div>
           <br/>
-          <div className='flex items-center border bg-blizzard border-enamelled-jewel p-2 rounded-10px w-full h-14 focus:outline-none focus:border-blue-500'>
+          <div className='flex items-center border bg-blizzard border-enamelled-jewel p-2 rounded-10px w-full h-14 transition ease-in duration-200 hover:shadow-custom'>
             <MdLock className='text-enamelled-jewel text-4xl' />
             <VerticalSeparator />
             <div className='w-full flex'>
               <input
-                className={`bg-blizzard w-full focus:outline-none ${password ? 'text-black' : 'text-black-mana'}`}
+                className={`bg-blizzard w-full text-xl focus:outline-none ${password ? 'text-black' : 'text-black-mana'}`}
                 placeholder='Password'
                 type={showPassword ? 'text' : 'password'}
                 value={password}
@@ -104,27 +104,27 @@ const Login = () => {
               />
               {showPassword ? (
                 <MdVisibility
-                  className='text-enamelled-jewel cursor-pointer ml-2 text-xl'
+                  className='text-enamelled-jewel cursor-pointer mt-1 ml-2 text-xl'
                   onClick={togglePasswordVisibility}
                 />
               ) : (
                 <MdVisibilityOff
-                  className='text-enamelled-jewel cursor-pointer ml-2 text-xl'
+                  className='text-black-mana cursor-pointer mt-1 ml-2 text-xl'
                   onClick={togglePasswordVisibility}
                 />
               )}
             </div>
           </div>
-          <div className='my-8'></div>
-          <button className='bg-blizzard text-2xl font-bold border w-40 h-14 border-enamelled-jewel text-enamelled-jewel' type='submit' onClick={(e)=>handleSubmit(e)}>
-            Login
+          <div className='my-2 text-enamelled-jewel underline'>
+              {
+                errors ? (<div>{errors.message}</div>) : (<></>)
+              }
+          </div>
+          <div className='my-6'></div>
+          <button className='bg-placebo-turquoise text-2xl font-semibold border w-40 h-14 border-enamelled-jewel text-enamelled-jewel transition ease-in duration-200 hover:shadow-custom' type='submit' onClick={(e)=>handleSubmit(e)}>
+            Sign In
           </button>
         </form>
-        <div>
-            {
-              errors ? (<div>{errors.message}</div>) : (<></>)
-            }
-          </div>
       </div>
     </div>
   );
