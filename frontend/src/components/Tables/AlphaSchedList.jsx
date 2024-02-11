@@ -51,6 +51,7 @@ const AlphaSchedList = ({ editing }) => {
                     </tr>
                 </thead>
                 <tbody>
+                    {console.log(filteredSemesterSchedules)}
                     {filteredSemesterSchedules && filteredSemesterSchedules.length > 0 && filteredSemesterSchedules.map(({ course, faculty, room, schedule, section, remarks, students, _id }) => {
                         return (
                             <tr

@@ -39,12 +39,11 @@ module.exports.signup_post = async (req, res) => {
 
   try {
     const user = await USER.create({ userName, password, userType});
-    const token = createToken(user._id, user.userType);
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.cookie('jwt', token, {maxAge: maxAge * 1000})
-    res.status(201).json({user: user._id, userType:user.userType});
+    console.log(user)
+    res.status(201).json({userName: user.userName, password: user.password, _id: user._id.toString() ,userType:user.userType});
   }
   catch(err) {
+    console.log(err)
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }

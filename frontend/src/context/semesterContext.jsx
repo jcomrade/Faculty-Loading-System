@@ -70,12 +70,12 @@ export const semesterReducer = (state, action) => {
             return {
                 ...state,
                 semesterFaculties: [...state.semesterFaculties].map(obj => {
-                    if (obj.load._id == action.payload._id) {
-                        return { ...obj, load: action.payload}
+                    if (obj._id == action.payload._id) {
+                        return action.payload
                     }
                     return obj
                 }),
-                selectedFaculty: {...state.selectedFaculty, load: action.payload},
+                selectedFaculty: {...action.payload},
             }
         case 'SELECT_FACULTY':
             return {
@@ -103,6 +103,16 @@ export const semesterReducer = (state, action) => {
                     ? state.semesterSchedules.filter((sched) => action.payload.includes(sched.course.department))
                     : state.semesterSchedules
             }
+        case 'START_LOADING':
+            return {
+                ...state,
+                isLoading: true,
+            }
+        case 'END_LOADING':
+            return {
+                ...state,
+                isLoading: false,
+            }
         default:
             return state
     }
@@ -122,11 +132,14 @@ export const SemesterContextProvider = ({ children }) => {
         selectedFacultyFilteredSchedules: [],
         selectedFacultySchedules: [],
         selectedFaculty: null,
+
+        isLoading: false,
     })
     console.log(state)
     const params = useParams()
     useEffect(() => {
         (async function () {
+            dispatch({type: 'START_LOADING'})
             const res = await fetch(`http://localhost:4000/api/semester/${params.id}/`, {
                 method: 'GET',
                 credentials: 'include',
@@ -135,6 +148,7 @@ export const SemesterContextProvider = ({ children }) => {
             // setSemScheds(data)
             console.log("this happened")
             dispatch({ type: 'SET_SEMESTER', payload: data })
+            dispatch({type: 'END_LOADING'})
             // setFilteredScheds(data)
         }())
     }, [params.id])

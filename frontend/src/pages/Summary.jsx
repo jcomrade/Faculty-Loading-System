@@ -7,8 +7,7 @@ import { useSemesterContext } from "../hooks/useSemesterContext";
 //Only use ID's for the value of variables  
 
 const Summary = () => {
-    const { semesterFaculties, semesterSchedules } = useSemesterContext()
-    const [isLoading, setIsLoading] = useState(false)
+    const { semesterFaculties, semesterSchedules, isLoading } = useSemesterContext()
     const navigate = useNavigate()
     const params = useParams()
     return (
@@ -38,10 +37,10 @@ const Summary = () => {
                                         <tr key={faculty._id} className="h-12 hover:bg-placebo-turquoise">
                                             <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{faculty.lastName}</td>
                                             <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{TLC}</td>
-                                            <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{faculty.load.ALC}</td>
-                                            <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{faculty.load.SLC}</td>
-                                            <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{faculty.load.RLC}</td>
-                                            <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{TLC + faculty.load.ALC + faculty.load.SLC + faculty.load.RLC}</td>
+                                            <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{faculty.ALC}</td>
+                                            <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{faculty.SLC}</td>
+                                            <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{faculty.RLC}</td>
+                                            <td className="border border-collapse border-enamelled-jewel border-b-1 border-x-0 border-t-0">{TLC + faculty.ALC + faculty.SLC + faculty.RLC}</td>
                                         </tr>
                                     )
                                 })

@@ -50,7 +50,7 @@ const FacultyDetails = () => {
                         <td>
                             <div className="flex flex-row justify-around">
                                 <p>ALC</p>
-                                <p>{selectedFaculty ? selectedFaculty.load.ALC : "0"}</p>
+                                <p>{selectedFaculty ? selectedFaculty.ALC : "0"}</p>
                             </div>
                         </td>
                     </tr>
@@ -58,7 +58,7 @@ const FacultyDetails = () => {
                         <td>
                             <div className="flex flex-row justify-around">
                                 <p>SLC</p>
-                                <p>{selectedFaculty ? selectedFaculty.load.SLC : "0"}</p>
+                                <p>{selectedFaculty ? selectedFaculty.SLC : "0"}</p>
                             </div>
                         </td>
                     </tr>
@@ -66,7 +66,7 @@ const FacultyDetails = () => {
                         <td>
                             <div className="flex flex-row justify-around">
                                 <p>RLC</p>
-                                <p>{selectedFaculty ? selectedFaculty.load.RLC : "0"}</p>
+                                <p>{selectedFaculty ? selectedFaculty.RLC : "0"}</p>
                             </div>
                         </td>
                     </tr>
@@ -76,12 +76,12 @@ const FacultyDetails = () => {
                 <p className="text-2xl font-bold inline">
                     Total Units : {selectedFaculty
                         ? selectedFacultySchedules.reduce((totalUnits, sched) => totalUnits + sched.course.units, 0)
-                        + selectedFaculty.load.ALC
-                        + selectedFaculty.load.SLC
-                        + selectedFaculty.load.RLC
+                        + selectedFaculty.ALC
+                        + selectedFaculty.SLC
+                        + selectedFaculty.RLC
                         : "0"}
                 </p>
-                <button onClick={() => { selectedFaculty && setALC(selectedFaculty.load.ALC),setSLC(selectedFaculty.load.SLC),setRLC(selectedFaculty.load.RLC),onOpen() }} className="inline border-2 border-enamelled-jewel text-2xl px-6">Edit</button>
+                <button onClick={() => { selectedFaculty && setALC(selectedFaculty.ALC),setSLC(selectedFaculty.SLC),setRLC(selectedFaculty.RLC),onOpen() }} className="inline border-2 border-enamelled-jewel text-2xl px-6">Edit</button>
             </div>
             {selectedFaculty &&
                 <Modal isOpen={isOpen} onClose={onClose}>

@@ -28,30 +28,33 @@ const copySemester = async (req, res) => {
 
     try {
         const facultyCopy = await FACULTY.find({ semester: targetSemesterId })
+        console.log("Original Faculty")
         const newFacultyDocs = Promise.all(facultyCopy.map(async(doc) => {
             const copy =  { ...doc.toObject(), semester: currentSemesterId, previousId : doc._id };
             delete copy._id;
             const createdFaculty =  await FACULTY.create(copy)
-            return {...createdFaculty, previousId : doc._id}
+            return {...createdFaculty._doc, previousId : doc._id}
           }));
 
-
         const degreeProgramCopy = await DEGREE_PROGRAM.find({ semester: targetSemesterId })
+        console.log(degreeProgramCopy)
         const newDegreeProgramDocs = Promise.all(degreeProgramCopy.map(async(doc) => {
             const copy =  { ...doc.toObject(), semester: currentSemesterId, previousId : doc._id };
             delete copy._id;
             const createdDegreeProgram =  await DEGREE_PROGRAM.create(copy)
-            return {...createdDegreeProgram, previousId : doc._id}
+            return {...createdDegreeProgram._doc, previousId : doc._id}
           }));
 
         const blocsCopy = await BLOC.find({ semester: targetSemesterId })
         const newBlocDocs = Promise.all(blocsCopy.map(async(doc) => {
             const copy =  { ...doc.toObject(), 
                 degreeProgram: (await newDegreeProgramDocs).find((obj)=>obj.previousId == doc.degreeProgram)._id,
-                semester: currentSemesterId, previousId : doc._id };
+                semester: currentSemesterId, 
+                previousId : doc._id 
+            };
             delete copy._id;
             const createdBloc =  await BLOC.create(copy)
-            return {...createdBloc, previousId : doc._id}
+            return {...createdBloc._doc, previousId : doc._id}
           }))
 
         const courseCopy = await COURSE.find({ semester: targetSemesterId })
@@ -59,31 +62,35 @@ const copySemester = async (req, res) => {
             const copy =  { ...doc.toObject(), semester: currentSemesterId, previousId : doc._id };
             delete copy._id;
             const createdCourse =  await COURSE.create(copy)
-            return {...createdCourse, previousId : doc._id}
+            console.log(createdCourse)
+            return {...createdCourse._doc, previousId : doc._id}
           }))
+        console.log("Final Courses Copy: ", await newCourseDocs)
 
         const roomCopy = await ROOM.find({ semester: targetSemesterId })
         const newRoomDocs = Promise.all(roomCopy.map(async(doc) => {
             const copy =  { ...doc.toObject(), semester: currentSemesterId, previousId : doc._id };
             delete copy._id;
             const createdRoom =  await ROOM.create(copy)
-            return {...createdRoom, previousId : doc._id}
+            return {...createdRoom._doc, previousId : doc._id}
           }))
 
         const schedCopy = await SCHEDULE.find({ semester: targetSemesterId })
         const newSchedDocs = Promise.all(schedCopy.map(async(doc) => {
             const copy =  { 
                 ...doc.toObject(),
-                course: (await newCourseDocs).find(obj => obj.previousId == doc._id)._id,
-                room: (await newRoomDocs).find(obj => obj.previousId == doc._id)._id,
-                faculty: (await newFacultyDocs).find(obj => obj.previousId == doc._id)._id,
-                students: doc.students.map(async (e)=>{
-                    (await newDegreeProgramDocs).find((degree) => degree.previousId == e._id)._id || (await newBlocDocs).find((bloc)=> bloc.previousId == e._id)._id
-                }),
-                semester: currentSemesterId, previousId : doc._id };
+                course: (await newCourseDocs).find((obj) => obj.previousId == doc.course)?._id,
+                room: (await newRoomDocs).find((obj) => obj.previousId == doc.room)?._id,
+                faculty: (await newFacultyDocs).find((obj) => obj.previousId == doc.faculty)?._id,
+                students: await (Promise.all(doc.students.map(async (e)=>{
+                    return ((await newDegreeProgramDocs).find((degree) => degree.previousId.toString() == e))?._id.toString() || ((await newBlocDocs).find((bloc)=> bloc.previousId.toString() == e))?._id.toString()
+                }))),
+                semester: currentSemesterId, 
+                previousId : doc._id 
+            };
             delete copy._id
             const createdSchedule = await SCHEDULE.create(copy)
-            return {...createdSchedule, previousId: doc._id}
+            return {...createdSchedule._doc, previousId: doc._id}
           }))
 
         res.status(200).json({})
@@ -132,7 +139,7 @@ const getSemesterInformation = async (req, res) => {
         const semesterCourses = await COURSE.find({semester:sem})
         courses.push(...semesterCourses)
 
-        const semesterFaculty = await FACULTY.findAndGetLoad({semester: sem})
+        const semesterFaculty = await FACULTY.find({semester: sem})
         faculties.push(...semesterFaculty)
 
         const semesterBloc = await BLOC.find({semester:sem})
