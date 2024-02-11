@@ -13,8 +13,7 @@ const userSchema = new mongoose.Schema({
   },
   userType: {
     type: String,
-    required: true,
-    default: "User",
+    required: [true, "Please enter user type"]
   }
 });
 

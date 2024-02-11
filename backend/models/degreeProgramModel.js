@@ -27,13 +27,5 @@ const degreeProgramSchema = new Schema({
     }
 })
 
-degreeProgramSchema.post('save', async function(doc){
-    try{
-        await BLOC.create({name: doc.name, degreeProgram: doc._id, semester: doc.semester, yearLevel: doc.yearLevel, bloc: 1, department: doc.department})
-    }catch(err){
-        console.log(err)
-    }
-})
-
 
 module.exports = mongoose.model('DegreeProgram', degreeProgramSchema)

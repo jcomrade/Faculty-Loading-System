@@ -66,20 +66,31 @@ export const semesterReducer = (state, action) => {
                     return obj
                 }),
             }
-        case 'SELECT_FACULTY':
-            return{
+        case 'UPDATE_FACULTY':
+            return {
                 ...state,
-                selectedFacultySchedules: state.semesterSchedules.filter((sched)=>sched.faculty._id == action.payload._id),
-                selectedFacultyFilteredSchedules: state.semesterSchedules.filter((sched)=>sched.faculty._id == action.payload._id),
+                semesterFaculties: [...state.semesterFaculties].map(obj => {
+                    if (obj._id == action.payload._id) {
+                        return action.payload
+                    }
+                    return obj
+                }),
+                selectedFaculty: {...action.payload},
+            }
+        case 'SELECT_FACULTY':
+            return {
+                ...state,
+                selectedFacultySchedules: state.semesterSchedules.filter((sched) => sched.faculty._id == action.payload._id),
+                selectedFacultyFilteredSchedules: state.semesterSchedules.filter((sched) => sched.faculty._id == action.payload._id),
                 selectedFaculty: action.payload
             }
         case 'SET_EDIT_SCHEDULE':
-            return{
+            return {
                 ...state,
                 editSchedule: action.payload
             }
         case 'FILTER_SELECTED_FACULTY_SCHEDULE_DEPARTMENT':
-            return{
+            return {
                 ...state,
                 selectedFacultyFilteredSchedules: action.payload.length > 0
                     ? state.selectedFacultySchedules.filter((sched) => action.payload.includes(sched.course.department))
@@ -91,6 +102,16 @@ export const semesterReducer = (state, action) => {
                 filteredSemesterSchedules: action.payload.length > 0
                     ? state.semesterSchedules.filter((sched) => action.payload.includes(sched.course.department))
                     : state.semesterSchedules
+            }
+        case 'START_LOADING':
+            return {
+                ...state,
+                isLoading: true,
+            }
+        case 'END_LOADING':
+            return {
+                ...state,
+                isLoading: false,
             }
         default:
             return state
@@ -108,14 +129,17 @@ export const SemesterContextProvider = ({ children }) => {
         semesterDegreePrograms: [],
         editSchedule: {},
 
-        selectedFacultyFilteredSchedules:[],
+        selectedFacultyFilteredSchedules: [],
         selectedFacultySchedules: [],
         selectedFaculty: null,
+
+        isLoading: false,
     })
     console.log(state)
     const params = useParams()
     useEffect(() => {
         (async function () {
+            dispatch({type: 'START_LOADING'})
             const res = await fetch(`http://localhost:4000/api/semester/${params.id}/`, {
                 method: 'GET',
                 credentials: 'include',
@@ -124,6 +148,7 @@ export const SemesterContextProvider = ({ children }) => {
             // setSemScheds(data)
             console.log("this happened")
             dispatch({ type: 'SET_SEMESTER', payload: data })
+            dispatch({type: 'END_LOADING'})
             // setFilteredScheds(data)
         }())
     }, [params.id])

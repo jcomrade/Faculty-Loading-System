@@ -19,6 +19,7 @@ export const adminReducer = (state, action) => {
         case 'UPDATE_USER':
             return {
                 ...state,
+                selectedUser: {},
                 users : [...state.users].map(obj => {
                     if (obj._id == action.payload._id) {
                         return action.payload
