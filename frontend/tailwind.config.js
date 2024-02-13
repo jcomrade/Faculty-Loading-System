@@ -47,6 +47,9 @@ export default {
       fontSize: {
         '200': '200px',
       },
+      fontFamily: {
+        sora: ['Sora', 'sans-serif'],
+      },
     },
   },
   plugins: [],
