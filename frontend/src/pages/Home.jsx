@@ -5,7 +5,7 @@ import { FaRegFile } from "react-icons/fa";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { HiPlus } from "react-icons/hi";
 import { useDisclosure } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { IoTrashOutline } from "react-icons/io5";
 import {
   Modal,
@@ -26,7 +26,7 @@ const Home = () => {
   const [selectedRow, setSelectedRow] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [editing, setEditing] = useState(false);
-
+  const [urlParams] = useSearchParams();
   const handleDeleteClick = () => {
     console.log("Deleted");
   };
@@ -98,7 +98,7 @@ const Home = () => {
   const handleRowClick = (index) => {
     setSelectedRow(index);
   };
-  
+
   return (
     <div className='flex flex-col h-screen w-screen'>
       <NavBar />
@@ -115,7 +115,7 @@ const Home = () => {
                   Save
                 </button>
               </>
-            ) : (
+            ) : !urlParams.get("copy") && (
               <>
                 <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11' onClick={onOpen}>
                   <HiPlus />New File
@@ -139,6 +139,7 @@ const Home = () => {
               </th>
               <th className='text-black font-bold text-2xl p-2'>Modified By</th>
               <th className='text-black font-bold text-2xl p-2'>Date Modified</th>
+              {urlParams.get("copy") && <th className='text-black font-bold text-2xl p-2'></th>}
             </tr>
           </thead>
           <tbody>
@@ -148,7 +149,25 @@ const Home = () => {
                   className={`border-b cursor-pointer ${index === selectedRow ? 'bg-placebo-turquoise' : ''}`}
                   key={sem._id}
                   onMouseEnter={() => handleRowClick(index)}
-                  onMouseDown={() => navigate(`/semester/${sem._id}/summary`)}
+                  onMouseDown={() => {
+                    urlParams.get("copy")
+                      ? (async function () {
+                        const res = await fetch('http://localhost:4000/api/semester/copy', {
+                          method: 'POST',
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          credentials: 'include',
+                          body: JSON.stringify({
+                            currentSemesterId: urlParams.get("currentSemester"),
+                            targetSemesterId: sem._id
+                          })
+                        })
+                        navigate(`/semester/${urlParams.get("currentSemester")}/summary`)
+
+                      }())
+                      : navigate(`/semester/${sem._id}/summary`)
+                  }}
                 >
                   <td className="flex text-xl font-semibold flex-row items-center text-black p-2">
                     <FaRegFileAlt />
@@ -157,6 +176,7 @@ const Home = () => {
                   <td className='text-black text-xl font-semibold p-2'>{sem.modifiedBy}</td>
                   <td className='text-black text-xl font-semibold p-2'>{sem.dateModified}</td>
                   {editing && <td><button onClick={handleDeleteClick}><IoTrashOutline /></button></td>}
+                  {urlParams.get("copy") && <td className='text-black font-bold text-2xl p-2'>COPY</td>}
                 </tr>
               ))
             ) : (
@@ -172,9 +192,9 @@ const Home = () => {
         <ModalOverlay />
         <ModalContent style={{ border: '2px solid #035C65', borderColor: '#035C65' }}>
           <h1 className='text-5xl text-enamelled-jewel font-bold bg-placebo-turquoise border-b-4 mb-4 border-enamelled-jewel rounded-tl-md rounded-tr-md pl-5 py-2'>New File</h1>
-          <ModalCloseButton size="sm" style={{ ...commonModalButtonStyle, marginRight: '30px', pointerEvents: 'none', color: '#035C65',}} />
-          <ModalCloseButton size="sm" style={{ ...commonModalButtonStyle, marginRight: '60px', pointerEvents: 'none', color: '#035C65',}} />
-          <ModalCloseButton size="sm" style={{ ...commonModalButtonStyle, color: 'white',}} />
+          <ModalCloseButton size="sm" style={{ ...commonModalButtonStyle, marginRight: '30px', pointerEvents: 'none', color: '#035C65', }} />
+          <ModalCloseButton size="sm" style={{ ...commonModalButtonStyle, marginRight: '60px', pointerEvents: 'none', color: '#035C65', }} />
+          <ModalCloseButton size="sm" style={{ ...commonModalButtonStyle, color: 'white', }} />
           <ModalBody>
             <div className='flex flex-row items-center mb-10'>
               <div className='pr-3'>
