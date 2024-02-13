@@ -1,33 +1,14 @@
-export const convertToFacultyTimeTableData = (semesterSchedules) => {
+export const convertToFacultyTimeTableData = (facultySchedule, selectedFacultyId) => {
 
-
-
-    // Specific faculty _id to filter for
-    const specificFacultyId = "658bb81046e06343b984849f"; // Change this to the desired _id
-
-    // Filter inputData for the specific faculty using _id
-    const filteredData = semesterSchedules.filter(item => item.faculty._id === specificFacultyId);
+    if(!selectedFacultyId){
+        return []
+    }
 
     // Initialize an empty array to store the converted format
     let convertedData = [];
 
-    // Function to remove "AM" and "PM" from time strings and format the time
-    const formatTime = (timeString) => {
-        // Remove "AM" or "PM"
-        const withoutAMPM = timeString.replace(/( AM| PM)/g, '');
-
-        // Split hours and minutes
-        const [hours, minutes] = withoutAMPM.split(':');
-
-        // Remove leading zero from hours if it exists
-        const formattedHours = parseInt(hours, 10).toString();
-
-        // Return the formatted time
-        return `${formattedHours}:${minutes}`;
-    };
-
     // Iterate through the filteredData array
-    filteredData.forEach(item => {
+    facultySchedule.forEach(item => {
         // Iterate through the schedule array in each item
         item.schedule.forEach(schedule => {
             // Extract necessary information from the schedule object
@@ -42,8 +23,8 @@ export const convertToFacultyTimeTableData = (semesterSchedules) => {
                         day: singleDay,
                         subject: item.course.code, // Assuming course code represents the subject
                         section,
-                        start: formatTime(startTime),
-                        end: formatTime(endTime),
+                        start: startTime,
+                        end: endTime,
                         subjectRendered: false,
                         sectionRendered: false,
                     };
@@ -57,8 +38,8 @@ export const convertToFacultyTimeTableData = (semesterSchedules) => {
                     day,
                     subject: item.course.code, // Assuming course code represents the subject
                     section,
-                    start: formatTime(startTime),
-                    end: formatTime(endTime),
+                    start: startTime,
+                    end: endTime,
                     subjectRendered: false,
                     sectionRendered: false,
                 };

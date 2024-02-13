@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { MdErrorOutline } from "react-icons/md";
+import { useSemesterContext } from "../../hooks/useSemesterContext";
+import { convertToFacultyTimeTableData } from "../../utils/convertDataforTImeTable";
 
 const TimeTable = () => {
+  const {selectedFaculty, selectedFacultySchedules} = useSemesterContext()
   const [semScheds, setSemScheds] = useState({});
   const params = useParams();
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -19,7 +22,7 @@ const TimeTable = () => {
 
   useEffect(() => {
     // Convert sample data to a dictionary format for easier manipulation
-    const formattedData = sampleData.reduce((acc, entry) => {
+    const formattedData = convertToFacultyTimeTableData(selectedFacultySchedules, selectedFaculty?._id).reduce((acc, entry) => {
       const { day, ...rest } = entry;
       if (!acc[day]) {
         acc[day] = [];
@@ -27,9 +30,9 @@ const TimeTable = () => {
       acc[day].push(rest);
       return acc;
     }, {});
-
+    console.log("formatted data", formattedData)
     setSemScheds(formattedData);
-  }, [params.id]);
+  }, [params.id, selectedFaculty]);
 
   // Function to generate schedule rows based on the data
   const generateScheduleRows = () => {
