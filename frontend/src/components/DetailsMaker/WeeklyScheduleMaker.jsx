@@ -31,7 +31,7 @@ const ScheduleMaker = ({ edit, weeklySchedule, setWeeklySchedule }) => {
                     {/* Section Selector */}
                     <div className="realtive inline-block">
                         {/* Section Selection Box */}
-                        <input type='text' placeholder='Section' className="outline-none border-2 border-black rounded-md w-20 h-9 text-lg cursor-pointer text-center" value={weeklySchedule.section ? weeklySchedule.section: Section} onFocus={() => setSectionDropdownVisible(true)} onBlur={() => setSectionDropdownVisible(false)} readOnly />
+                        <input type='text' placeholder='Section' className="outline-none border-2 border-black rounded-lg w-20 h-9 text-lg cursor-pointer text-center placeholder-black" value={weeklySchedule.section ? weeklySchedule.section: Section} onFocus={() => setSectionDropdownVisible(true)} onBlur={() => setSectionDropdownVisible(false)} readOnly />
 
                         {/* Section Dropdown Choices */}
                         <div className={`absolute flex flex-col h-40 overflow-scroll w-20 border-2 border-black rounded-lg z-10 ${!SectionDropdownVisible ? 'hidden' : ''}`}>
@@ -43,7 +43,7 @@ const ScheduleMaker = ({ edit, weeklySchedule, setWeeklySchedule }) => {
                     </div>
 
                     <div>
-                        <p>:</p>
+                        <p className="font-bold pt-1">:</p>
                     </div>
 
                     <div className="flex flex-col space-y-2">
@@ -51,8 +51,8 @@ const ScheduleMaker = ({ edit, weeklySchedule, setWeeklySchedule }) => {
                             {/* Start Time: */}
                             <div className='relative inline-block w-32'>
                                 {/* Start Time Box */}
-                                <div className='flex flex-row items-center w-full border-2 border-black rounded-md px-1'>
-                                    <input className='outline-none rounded-md text-center w-full h-9 text-lg cursor-pointer' placeholder='Start Time' onFocus={() => setStartTimeDropdownVisible(true)} onBlur={() => setStartTimeDropdownVisible(false)} value={weeklySchedule.startTime ? weeklySchedule.startTime: Section ? getStartTime(Section).time : SectionStartTime} readOnly />
+                                <div className='flex flex-row items-center w-full border-2 border-black rounded-lg px-1'>
+                                    <input className='outline-none rounded-lg text-center w-full h-9 text-lg cursor-pointer placeholder-black' placeholder='Start Time' onFocus={() => setStartTimeDropdownVisible(true)} onBlur={() => setStartTimeDropdownVisible(false)} value={weeklySchedule.startTime ? weeklySchedule.startTime: Section ? getStartTime(Section).time : SectionStartTime} readOnly />
                                     <FaAngleDown />
                                 </div>
 
@@ -60,7 +60,7 @@ const ScheduleMaker = ({ edit, weeklySchedule, setWeeklySchedule }) => {
                                 <div className={`absolute flex flex-col max-h-40 overflow-scroll w-full border-2 border-black rounded-lg z-10 ${!StartTimeDropdownVisible ? 'hidden' : ''}`}>
                                     {
                                         startTimeSlots.map((time) => {
-                                            return <p className='bg-white cursor-pointer'
+                                            return <p className='bg-white cursor-pointer text-center hover:bg-placebo-turquoise'
                                                 key={time}
                                                 onMouseDown={() => {
                                                     SectionDays ? setSection(getMatchingSection({ time: time, day: SectionDays })) : setSection("");
@@ -77,8 +77,8 @@ const ScheduleMaker = ({ edit, weeklySchedule, setWeeklySchedule }) => {
                             {/* End Time: */}
                             <div className='relative inline-block w-32'>
                                 {/* End Time Box */}
-                                <div className='flex flex-row items-center w-full border-2 border-black rounded-md px-1'>
-                                    <input className='outline-none rounded-md text-center w-full h-9 text-lg cursor-pointer' onFocus={() => setEndtimeDropdownVisible(true)} onBlur={() => setEndtimeDropdownVisible(false)} placeholder="End Time" value={weeklySchedule.endTime ? weeklySchedule.endTime : SectionEndTime} readOnly />
+                                <div className='flex flex-row items-center w-full border-2 border-black rounded-lg px-1'>
+                                    <input className='outline-none rounded-lg text-center w-full h-9 text-lg cursor-pointer placeholder-black' onFocus={() => setEndtimeDropdownVisible(true)} onBlur={() => setEndtimeDropdownVisible(false)} placeholder="End Time" value={weeklySchedule.endTime ? weeklySchedule.endTime : SectionEndTime} readOnly />
                                     <FaAngleDown />
                                 </div>
 
@@ -90,7 +90,7 @@ const ScheduleMaker = ({ edit, weeklySchedule, setWeeklySchedule }) => {
                                                 Section
                                                     ? getStartTime(Section).time
                                                     : SectionStartTime).map((time) => { return <p className='bg-white cursor-pointer' key={time} onMouseDown={() => (setSectionEndTime(time))}>{time}</p> })
-                                            : <p className='bg-white cursor-pointer text-center '>-No Start Time-</p>
+                                            : <p className='bg-white cursor-pointer text-center hover:bg-placebo-turquoise'>-No Start Time-</p>
                                     }
                                 </div>
                             </div>
@@ -114,7 +114,7 @@ const ScheduleMaker = ({ edit, weeklySchedule, setWeeklySchedule }) => {
                         <div className='flex flex-row w-full justify-start space-x-3'>
 
                             {/* Monday Button */}
-                            <input className={`border-2 w-16 h-9 text-lg flex justify-center border-black px-1 rounded-lg text-center cursor-pointer hover:bg-placebo-turquoise ${weeklySchedule.day && weeklySchedule.day.includes("Monday") ? "bg-placebo-turquoise drop-shadow-md" : "opacity-30"}`}
+                            <input className={`border w-16 h-9 text-lg flex justify-center border-black px-1 rounded-lg text-center cursor-pointer hover:bg-placebo-turquoise ${weeklySchedule.day && weeklySchedule.day.includes("Monday") ? "bg-placebo-turquoise shadow-custom" : "transition ease-in duration-200 hover:shadow-custom"}`}
                                 onMouseDown={() => {
                                     setSectionDays(["Monday"]);
                                     SectionStartTime
@@ -128,7 +128,7 @@ const ScheduleMaker = ({ edit, weeklySchedule, setWeeklySchedule }) => {
                             />
 
                             {/* Tuesday and Thursday Button */}
-                            <input className={`border-2 w-16 h-9 text-lg flex justify-center border-black px-1 rounded-lg text-center cursor-pointer hover:bg-placebo-turquoise ${weeklySchedule.day && (weeklySchedule.day.includes("Tuesday") || weeklySchedule.day.includes("Thursday")) ? "bg-placebo-turquoise drop-shadow-md" : "opacity-30"}`}
+                            <input className={`border w-16 h-9 text-lg flex justify-center border-black px-1 rounded-lg text-center cursor-pointer hover:bg-placebo-turquoise ${weeklySchedule.day && (weeklySchedule.day.includes("Tuesday") || weeklySchedule.day.includes("Thursday")) ? "bg-placebo-turquoise shadow-custom" : "transition ease-in duration-200 hover:shadow-custom"}`}
                                 onMouseDown={() => {
                                     setSectionDays(["Tuesday", "Thursday"]);
                                     SectionStartTime
@@ -142,7 +142,7 @@ const ScheduleMaker = ({ edit, weeklySchedule, setWeeklySchedule }) => {
                             />
 
                             {/* Wednesday and Friday Button */}
-                            <input className={`border-2 w-16 h-9 text-lg flex justify-center border-black px-1 rounded-lg text-center cursor-pointer hover:bg-placebo-turquoise ${weeklySchedule.day && (weeklySchedule.day.includes("Wednesday") || weeklySchedule.day.includes("Friday")) ? "bg-placebo-turquoise drop-shadow-md" : "opacity-30"}`}
+                            <input className={`border w-16 h-9 text-lg flex justify-center border-black px-1 rounded-lg text-center cursor-pointer hover:bg-placebo-turquoise ${weeklySchedule.day && (weeklySchedule.day.includes("Wednesday") || weeklySchedule.day.includes("Friday")) ? "bg-placebo-turquoise shadow-custom" : "transition ease-in duration-200 hover:shadow-custom"}`}
                                 onMouseDown={() => {
                                     setSectionDays(["Wednesday", "Friday"]);
                                     SectionStartTime

@@ -46,7 +46,7 @@ const TimeTable = () => {
 
     return timeSlots.map((timeSlot, index) => (
       <tr key={index}>
-        <td className="border border-black w-1/2">{timeSlot.replace(" AM", "").replace(" PM", "")}</td>
+        <td className="border border-enamelled-jewel w-1/8 text-enamelled-jewel text-center">{timeSlot.replace(" AM", "").replace(" PM", "")}</td>
         {daysOfWeek.map((day, dayIndex) => (
           <td
             key={dayIndex}
@@ -65,7 +65,7 @@ const TimeTable = () => {
                 return timeSlotStart >= start && timeSlotEnd <= end;
               })
               ? '' // No border when cell is not empty
-              : 'border border-black' // Apply border when cell is empty
+              : 'border border-enamelled-jewel text-enamelled-jewel text-center' // Apply border when cell is empty
               } ${getShadeClass(day, timeSlot, dayIndex)}`}
           >
             {semScheds[day] &&
@@ -158,9 +158,9 @@ const TimeTable = () => {
         </colgroup>
         <thead>
           <tr>
-            <th className="border-b-2 border-enamelled-jewel text-enamelled-jewel font-extrabold w-32">Time</th>
+            <th className="border-b-2 border-enamelled-jewel text-enamelled-jewel text-xl font-extrabold w-32">Time</th>
             {daysOfWeek.map((day, index) => (
-              <th key={index} className="border-b-2 border-enamelled-jewel text-enamelled-jewel font-extrabold">{day}</th>
+              <th key={index} className="border-b-2 border-enamelled-jewel text-enamelled-jewel text-xl font-extrabold">{day}</th>
             ))}
           </tr>
         </thead>

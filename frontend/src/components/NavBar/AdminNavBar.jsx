@@ -5,7 +5,7 @@ import { IoIosLogOut } from 'react-icons/io';
 const AdminNavBar = () => {
     return (
         <nav className='bg-placebo-turquoise p-8 border-b-2 border-enamelled-jewel'>
-            <div className='flex items-center space-x-24 justify-center gap-x-20 gap-2 px-2'>
+            <div className='flex items-center space-x-24 justify-center gap-x-18 gap-2 px-2'>
                 <LinkButton to="/admin">
                     <IoMdHome /> Home
                 </LinkButton>
@@ -42,7 +42,7 @@ const LinkButton = ({ to, children }) => {
 
     return (
         <a
-            className={`flex items-center cursor-pointer text-3xl bg-transparent text-enamelled-jewel hover:text-enamelled-jewel ${isActive ? 'border-b-2 border-enamelled-jewel rounded-sm' : ''}`}
+            className={`flex items-center cursor-pointer text-3xl bg-transparent text-enamelled-jewel font-bold hover:text-enamelled-jewel ${isActive ? 'border-b-2 border-enamelled-jewel rounded-sm' : ''}`}
             onClick={handleClick}
         >
             {children}

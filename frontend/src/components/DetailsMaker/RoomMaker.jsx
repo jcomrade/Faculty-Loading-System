@@ -52,13 +52,13 @@ const RoomMaker = ({ semId, setMainRoom, mainRoom }) => {
     }, [roomSearch, semesterRooms])
 
     return (
-        <div>
+        <div className='flex flex-col space-y-2'>
             <p className='text-3xl font-bold'>Room</p>
             <div className='flex flex-row space-x-2'>
                 <div className='relative w-1/3 inline-block'>
 
                     {/* Room Search Box */}
-                    <input className='outline-none border-2 border-black rounded-md w-full h-9 text-lg text-center' placeholder={"Room No."} onFocus={() => setRoomDropdownVisible(true)} onBlur={() => setRoomDropdownVisible(false)} onChange={(e) => { setRoomSearch(e.target.value) }} value={roomSearch} />
+                    <input className='outline-none border-2 border-black rounded-lg w-full h-9 text-lg text-left pl-1 placeholder-black' placeholder={"Room No."} onFocus={() => setRoomDropdownVisible(true)} onBlur={() => setRoomDropdownVisible(false)} onChange={(e) => { setRoomSearch(e.target.value) }} value={roomSearch} />
 
                     {/* Room Dropdown contents */}
                     <div className={`absolute flex flex-col w-full bg-white border-2 border-black z-10 ${!roomDropdownVisible && 'hidden'}`}>
@@ -80,18 +80,18 @@ const RoomMaker = ({ semId, setMainRoom, mainRoom }) => {
                             <>
                             <div className="flex flex-row items-center space-x-2">
                                 <p className="text-lg">Room:</p>
-                                <div className='flex items-center border-2 text-lg border-enamelled-jewel bg-placebo-turquoise px-2 rounded-md'>{roomDisplay.name}</div>
+                                <div className='flex items-center border-2 text-lg border-enamelled-jewel bg-placebo-turquoise px-2 rounded-lg'>{roomDisplay.name}</div>
                             </div>
                             <div className="flex flex-row items-center space-x-2">
                                 <p className="text-lg">Building:</p>
-                                <div className='flex items-center border-2 text-lg border-enamelled-jewel bg-placebo-turquoise px-2 rounded-md'>{roomDisplay.building}</div>
+                                <div className='flex items-center border-2 text-lg border-enamelled-jewel bg-placebo-turquoise px-2 rounded-lg'>{roomDisplay.building}</div>
                             </div>
                             </>
                         )
                         : <></>
                 }
             </div>
-            <p className='underline opacity-30' onMouseDown={onOpen}>create new room</p>
+            <p className='underline' onMouseDown={onOpen}>Create New Room</p>
 
             {/* New Room Modal */}
             <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
@@ -102,13 +102,13 @@ const RoomMaker = ({ semId, setMainRoom, mainRoom }) => {
                     </ModalHeader>
                     <ModalBody>
                         <div className="flex flex-row justify-evenly">
-                            <input type="text" placeholder="Room Name" className="w-1/3 border-2 border-black rounded-md pl-2" onChange={(e) => { setNewRoomName(e.target.value) }} value={newRoomName} />
+                            <input type="text" placeholder="Room Name" className="w-1/3 border-2 border-black rounded-lg pl-2 placeholder-black" onChange={(e) => { setNewRoomName(e.target.value) }} value={newRoomName} />
                             <div className="relative inline-block w-1/3">
-                                <input type="text" className="cursor-pointer w-full border-2 border-black rounded-md pl-2" placeholder="Building" onFocus={() => setNewRoomDropdownVisible(true)} onBlur={() => setNewRoomDropdownVisible(false)} value={newRoomBuilding} readOnly />
-                                <div className={`absolute flex flex-col bg-white w-full border-2 border-black rounded-md ${!newRoomDropdownVisible && "hidden"}`}>
-                                    <p onMouseDown={() => { setNewRoomBuilding("CSM") }} className="hover:bg-placebo-turquoise rounded-md cursor-pointer">CSM</p>
-                                    <p onMouseDown={() => { setNewRoomBuilding("CHSS") }} className="hover:bg-placebo-turquoise rounded-md cursor-pointer">CHSS</p>
-                                    <p onMouseDown={() => { setNewRoomBuilding("SOM") }} className="hover:bg-placebo-turquoise rounded-md cursor-pointer">SOM</p>
+                                <input type="text" className="cursor-pointer w-full border-2 border-black rounded-lg pl-2 placeholder-black" placeholder="Building" onFocus={() => setNewRoomDropdownVisible(true)} onBlur={() => setNewRoomDropdownVisible(false)} value={newRoomBuilding} readOnly />
+                                <div className={`absolute flex flex-col bg-white w-full border-2 border-black rounded-lg ${!newRoomDropdownVisible && "hidden"}`}>
+                                    <p onMouseDown={() => { setNewRoomBuilding("CSM") }} className="hover:bg-placebo-turquoise rounded-lg cursor-pointer text-center">CSM</p>
+                                    <p onMouseDown={() => { setNewRoomBuilding("CHSS") }} className="hover:bg-placebo-turquoise rounded-lg cursor-pointer text-center">CHSS</p>
+                                    <p onMouseDown={() => { setNewRoomBuilding("SOM") }} className="hover:bg-placebo-turquoise rounded-lg cursor-pointer text-center">SOM</p>
                                 </div>
                             </div>
                         </div>
@@ -122,7 +122,7 @@ const RoomMaker = ({ semId, setMainRoom, mainRoom }) => {
                         <div>
                             <div className="flex flex-row space-x-4">
                                 <button
-                                    className='w-20 h-10 bg-placebo-turquoise border-2 border-enamelled-jewel'
+                                    className='w-20 h-10 border border-enamelled-jewel transition ease-in duration-200 hover:shadow-custom hover:bg-placebo-turquoise'
                                     onClick={
                                         async () => {
                                             const res = await fetch(`http://localhost:4000/api/room/${params.id}`, {
@@ -152,7 +152,7 @@ const RoomMaker = ({ semId, setMainRoom, mainRoom }) => {
                                 </button>
                                 <button onClick={() => {
                                     onClose()
-                                }} className='w-20 h-10 border-2 border-enamelled-jewel'>Cancel</button>
+                                }} className='w-20 h-10 border border-enamelled-jewel transition ease-in duration-200 hover:shadow-custom hover:bg-placebo-turquoise'>Cancel</button>
                             </div>
                         </div>
                     </ModalFooter>

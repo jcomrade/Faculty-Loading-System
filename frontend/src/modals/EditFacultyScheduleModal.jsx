@@ -97,11 +97,11 @@ const EditFacultyScheduleModal = ({ semester, onClose, isOpen }) => {
                                 </div>
 
                                 {/* Add more section */}
-                                <p className={`underline px-1 mt-2 opacity-30 max-w-max cursor-pointer ${weeklySchedule.length == 3 && "hidden"}`}
+                                <p className={`underline px-1 mt-2 max-w-max cursor-pointer ${weeklySchedule.length == 3 && "hidden"}`}
                                     onMouseDown={() => {
                                         setWeeklySchedule(prev => [...prev, {}])
                                     }}
-                                >add schedule</p>
+                                >Add Schedule</p>
                             </div>
 
                             {/* Room */}

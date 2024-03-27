@@ -31,7 +31,7 @@ const BlocDetails = () => {
                         <td>
                             <div className="flex flex-row justify-around text-enamelled-jewel text-lg">
                                 <p>ALC</p>
-                                <p>{selectedFaculty ? selectedFaculty.load.ALC : "0"}</p>
+                                <p>{selectedFaculty ? selectedFaculty.ALC : "0"}</p>
                             </div>
                         </td>
                     </tr>
@@ -39,7 +39,7 @@ const BlocDetails = () => {
                         <td>
                             <div className="flex flex-row justify-around text-enamelled-jewel text-lg">
                                 <p>SLC</p>
-                                <p>{selectedFaculty ? selectedFaculty.load.SLC : "0"}</p>
+                                <p>{selectedFaculty ? selectedFaculty.SLC : "0"}</p>
                             </div>
                         </td>
                     </tr>
@@ -47,7 +47,7 @@ const BlocDetails = () => {
                         <td>
                             <div className="flex flex-row justify-around text-enamelled-jewel text-lg">
                                 <p>RLC</p>
-                                <p>{selectedFaculty ? selectedFaculty.load.RLC : "0"}</p>
+                                <p>{selectedFaculty ? selectedFaculty.RLC : "0"}</p>
                             </div>
                         </td>
                     </tr>
@@ -57,9 +57,9 @@ const BlocDetails = () => {
                 <p className="text-2xl font-bold inline text-enamelled-jewel">
                     Total Units: {selectedFaculty 
                         ? selectedFacultySchedules.reduce((totalUnits, sched) => totalUnits + sched.course.units,0 ) 
-                        + selectedFaculty.load.ALC
-                        + selectedFaculty.load.SLC 
-                        + selectedFaculty.load.RLC 
+                        + selectedFaculty.ALC
+                        + selectedFaculty.SLC 
+                        + selectedFaculty.RLC 
                         : "0"}
                 </p>
                 <button onClick={()=>{dispatch({type: 'SET_EDIT'})}} className="inline border-2 rounded-none text-enamelled-jewel border-enamelled-jewel text-2xl px-6 transition ease-in duration-200 hover:shadow-custom">Edit</button>
