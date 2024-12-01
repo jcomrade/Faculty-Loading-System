@@ -88,7 +88,7 @@ const StudentMaker = ({ courseType, setStudents, students, blocs, degreePrograms
             <p className='text-3xl font-bold'>Students</p>
             <div className="relative inline-block">
                 <input
-                    className='outline-none border-2 h-9 text-lg pl-2 border-black rounded-md'
+                    className='outline-none border-2 h-9 text-lg pl-2 border-black rounded-lg placeholder-black'
                     placeholder={courseType ? courseType.type == "LEC" ? "Degree Program" : "Bloc" : "Choose a Course First"}
                     onFocus={(e) => { setDropdownVisible(true); setStudentSearch(e.target.value); triggerDropdown() }}
                     onBlur={() => { setDropdownVisible(false) }}
@@ -124,7 +124,7 @@ const StudentMaker = ({ courseType, setStudents, students, blocs, degreePrograms
                     students.length > 0 &&
                     students.map((student, index, self) => {
                         return (
-                            <div key={student._id} className="w-full border-2 border-black bg-placebo-turquoise h-9 rounded-md flex flex-row justify-between items-center">
+                            <div key={student._id} className="w-full border-2 border-black bg-placebo-turquoise h-9 rounded-lg flex flex-row justify-between items-center">
                                 <div
                                     className="text-center text-lg pl-3 pt-1">
                                     {student.yearLevel + student.name + `${student.bloc ? " Bloc " + student.bloc : ""}`}
@@ -141,7 +141,7 @@ const StudentMaker = ({ courseType, setStudents, students, blocs, degreePrograms
                     })
                 }
             </div>
-            <p className={`underline opacity-30 cursor-pointer ${courseType.type == "None" && "hidden"}`}
+            <p className={`underline cursor-pointer ${courseType.type == "None" && "hidden"}`}
                 onMouseDown={() => {
                     if (courseType.type == "LEC") {
                         return degreeProgramOnOpen()
@@ -149,7 +149,7 @@ const StudentMaker = ({ courseType, setStudents, students, blocs, degreePrograms
                         return blocOnOpen()
                     }
                 }}
-            >create new {courseType.type == "LAB" ? "bloc" : "degree program"}</p>
+            >Create New {courseType.type == "LAB" ? "Bloc" : "Degree Program"}</p>
 
             {/* Create Degree Program */}
             <Modal isOpen={degreeProgramIsOpen} onClose={degreeProgramOnClose}>
@@ -160,18 +160,18 @@ const StudentMaker = ({ courseType, setStudents, students, blocs, degreePrograms
                     </ModalHeader>
                     <ModalBody>
                         <div className="flex flex-col space-y-4">
-                            <p>Name: <input placeholder="First Name" className="w-1/2 pl-2 ml-12 border-2 border-black rounded-md" onChange={(e) => { setNewDegreeProgramName(e.target.value) }} value={newDegreeProgramName} /></p>
-                            <p>Year Level: <input placeholder="Last Name" className="w-1/2 pl-2 ml-4 border-2 border-black rounded-md" onChange={(e) => { setNewDegreeProgramYearLevel(e.target.value) }} value={newDegreeProgramYearLevel} /></p>
+                            <p>Name: <input placeholder="First Name" className="w-1/2 pl-2 ml-12 border-2 border-black rounded-lg placeholder-black" onChange={(e) => { setNewDegreeProgramName(e.target.value) }} value={newDegreeProgramName} /></p>
+                            <p>Year Level: <input placeholder="Last Name" className="w-1/2 pl-2 ml-4 border-2 border-black rounded-lg  placeholder-black" onChange={(e) => { setNewDegreeProgramYearLevel(e.target.value) }} value={newDegreeProgramYearLevel} /></p>
                             <div className="flex flex-row">
                                 <p>Department: </p>
                                 <div className="relative inline-block ml-3 w-1/2">
-                                    <input placeholder="Department" className={`w-full pl-2 border-2 border-black rounded-md`} onFocus={() => setNewDegreeProgramDropdownVisible(true)} onBlur={() => setNewDegreeProgramDropdownVisible(false)} value={newDegreeProgramDepartment} readOnly />
-                                    <div className={`absolute w-full bg-white border-2 border-black rounded-md ${!newDegreeProgramDropdownVisible && "hidden"}`}>
-                                        <p className="cursor-pointer hover:bg-placebo-turquoise rounded-md text-center" onMouseDown={() => setNewDegreeProgramDepartment("DMPCS")}>DMPCS</p>
-                                        <p className="cursor-pointer hover:bg-placebo-turquoise rounded-md text-center" onMouseDown={() => setNewDegreeProgramDepartment("DFSC")}>DFSC</p>
-                                        <p className="cursor-pointer hover:bg-placebo-turquoise rounded-md text-center" onMouseDown={() => setNewDegreeProgramDepartment("DBSES")}>DBSES</p>
-                                        <p className="cursor-pointer hover:bg-placebo-turquoise rounded-md text-center" onMouseDown={() => setNewDegreeProgramDepartment("HSS")}>HSS</p>
-                                        <p className="cursor-pointer hover:bg-placebo-turquoise rounded-md text-center" onMouseDown={() => setNewDegreeProgramDepartment("SOM")}>SOM</p>
+                                    <input placeholder="Department" className={`w-full pl-2 border-2 border-black rounded-lg placeholder-black`} onFocus={() => setNewDegreeProgramDropdownVisible(true)} onBlur={() => setNewDegreeProgramDropdownVisible(false)} value={newDegreeProgramDepartment} readOnly />
+                                    <div className={`absolute w-full bg-white border-2 border-black rounded-lg ${!newDegreeProgramDropdownVisible && "hidden"}`}>
+                                        <p className="cursor-pointer hover:bg-placebo-turquoise rounded-lg text-center" onMouseDown={() => setNewDegreeProgramDepartment("DMPCS")}>DMPCS</p>
+                                        <p className="cursor-pointer hover:bg-placebo-turquoise rounded-lg text-center" onMouseDown={() => setNewDegreeProgramDepartment("DFSC")}>DFSC</p>
+                                        <p className="cursor-pointer hover:bg-placebo-turquoise rounded-lg text-center" onMouseDown={() => setNewDegreeProgramDepartment("DBSES")}>DBSES</p>
+                                        <p className="cursor-pointer hover:bg-placebo-turquoise rounded-lg text-center" onMouseDown={() => setNewDegreeProgramDepartment("HSS")}>HSS</p>
+                                        <p className="cursor-pointer hover:bg-placebo-turquoise rounded-lg text-center" onMouseDown={() => setNewDegreeProgramDepartment("SOM")}>SOM</p>
                                     </div>
                                 </div>
                             </div>
@@ -187,7 +187,7 @@ const StudentMaker = ({ courseType, setStudents, students, blocs, degreePrograms
                         <div>
                             <div className="flex flex-row space-x-4">
                                 <button
-                                    className='w-20 h-10 bg-placebo-turquoise border-2 border-enamelled-jewel'
+                                    className='w-20 h-10 border border-enamelled-jewel transition ease-in duration-200 hover:shadow-custom hover:bg-placebo-turquoise'
                                     onClick={async () => {
                                         const res = await fetch(`http://localhost:4000/api/degreeprogram/${params.id}`, {
                                             method: "POST",
@@ -216,7 +216,7 @@ const StudentMaker = ({ courseType, setStudents, students, blocs, degreePrograms
                                 </button>
                                 <button onClick={() => {
                                     return degreeProgramOnClose()
-                                }} className='w-20 h-10 border-2 border-enamelled-jewel'>Cancel</button>
+                                }} className='w-20 h-10 border border-enamelled-jewel transition ease-in duration-200 hover:shadow-custom hover:bg-placebo-turquoise'>Cancel</button>
                             </div>
                         </div>
                     </ModalFooter>
@@ -233,22 +233,22 @@ const StudentMaker = ({ courseType, setStudents, students, blocs, degreePrograms
                     </ModalHeader>
                     <ModalBody>
                         <div className="flex flex-col space-y-4">
-                            {/* <p>Degree Program: <input placeholder="First Name" className="w-1/2 pl-2 ml-3 border-2 border-black rounded-md" onChange={(e) => { setNewDegreeProgramName(e.target.value) }} value={newDegreeProgramName} /></p> */}
+                            {/* <p>Degree Program: <input placeholder="First Name" className="w-1/2 pl-2 ml-3 border-2 border-black rounded-lg" onChange={(e) => { setNewDegreeProgramName(e.target.value) }} value={newDegreeProgramName} /></p> */}
                             <div className="flex flex-row">
                                 <p>DegreeProgram: </p>
                                 <div className="relative inline-block ml-3 w-1/2">
-                                    <input placeholder="Department" className={`w-full pl-2 border-2 border-black rounded-md`} onFocus={() => setNewBlocDegreeProgramDropdownVisible(true)} onBlur={() => setNewBlocDegreeProgramDropdownVisible(false)} value={newDegreeProgramDepartment} readOnly />
+                                    <input placeholder="Department" className={`w-full pl-2 border-2 border-black rounded-lg`} onFocus={() => setNewBlocDegreeProgramDropdownVisible(true)} onBlur={() => setNewBlocDegreeProgramDropdownVisible(false)} value={newDegreeProgramDepartment} readOnly />
                                     {
                                         newBlocDegreeProgram && 
-                                        <div className="w-full mt-2 bg-placebo-turquoise border-2 border-black rounded-md text-center">{newBlocDegreeProgram.yearLevel}{newBlocDegreeProgram.name}</div>
+                                        <div className="w-full mt-2 bg-placebo-turquoise border-2 border-black rounded-lg text-center">{newBlocDegreeProgram.yearLevel}{newBlocDegreeProgram.name}</div>
                                     }
-                                    <div className={`absolute w-full z-10 bg-white border-2 border-black rounded-md ${!newBlocDegreeProgramDropdownVisible && "hidden"}`}>
+                                    <div className={`absolute w-full z-10 bg-white border-2 border-black rounded-lg ${!newBlocDegreeProgramDropdownVisible && "hidden"}`}>
                                         {
                                             semesterDegreePrograms 
                                             ? semesterDegreePrograms.map((degreeProgram)=>{
-                                                return <p key={degreeProgram} className="cursor-pointer hover:bg-placebo-turquoise rounded-md text-center" onMouseDown={() => setNewBlocDegreeProgram(degreeProgram)}>{degreeProgram.yearLevel}{degreeProgram.name}</p>
+                                                return <p key={degreeProgram} className="cursor-pointer hover:bg-placebo-turquoise rounded-lg text-center" onMouseDown={() => setNewBlocDegreeProgram(degreeProgram)}>{degreeProgram.yearLevel}{degreeProgram.name}</p>
                                             })
-                                            : <p className="cursor-pointer hover:bg-placebo-turquoise rounded-md text-center"> None... </p>
+                                            : <p className="cursor-pointer hover:bg-placebo-turquoise rounded-lg text-center"> None... </p>
                                         }
                                     </div>
                                 </div>
@@ -256,7 +256,7 @@ const StudentMaker = ({ courseType, setStudents, students, blocs, degreePrograms
                             <div className="flex flex-row">
                                 <p>Bloc Number: </p>
                                 <div className="relative inline-block ml-3 w-1/2">
-                                    <input placeholder="Bloc Number" className={`w-full ml-5 pl-2 border-2 border-black rounded-md`} onChange={((e)=>setNewBlocNumber(e.target.value))} value={newBlocNumber} />
+                                    <input placeholder="Bloc Number" className={`w-full ml-5 pl-2 border-2 border-black rounded-lg`} onChange={((e)=>setNewBlocNumber(e.target.value))} value={newBlocNumber} />
                                 </div>
                             </div>
                         </div>
@@ -271,7 +271,7 @@ const StudentMaker = ({ courseType, setStudents, students, blocs, degreePrograms
                         <div>
                             <div className="flex flex-row space-x-4">
                                 <button
-                                    className='w-20 h-10 bg-placebo-turquoise border-2 border-enamelled-jewel'
+                                    className='w-20 h-10 border border-enamelled-jewel transition ease-in duration-200 hover:shadow-custom hover:bg-placebo-turquoise'
                                     onClick={async () => {
                                         const res = await fetch(`http://localhost:4000/api/bloc/${params.id}`, {
                                             method: "POST",
@@ -302,7 +302,7 @@ const StudentMaker = ({ courseType, setStudents, students, blocs, degreePrograms
                                 </button>
                                 <button onClick={() => {
                                     return blocOnClose()
-                                }} className='w-20 h-10 border-2 border-enamelled-jewel'>Cancel</button>
+                                }} className='w-20 h-10 border border-enamelled-jewel transition ease-in duration-200 hover:shadow-custom hover:bg-placebo-turquoise'>Cancel</button>
                             </div>
                         </div>
                     </ModalFooter>

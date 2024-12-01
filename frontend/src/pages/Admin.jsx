@@ -71,20 +71,20 @@ const Admin = () => {
         <>
             <AdminNavBar />
             <div className="w-screen flex flex-col items-center p-10 space-y-5">
-                {/* Admin Detauls */}
-                <div className="w-11/12 min-h-min bg-placebo-turquoise flex flex-row p-5 border-2 border-enamelled-jewel rounded-lg text-2xl">
-                    <div className="flex flex-col w-1/2 justify-start">
+                {/* Admin Details */}
+                <div className="w-11/12 min-h-min bg-placebo-turquoise flex flex-row p-5 border-2 border-enamelled-jewel rounded-md text-2xl shadow-custom">
+                    <div className="flex flex-col w-1/2 justify-start text-enamelled-jewel font-bold">
                         <p>Name : {adminData.userName}</p>
                         <p>Account Type: {adminData.userType}</p>
                     </div>
-                    <div className="flex justify-end w-1/2">
+                    <div className="flex justify-end w-1/2 text-enamelled-jewel font-bold">
                         <p> Employee Number: 2021-2021  </p>
                     </div>
                 </div>
 
                 {/* Configuration Buttons */}
                 <div>
-                    <button onClick={onOpen} className='flex items-center font-bold justify-center text-xl border-2 border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-48 h-11'>
+                    <button onClick={onOpen} className='flex items-center font-bold justify-center text-xl border-2 border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-48 h-11 transition ease-in duration-200 hover:shadow-custom'>
                         <HiPlus />Create User
                     </button>
                 </div>

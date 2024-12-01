@@ -12,7 +12,7 @@ const SearchBar = ({placeholder}) => {
             <InputLeftElement
                 pointerEvents='none'
             >
-                <Search2Icon color='gray.300' />
+                <Search2Icon color='gray' />
             </InputLeftElement>
             <Input
                 type='search'

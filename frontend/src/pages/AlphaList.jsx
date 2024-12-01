@@ -17,11 +17,11 @@ const AlphaList = () => {
             <div className="flex flex-row space-x-20 mt-7">
                 <div className="flex flex-col space-y-6">
                     <SearchBar placeholder={"Course ID"} />
-                    <button className='flex items-center font-bold justify-center text-xl border-2 border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-48 h-11'
+                    <button className='flex items-center font-bold justify-center text-xl border border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-48 h-11 transition ease-in duration-200 hover:shadow-custom'
                         onClick={onOpen}>
                         <HiPlus />Add
                     </button>
-                    <button className='flex items-center font-bold justify-center text-xl border-2 border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-48 h-11'
+                    <button className='flex items-center font-bold justify-center text-xl border border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-48 h-11 transition ease-in duration-200 hover:shadow-custom'
                         onClick={() => setEditing(!editing)}>
                         <HiOutlinePencilSquare />Edit
                     </button>

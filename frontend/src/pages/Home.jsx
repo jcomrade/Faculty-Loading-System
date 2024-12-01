@@ -107,20 +107,20 @@ const Home = () => {
           <>
             {editing ? (
               <>
-                <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11'
+                <button className='flex items-center font-semibold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-32 h-11 transition ease-in duration-200 hover:shadow-custom'
                   onClick={handleEditClick}>
                   Cancel
                 </button>
-                <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11'>
+                <button className='flex items-center font-semibold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-32 h-11 transition ease-in duration-200 hover:shadow-custom'>
                   Save
                 </button>
               </>
             ) : !urlParams.get("copy") && (
               <>
-                <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11' onClick={onOpen}>
+                <button className='flex items-center font-semibold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-32 h-11 transition ease-in duration-200 hover:shadow-custom' onClick={onOpen}>
                   <HiPlus />New File
                 </button>
-                <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11' onClick={handleEditClick}>
+                <button className='flex items-center font-semibold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-32 h-11 transition ease-in duration-200 hover:shadow-custom' onClick={handleEditClick}>
                   <HiOutlinePencilSquare />Edit
                 </button>
               </>
@@ -181,7 +181,7 @@ const Home = () => {
               ))
             ) : (
               <tr>
-                <td colSpan='3' className='text-black text-center p-2'>Loading...</td>
+                <td colSpan='3' className='text-enamelled-jewel text-2xl text-center font-bold p-2'>Loading...</td>
               </tr>
             )}
           </tbody>
@@ -203,22 +203,22 @@ const Home = () => {
               <div>
                 <input className='w-20 h-10 text-2xl border border-black rounded-md p-1 text-center' onChange={(e) => setFirstYear(e.target.value)} type='text' placeholder='Year' />
               </div>
-              <div className='mx-5 border-2 w-2 border-black'></div>
+              <div className='mx-5 text-enamelled-jewel font-semibold border w-2 border-black'></div>
               <div className='bg-blue'>
                 <input className='w-20 h-10 text-2xl border border-black rounded-md p-1 text-center' onChange={(e) => setSecondYear(e.target.value)} type='text' placeholder='Year' />
               </div>
             </div>
             <div className='flex flex-row items-center mb-'>
               <h1 className='text-3xl font-semibold mr-16'>Semester: </h1>
-              <button onClick={() => setSemester("1st")} className={`mr-6 ${semester == "1st" ? "bg-placebo-turquoise" : ""} border w-16 h-10 text-2xl border-black rounded-md`}>1st</button>
-              <button onClick={() => setSemester("2nd")} className={`mr-6 ${semester == "2nd" ? "bg-placebo-turquoise" : ""} border w-16 h-10 text-2xl border-black rounded-md`}>2nd</button>
-              <button onClick={() => setSemester("Mid Year")} className={`mr-6 ${semester == "Mid Year" ? "bg-placebo-turquoise" : ""} border w-32 h-10 text-2xl border-black rounded-md`}>Mid Year</button>
+              <button onClick={() => setSemester("1st")} className={`mr-6 ${semester == "1st" ? "bg-placebo-turquoise shadow-custom" : ""} border w-16 h-10 text-2xl border-black rounded-md`}>1st</button>
+              <button onClick={() => setSemester("2nd")} className={`mr-6 ${semester == "2nd" ? "bg-placebo-turquoise shadow-custom" : ""} border w-16 h-10 text-2xl border-black rounded-md`}>2nd</button>
+              <button onClick={() => setSemester("Mid Year")} className={`mr-6 ${semester == "Mid Year" ? "bg-placebo-turquoise shadow-custom" : ""} border w-32 h-10 text-2xl border-black rounded-md`}>Mid Year</button>
             </div>
           </ModalBody>
           <ModalFooter justifyContent={"center"} alignItems={"center"}>
             <div className="flex flex-row space-x-4 mt-6">
-              <button onClick={() => { handleSubmit(firstYear, secondYear, semester); onClose }} className='w-20 h-10 border-2 border-enamelled-jewel'>Add</button>
-              <button onClick={onClose} className='w-20 h-10 border-2 border-enamelled-jewel'>Cancel</button>
+              <button onClick={() => { handleSubmit(firstYear, secondYear, semester); onClose }} className='w-20 h-10 text-enamelled-jewel font-semibold border border-enamelled-jewel transition ease-in duration-200 hover:shadow-custom hover:bg-placebo-turquoise'>Add</button>
+              <button onClick={onClose} className='w-20 h-10 text-enamelled-jewel font-semibold border border-enamelled-jewel transition ease-in duration-200 hover:shadow-custom hover:bg-placebo-turquoise'>Cancel</button>
             </div>
           </ModalFooter>
         </ModalContent>

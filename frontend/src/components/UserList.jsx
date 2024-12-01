@@ -23,10 +23,10 @@ const UserList = () => {
             <table className="w-full border-separate border-spacing-0">
                 <thead className="h-12">
                     <tr>
-                        <th className="bg-placebo-turquoise border border-collapse border-enamelled-jewel rounded-tl-2xl rounded-bl-2xl border-r-0">Name</th>
-                        <th className="bg-placebo-turquoise border border-collapse border-enamelled-jewel border-x-0 ">Type</th>
-                        <th className="bg-placebo-turquoise border border-collapse border-enamelled-jewel border-x-0 ">Created At</th>
-                        <th className="bg-placebo-turquoise border border-collapse border-enamelled-jewel rounded-tr-2xl rounded-br-2xl border-l-0">Created By</th>
+                        <th className="bg-blizzard text-left font-bold border-black border-b">Name</th>
+                        <th className="bg-blizzard text-left font-bold border-black border-b">Type</th>
+                        <th className="bg-blizzard text-left font-bold border-black border-b">Created At</th>
+                        <th className="bg-blizzard text-left font-bold border-black border-b">Created By</th>
                     </tr>
                 </thead>
                 <tbody>

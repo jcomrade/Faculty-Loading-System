@@ -18,6 +18,7 @@ function Faculty() {
             <FacultyDetails />
           </div>
         </div>
+        <div className="border border-enamelled-jewel w-5/6"></div>
         <FacultySchedList />
       </div>
       : <div className='w-full h-full flex justify-center items-center text-9xl font-bold'>Loading...</div>

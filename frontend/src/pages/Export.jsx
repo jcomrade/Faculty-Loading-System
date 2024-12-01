@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NavBar from '../components/NavBar/NavBar';
+import { TiExport } from 'react-icons/ti';
 import { FaRegFileAlt } from "react-icons/fa";
 import { FaRegFile } from "react-icons/fa";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
@@ -101,9 +102,9 @@ const Export = () => {
       <div className='flex flex-row justify-center space-x-4 py-7'>
         {userData.userType && (
           <>
-            <button className='flex items-center font-bold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-40 h-11'
-                  onClick={handleExportClick}>
-                Export
+            <button className='flex items-center font-semibold justify-center text-xl border-enamelled-jewel bg-placebo-turquoise text-enamelled-jewel w-32 h-11 transition ease-in duration-200 hover:shadow-custom'
+                onClick={handleExportClick}>
+                <TiExport /> Export
             </button>
           </>
         )}
@@ -144,7 +145,7 @@ const Export = () => {
               ))
             ) : (
               <tr>
-                <td colSpan='3' className='text-black text-center p-2'>Loading...</td>
+                <td colSpan='3' className='text-enamelled-jewel text-2xl text-center font-bold p-2'>Loading...</td>
               </tr>
             )}
           </tbody>
