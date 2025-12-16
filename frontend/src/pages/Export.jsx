@@ -122,6 +122,158 @@ const Export = () => {
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Semester Data");
 
+      const timeSlots = [
+        "7:00-8:30",
+        "8:30-10:00",
+        "10:00-11:30",
+        "11:30-1:00",
+        "1:00-2:30",
+        "2:30-4:00",
+        "4:00-5:30",
+        "5:30-7:00",
+      ];
+
+      const findSlotIndex = (startTime) => {
+        if (!startTime) return -1;
+        const normalized = startTime.replace(/\s/g, "");
+        return timeSlots.findIndex((s) => s.startsWith(normalized) || s.includes(normalized));
+      };
+
+      const parseDays = (dayVal) => {
+        if (!dayVal) return [];
+        if (Array.isArray(dayVal)) return dayVal.map(d => d.toString());
+        let s = dayVal.toString().trim();
+        if (!s) return [];
+        s = s.replace(/TTh/gi, 'T,Th');
+        s = s.replace(/T\/Th/gi, 'T,Th');
+        const parts = s.split(/[,/\s]+/).filter(Boolean);
+        const out = [];
+        parts.forEach((tok) => {
+          const t = tok.toLowerCase();
+          if (t === 'm' || t.startsWith('m')) out.push('M');
+          else if (t === 'th' || t === 'r') out.push('Th'); 
+          else if (t === 't' || t === 'tu' || t === 'tue') out.push('T');
+          else if (t === 'w' || t.startsWith('w')) out.push('W');
+          else if (t === 'f' || t.startsWith('f')) out.push('F');
+          else {
+            if (tok.toUpperCase().includes('M')) out.push('M');
+            if (/T(?!H)/i.test(tok)) out.push('T');
+            if (/TH/i.test(tok)) out.push('Th');
+            if (tok.toUpperCase().includes('W')) out.push('W');
+            if (tok.toUpperCase().includes('F')) out.push('F');
+          }
+        });
+        return Array.from(new Set(out));
+      };
+
+      const facultyMap = {};
+      schedules.forEach((item) => {
+        const facultyName = `${item.faculty?.firstName || ""} ${item.faculty?.lastName || ""}`.trim() || "Unassigned";
+        if (!facultyMap[facultyName]) facultyMap[facultyName] = [];
+        facultyMap[facultyName].push({ course: item.course?.code || "N/A", schedule: item.schedule || [] });
+      });
+
+      let facultyAoA = [];
+
+      Object.keys(facultyMap).forEach((faculty) => {
+  facultyAoA.push([`Faculty: ${faculty}`]);
+  facultyAoA.push(["", "Time Slot", "M", "T", "W", "Th", "F"]);
+
+        const grid = timeSlots.map((slot) => ["", slot, "", "", "", "", ""]);
+
+        facultyMap[faculty].forEach((entry) => {
+          const courseCode = entry.course;
+          entry.schedule.forEach((s) => {
+            const days = Array.isArray(s.day) ? s.day : parseDays(s.day);
+            const slotIdx = findSlotIndex(s.startTime);
+            let rowIdx = slotIdx;
+            if (rowIdx === -1) {
+              rowIdx = timeSlots.findIndex((t) => (s.startTime && t.includes(s.startTime)) || (s.startTime && s.startTime.includes(t.split("-")[0])) );
+            }
+
+            if (rowIdx === -1) return;
+
+            days.forEach((d) => {
+              const day = (d || "").toString().toLowerCase();
+              let col = -1;
+              if (day.startsWith("m")) col = 2;
+              else if (day.startsWith("t") && day.length === 1) col = 3; 
+              else if (day.startsWith("w")) col = 4;
+              else if (day.toLowerCase().includes("th")) col = 5;
+              else if (day.startsWith("f")) col = 6;
+
+              if (col !== -1) {
+                grid[rowIdx][col] = courseCode;
+              }
+            });
+          });
+        });
+
+        grid.forEach((r) => facultyAoA.push(r));
+        facultyAoA.push([]);
+      });
+
+      const facultySheet = XLSX.utils.aoa_to_sheet(facultyAoA);
+      XLSX.utils.book_append_sheet(workbook, facultySheet, "Faculty Timetable");
+
+      let tabularAoA = [];
+      Object.keys(facultyMap).forEach((faculty) => {
+        tabularAoA.push([`Faculty: ${faculty}`]);
+        tabularAoA.push(headers);
+
+        const facSchedules = schedules.filter((sch) => {
+          const fname = `${sch.faculty?.firstName || ""} ${sch.faculty?.lastName || ""}`.trim() || "Unassigned";
+          return fname === faculty;
+        });
+
+        let totalUnits = 0;
+        facSchedules.forEach((schedule) => {
+          const row = [
+            schedule.course?.code || "N/A",
+            schedule.course?.name || "N/A",
+            schedule.course?.type || "N/A",
+            schedule.schedule
+              .map(({ section }) =>
+                formatSection(
+                  section,
+                  schedule.course?.type,
+                  schedule.schedule[0]?.bloc || "1"
+                )
+              )
+              .join(),
+            schedule.schedule
+              .map((time) => `${time.startTime || "N/A"} - ${time.endTime || "N/A"}`)
+              .join(", "),
+            schedule.schedule.map((time) => (Array.isArray(time.day) ? time.day.join(", ") : time.day)).join(", ") || "N/A",
+            schedule.room && (schedule.room.building || schedule.room.name)
+              ? `${schedule.room.building || ""} ${schedule.room.name || ""}`.trim()
+              : "N/A",
+            schedule.course?.units || 0,
+            (schedule.students || [])
+              .map(
+                (student) =>
+                  `${student.yearLevel || ""}${student.name || ""}${
+                    student.bloc ? " Bloc " + student.bloc : ""
+                  }`.trim() || "N/A"
+              )
+              .join(", "),
+            `${schedule.faculty?.firstName || ""} ${schedule.faculty?.lastName || ""}`.trim() || "N/A",
+            schedule.remarks || "N/A",
+          ];
+
+          totalUnits += Number(schedule.course?.units || 0);
+          tabularAoA.push(row);
+        });
+
+        tabularAoA.push([]);
+        tabularAoA.push(["", "", "", "", "", "", "", "TLC/Teaching Load", totalUnits]);
+        tabularAoA.push(["", "", "", "", "", "", "", "TOTAL UNITS", totalUnits]);
+        tabularAoA.push([]);
+      });
+
+      const tabularSheet = XLSX.utils.aoa_to_sheet(tabularAoA);
+      XLSX.utils.book_append_sheet(workbook, tabularSheet, "Tabular Faculty Schedule");
+
       XLSX.writeFile(workbook, "Semester_Data.xlsx");
     } catch (error) {
       console.error("Error exporting data:", error);
