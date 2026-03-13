@@ -78,7 +78,7 @@ const hasScheduleConflict = (currentSchedule, allSchedules) => {
             timeSlot1.startTime,
             timeSlot1.endTime,
             timeSlot2.startTime,
-            timeSlot2.endTime
+            timeSlot2.endTime,
           )
         ) {
           return true;
@@ -170,132 +170,134 @@ const FacultySchedList = ({ edit }) => {
         <tbody>
           {selectedFacultyFilteredSchedules &&
             selectedFacultyFilteredSchedules.length > 0 &&
-            selectedFacultyFilteredSchedules.map(
-              (schedItem) => {
-                if (!schedItem || !schedItem.course) {
-                  return null;
-                }
-                const {
-                  course,
-                  faculty,
-                  room,
-                  schedule,
-                  remarks,
-                  students,
-                  _id,
-                } = schedItem;
-
-                const scheduleArray = Array.isArray(schedule) ? schedule : [];
-                const studentsArray = Array.isArray(students) ? students : [];
-                const baseSection = scheduleArray[0]?.section;
-
-                return (
-                  <tr
-                    className={`h-12 hover:bg-placebo-turquoise ${
-                      isHighlighted(
-                        {
-                          _id,
-                          schedule: scheduleArray,
-                          remarks,
-                        },
-                        selectedFacultyFilteredSchedules
-                      )
-                        ? "bg-[#FF6962]"
-                        : ""
-                    }`}
-                    key={_id}
-                    onMouseDown={() => {
-                      if (edit) {
-                        dispatch({
-                          type: "EDIT_FACULTY_SCHEDULE",
-                          payload: {
-                            _id: _id,
-                            course: course,
-                            faculty: faculty,
-                            room: room,
-                            students: studentsArray,
-                            remarks: remarks,
-                            schedule: scheduleArray,
-                          },
-                        });
-                        onOpen();
-                      }
-                    }}
-                  >
-                    <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
-                      {course.code || ""}
-                    </td>
-                    <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
-                      {course.name || ""}
-                    </td>
-                    <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
-                      {course.type || ""}
-                    </td>
-                    <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
-                      {studentsArray.length > 0 ? (
-                        studentsArray.map((student, index) => (
-                          <p key={index}>
-                            {formatSection(
-                              baseSection,
-                              course.type,
-                              student.bloc
-                            )}
-                          </p>
-                        ))
-                      ) : (
-                        <p>{baseSection}</p>
-                      )}
-                    </td>
-                    <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
-                      {scheduleArray.map((time, index) =>
-                        time && time.startTime && time.endTime ? (
-                          <p key={index}>{`${time.startTime} - ${time.endTime}`}</p>
-                        ) : null
-                      )}
-                    </td>
-                    <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
-                      {scheduleArray.map((time, index) =>
-                        time && Array.isArray(time.day) ? (
-                          <p key={index}>
-                            {time.day
-                              .map((day) => convertDayToAbbreviation(day))
-                              .join("")}
-                          </p>
-                        ) : null
-                      )}
-                    </td>
-                    <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
-                      {room ? `${room.building || ""} ${room.name || ""}`.trim() : ""}
-                    </td>
-                    <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
-                      {course.units || ""}
-                    </td>
-                    <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
-                      {studentsArray.map(
-                        ({ name, bloc, yearLevel }, index) => (
-                          <p key={index}>
-                            {`${yearLevel || ""}${name || ""}${
-                              bloc ? ` - ${bloc}` : ""
-                            }`}
-                          </p>
-                        )
-                      )}
-                    </td>
-                    <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
-                      {faculty?.lastName || ""}
-                    </td>
-                    <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
-                      {remarks || ""}
-                    </td>
-                    {edit && (
-                      <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
-                        <IoTrashOutline />
-                      </td>
-                    )}
-                  </tr>
-                );
+            selectedFacultyFilteredSchedules.map((schedItem) => {
+              if (!schedItem || !schedItem.course) {
+                return null;
               }
-            )}
+              const {
+                course,
+                faculty,
+                room,
+                schedule,
+                remarks,
+                students,
+                _id,
+              } = schedItem;
+
+              const scheduleArray = Array.isArray(schedule) ? schedule : [];
+              const studentsArray = Array.isArray(students) ? students : [];
+              const baseSection = scheduleArray[0]?.section;
+
+              return (
+                <tr
+                  className={`h-12 hover:bg-placebo-turquoise ${
+                    isHighlighted(
+                      {
+                        _id,
+                        schedule: scheduleArray,
+                        remarks,
+                      },
+                      selectedFacultyFilteredSchedules,
+                    )
+                      ? "bg-[#FF6962]"
+                      : ""
+                  }`}
+                  key={_id}
+                  onMouseDown={() => {
+                    if (edit) {
+                      dispatch({
+                        type: "EDIT_FACULTY_SCHEDULE",
+                        payload: {
+                          _id: _id,
+                          course: course,
+                          faculty: faculty,
+                          room: room,
+                          students: studentsArray,
+                          remarks: remarks,
+                          schedule: scheduleArray,
+                        },
+                      });
+                      onOpen();
+                    }
+                  }}
+                >
+                  <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
+                    {course.code || ""}
+                  </td>
+                  <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
+                    {course.name || ""}
+                  </td>
+                  <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
+                    {course.type || ""}
+                  </td>
+                  <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
+                    {studentsArray.length > 0 ? (
+                      studentsArray.map((student, index) => (
+                        <p key={index}>
+                          {formatSection(
+                            baseSection,
+                            course.type,
+                            student.bloc,
+                          )}
+                        </p>
+                      ))
+                    ) : (
+                      <p>{baseSection}</p>
+                    )}
+                  </td>
+                  <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
+                    {scheduleArray.map((time, index) =>
+                      time && time.startTime && time.endTime ? (
+                        <p
+                          key={index}
+                        >{`${time.startTime} - ${time.endTime}`}</p>
+                      ) : null,
+                    )}
+                  </td>
+                  <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
+                    {scheduleArray.map((time, index) =>
+                      time && Array.isArray(time.day) ? (
+                        <p key={index}>
+                          {time.day
+                            .map((day) => convertDayToAbbreviation(day))
+                            .join("")}
+                        </p>
+                      ) : null,
+                    )}
+                  </td>
+                  <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
+                    {room
+                      ? `${room.building || ""} ${room.name || ""}`.trim()
+                      : ""}
+                  </td>
+                  <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
+                    {course.units || ""}
+                  </td>
+                  <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
+                    {studentsArray.map(({ name, bloc, yearLevel }, index) => (
+                      <p key={index}>
+                        {`${yearLevel || ""}${name || ""}${
+                          bloc ? ` - ${bloc}` : ""
+                        }`}
+                      </p>
+                    ))}
+                  </td>
+                  <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
+                    {faculty
+                      ? `${faculty.lastName || ""}, ${faculty.firstName || ""}`
+                      : ""}
+                  </td>
+                  <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
+                    {remarks || ""}
+                  </td>
+                  {edit && (
+                    <td className="border border-collapse border-black border-opacity-30 border-b-1 border-x-0 border-t-0 text-center">
+                      <IoTrashOutline />
+                    </td>
+                  )}
+                </tr>
+              );
+            })}
         </tbody>
       </table>
 

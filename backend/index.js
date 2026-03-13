@@ -1,5 +1,8 @@
 require("dotenv").config();
 
+const dns = require("node:dns");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
@@ -30,7 +33,7 @@ app.use(
     origin: process.env.FRONTEND_URL,
     methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
     credentials: true,
-  })
+  }),
 );
 
 // routes

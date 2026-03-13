@@ -10,9 +10,12 @@ const FacultySearch = () => {
   const [searchInput, setSearchInput] = useState("");
   const { semesterFaculties, dispatch } = useSemesterContext();
 
+  const formatFacultyName = (faculty) =>
+    `${faculty.lastName}, ${faculty.firstName}`;
+
   const handleFacultySelection = (faculty) => {
     setSelectedFaculty(faculty);
-    setSearchInput(`${faculty.firstName} ${faculty.lastName}`);
+    setSearchInput(formatFacultyName(faculty));
     dispatch({
       type: "SELECT_FACULTY",
       payload: faculty,
@@ -23,11 +26,13 @@ const FacultySearch = () => {
 
   const filteredFaculties = semesterFaculties
     ? semesterFaculties
-        .filter((faculty) =>
-          `${faculty.firstName} ${faculty.lastName}`
-            .toLowerCase()
-            .includes(searchInput.toLowerCase())
-        )
+        .filter((faculty) => {
+          const firstLast =
+            `${faculty.firstName} ${faculty.lastName}`.toLowerCase();
+          const lastFirst = formatFacultyName(faculty).toLowerCase();
+          const query = searchInput.toLowerCase();
+          return firstLast.includes(query) || lastFirst.includes(query);
+        })
         .slice(0, 10)
     : [];
 
@@ -44,7 +49,7 @@ const FacultySearch = () => {
           }}
           placeholder={
             selectedFaculty
-              ? `${selectedFaculty.firstName} ${selectedFaculty.lastName}`
+              ? formatFacultyName(selectedFaculty)
               : "Search Faculty"
           }
           value={searchInput}
@@ -64,7 +69,7 @@ const FacultySearch = () => {
               className="text-2xl text-enamelled-jewel h-8 hover:bg-placebo-turquoise cursor-pointer rounded-md px-2"
               onMouseDown={() => handleFacultySelection(faculty)}
             >
-              {faculty.firstName} {faculty.lastName}
+              {formatFacultyName(faculty)}
             </p>
           ))
         ) : (

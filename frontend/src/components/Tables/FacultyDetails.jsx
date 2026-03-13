@@ -22,13 +22,16 @@ const FacultyDetails = () => {
   const [facultyError, setFacultyError] = useState(null);
   const params = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const facultyDisplayName = selectedFaculty
+    ? `${selectedFaculty.lastName}, ${selectedFaculty.firstName}`
+    : "Name";
   return (
     <div>
       <table className="w-full border-2 border-enamelled-jewel">
         <thead>
           <tr className="bg-enamelled-jewel h-10 border-2 border-enamelled-jewel">
             <th className="font-bold text-white text-2xl">
-              {selectedFaculty ? selectedFaculty.lastName : "Name"}
+              {facultyDisplayName}
             </th>
           </tr>
         </thead>
@@ -42,7 +45,7 @@ const FacultyDetails = () => {
                   selectedFacultySchedules.length > 0
                     ? selectedFacultySchedules.reduce(
                         (totalUnits, sched) => totalUnits + sched.course.units,
-                        0
+                        0,
                       )
                     : "0"}
                 </p>
@@ -81,7 +84,7 @@ const FacultyDetails = () => {
           {selectedFaculty
             ? selectedFacultySchedules.reduce(
                 (totalUnits, sched) => totalUnits + sched.course.units,
-                0
+                0,
               ) +
               selectedFaculty.ALC +
               selectedFaculty.SLC +
@@ -90,10 +93,10 @@ const FacultyDetails = () => {
         </p>
         <button
           onClick={() => {
-            selectedFaculty && setALC(selectedFaculty.ALC),
+            (selectedFaculty && setALC(selectedFaculty.ALC),
               setSLC(selectedFaculty.SLC),
               setRLC(selectedFaculty.RLC),
-              onOpen();
+              onOpen());
           }}
           className="inline border-2 rounded-none text-enamelled-jewel border-enamelled-jewel text-2xl px-6 transition ease-in duration-200 hover:shadow-custom"
         >
@@ -105,7 +108,7 @@ const FacultyDetails = () => {
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>
-              <p>{selectedFaculty.lastName}'s LOAD</p>
+              <p>{facultyDisplayName} LOAD</p>
             </ModalHeader>
             <ModalBody>
               <div className="flex flex-col space-y-2 ml-4">
@@ -115,7 +118,7 @@ const FacultyDetails = () => {
                     className="border-2 rounded-md text-center cursor-not-allowed bg-placebo-turquoise border-black"
                     value={selectedFacultySchedules.reduce(
                       (totalUnits, sched) => totalUnits + sched.course.units,
-                      0
+                      0,
                     )}
                     readOnly
                   />
@@ -177,7 +180,7 @@ const FacultyDetails = () => {
                             RLC: RLC,
                             _id: selectedFaculty._id,
                           }),
-                        }
+                        },
                       );
                       const newFacultyData = await res.json();
                       if (newFacultyData.error) {
